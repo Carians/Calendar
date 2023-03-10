@@ -1,5 +1,4 @@
 import React from "react";
-import 'bootstrap/dist/css/bootstrap.min.css'
 import { List } from 'react-bootstrap-icons';
 import {Container, Col, Row} from 'reactstrap'
 
@@ -7,11 +6,11 @@ import {Container, Col, Row} from 'reactstrap'
 export default function Header(){
     return(
         <header>
-            <Row className="border border-dark">
+            <Row className="header border border-dark">
                 <Col>
                     <h1>Calendar</h1>
                 </Col>
-                <Col>
+                <Col className="d-flex justify-content-end pe-5">
                     <List size={52}/>
                 </Col>
             </Row>
