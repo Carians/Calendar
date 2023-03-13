@@ -1,27 +1,16 @@
 html, body{
   margin: 0;
   padding: 0;
-  height: calc(100vh - 3vh);
   width: 100%;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .App {
   text-align: center;
-  height: calc(100vh - 3vh);
+  background-color: #F6F6F6;
 }
 
-.header{
-  height: 10vh;
-}
-
-.main{
-  height: 80vh;
-}
-
-footer{
-  height: 10vh; 
-}
 
 .max-vh{
   height: 100vh;
