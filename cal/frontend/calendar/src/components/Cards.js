@@ -1,13 +1,21 @@
 import React from "react";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 import './css/Cards.css'
 
+import { useEffect } from "react";
 import { Card, CardBody, CardTitle, CardSubtitle, CardText, Button } from "reactstrap";
 import { CloudArrowUpFill } from 'react-bootstrap-icons';
 
 export default function Cards(){
+    useEffect(()=>{
+        AOS.init();
+    }, [])
+
     return(
         <div className="cards d-flex justify-content-evenly align-items-center">
             <Card
+                data-aos="fade-left"
                 className="border-0"
                 style={{
                     width: '20%',
@@ -37,6 +45,7 @@ export default function Cards(){
             </Card>
 
             <Card
+                data-aos="fade-down"
                 style={{
                     width: '15%',
                     height: '70%',
@@ -69,6 +78,7 @@ export default function Cards(){
             </Card>
             
             <Card
+                data-aos="fade-right"
                 style={{
                     width: '20%',
                     height: '70%',
