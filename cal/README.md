@@ -18,7 +18,7 @@ React
 Aby zainstalować projekt, należy sklonować repozytorium i zainstalować wymagane zależności.
 
 
-```git clone https://github.com/username/repo.git```
+```git clone https://github.com/Carians/Calendar```
 
 ```cd repo```
 
