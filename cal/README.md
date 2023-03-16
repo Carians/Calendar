@@ -18,7 +18,6 @@ React
 Aby zainstalować projekt, należy sklonować repozytorium i zainstalować wymagane zależności.
 
 
-#### Copy code
 ```git clone https://github.com/username/repo.git```
 
 ```cd repo```
