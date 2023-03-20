@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { Card, CardBody, CardTitle, CardSubtitle, CardText, Button } from "reactstrap";
 import { CloudArrowUpFill } from 'react-bootstrap-icons';
 
+
 export default function Cards(){
     useEffect(()=>{
         AOS.init();
@@ -32,7 +33,7 @@ export default function Cards(){
                         borderRadius: '10px',
                     }}
                     alt="Sample"
-                    src={process.env.PUBLIC_URL + '/images/calendar1.jpg'}
+                    src={process.env.PUBLIC_URL + '/images/calendar2.jpg'}
                 />
                 <CardBody>
                     <CardTitle tag="h5">
@@ -86,8 +87,8 @@ export default function Cards(){
                 }}
                 >
                 <img
+                    src={process.env.PUBLIC_URL + '/static/images/calendar1.jpg'}
                     alt="Sample"
-                    src={process.env.PUBLIC_URL + '/images/calendar2.jpg'}
                 />
                 <CardBody>
                     <CardText>
