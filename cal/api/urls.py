@@ -5,6 +5,7 @@ from . import views
 
 urlpatterns = [
     path('auth/', obtain_auth_token, name='auth'),
+    path('register/', views.RegisterView.as_view(), name='register'),
     path('', views.ListAvailableApiView.as_view(), name='api'),
 
     path('calendars/', views.CalendarListCreateAPIView.as_view(), name='calendars'),
