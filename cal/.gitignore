@@ -1,6 +1,6 @@
 .idea
 .main/__pycache__
-.games/__pycache__
+.cal/__pycache__
 .DS_STORE
 .main/migrations/__pycache__
 ./__pycache__
