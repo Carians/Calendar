@@ -3,6 +3,7 @@ import './css/Main.css'
 
 import { Card, CardBody, CardTitle, CardSubtitle, CardText } from "reactstrap";
 import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import { Link } from "react-router-dom";
 
 
 export default function Main(){
@@ -29,7 +30,9 @@ export default function Main(){
                         <Button className="submit-btn bg-primary"><h6>Zaloguj się</h6></Button>
                         <div><a style={{fontSize: '50%'}} href="/">Nie pamiętasz hasła?</a></div>
                         <hr></hr>
-                        <Button className="submit-btn bg-success"><h6>Utwórz nowe konto</h6></Button>
+                        <Button className="submit-btn bg-success">
+                            <h6><Link to='register' className="linked">Utwórz nowe konto</Link></h6>
+                        </Button>
                     </Form>
                 </CardBody>
             </Card>

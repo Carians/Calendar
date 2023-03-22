@@ -2,6 +2,7 @@ import React from "react";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import './css/Cards.css'
+import { Link } from "react-router-dom";
 
 import { useEffect } from "react";
 import { Card, CardBody, CardTitle, CardSubtitle, CardText, Button } from "reactstrap";
@@ -73,7 +74,9 @@ export default function Cards(){
                             width: '30%',
                             marginTop: '5%',
                         }}>
-                        <CloudArrowUpFill size={30} />
+                        <Link to='login' className="linked">
+                            <CloudArrowUpFill size={30} />
+                        </Link>
                     </Button>
                 </CardBody>
             </Card>

@@ -16,4 +16,14 @@ html, body{
   height: 100vh;
 }
 
+.linked{
+  color: white;
+  text-decoration: none;
+}
+
+.linked:hover{
+  color: white;
+  text-decoration: none;
+}
+
 
