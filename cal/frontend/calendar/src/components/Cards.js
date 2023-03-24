@@ -2,10 +2,12 @@ import React from "react";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import './css/Cards.css'
+import { Link } from "react-router-dom";
 
 import { useEffect } from "react";
 import { Card, CardBody, CardTitle, CardSubtitle, CardText, Button } from "reactstrap";
 import { CloudArrowUpFill } from 'react-bootstrap-icons';
+
 
 export default function Cards(){
     useEffect(()=>{
@@ -32,7 +34,7 @@ export default function Cards(){
                         borderRadius: '10px',
                     }}
                     alt="Sample"
-                    src={process.env.PUBLIC_URL + '/images/calendar1.jpg'}
+                    src={process.env.PUBLIC_URL + '/images/calendar2.jpg'}
                 />
                 <CardBody>
                     <CardTitle tag="h5">
@@ -72,7 +74,9 @@ export default function Cards(){
                             width: '30%',
                             marginTop: '5%',
                         }}>
-                        <CloudArrowUpFill size={30} />
+                        <Link to='login' className="linked">
+                            <CloudArrowUpFill size={30} />
+                        </Link>
                     </Button>
                 </CardBody>
             </Card>
@@ -86,8 +90,8 @@ export default function Cards(){
                 }}
                 >
                 <img
+                    src={process.env.PUBLIC_URL + '/static/images/calendar1.jpg'}
                     alt="Sample"
-                    src={process.env.PUBLIC_URL + '/images/calendar2.jpg'}
                 />
                 <CardBody>
                     <CardText>
