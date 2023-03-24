@@ -27,7 +27,9 @@ export default function Main(){
                         <FormGroup className="d-flex flex-direction-row">
                             <Input type="password" name="password" placeholder="Enter password"/>
                         </FormGroup>
-                        <Button className="submit-btn bg-primary"><h6>Zaloguj się</h6></Button>
+                        <Button className="submit-btn bg-primary">
+                            <h6><Link to='/login' className="linked">Zaloguj się</Link></h6>
+                        </Button>
                         <div><a style={{fontSize: '50%'}} href="/">Nie pamiętasz hasła?</a></div>
                         <hr></hr>
                         <Button className="submit-btn bg-success">
