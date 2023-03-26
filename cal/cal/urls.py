@@ -16,7 +16,6 @@ Including another URLconf
 
 from pathlib import Path
 from django.contrib import admin
-from django.urls import path, include
 from django.urls import re_path, path, include
 from . import views
 
@@ -25,6 +24,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
-    re_path('.*', views.IndexView.as_view(), name='react'),
+    path('', views.IndexView.as_view(), name='react'),
 ]
 
