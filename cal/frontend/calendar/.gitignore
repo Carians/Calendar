@@ -21,3 +21,12 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+
+.idea
+.main/__pycache__
+.cal/__pycache__
+.DS_STORE
+.main/migrations/__pycache__
+./__pycache__
+db.sqlite3
