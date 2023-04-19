@@ -92,3 +92,17 @@ class RegisterView(generics.CreateAPIView):
         if not self.request.data['email']:
             raise serializers.ValidationError('Email is required')
 
+        if not self.request.data['password']:
+            raise serializers.ValidationError('Password is required')
+
+        if not self.request.data['username']:
+            raise serializers.ValidationError('Username is required')
+
+        if not self.request.data['first_name']:
+            raise serializers.ValidationError('First name is required')
+
+        if not self.request.data['last_name']:
+            raise serializers.ValidationError('Last name is required')
+
+        serializer.save()
+
