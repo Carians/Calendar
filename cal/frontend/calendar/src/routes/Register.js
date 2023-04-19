@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { Card, CardBody, CardTitle, CardSubtitle, CardText } from "reactstrap";
-import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import { Card, CardBody } from "reactstrap";
+import { Form, FormGroup, Input, Button } from 'reactstrap';
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import Password from './Password';
 
 function Register() {
-  // TODO Refactor to Password.js component to make it cleaner
 
   const [form, setForm] = useState({userName: '', firstName: '', lastName: '', email: '', password: '', password2: ''})
   const [formError, setFormError] = useState({userName: null, firstName: null, lastName: null, email: null, password2: null})
@@ -26,39 +26,6 @@ function Register() {
   })
   }, [form])
 
-  // Password strength
-  const [strengthColors, setstrengthColors] = useState({low: false, medium: false, medium2: false, high: false, high2: false})
-  useEffect(()=>{
-    const strengthRegex = {
-      low: /^(?=.*[a-z])(?=.*[A-Z]).{8,}$/, 
-      medium: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/,
-      medium2: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{10,}$/,
-      high: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z])(?=.*[*.!@$%^&(){}[\]:;<>,.?~_+-=/|]).{10,}$/,
-      high2: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z])(?=.*[*.!@$%^&(){}[\]:;<>,.?~_+-=/|]).{12,}$/
-    }
-
-    for(const [key, val] of Object.entries(strengthRegex)){
-      if(val.test(form.password)){
-        console.log(strengthColors)
-        setstrengthColors(prev=> {
-          return{
-            ...prev,
-            [key]: true
-          }
-        })
-      }
-      else{
-        setstrengthColors(prev=> {
-          return{
-            ...prev,
-            [key]: false
-          }
-        })
-      }
-    }
-
-  }, [form.password, form.password2])
-
   function handleForm(event){
     event.preventDefault()
     const {name, value} = event.target
@@ -70,6 +37,7 @@ function Register() {
       }
     })
   }
+
 
   return (
     <>
@@ -105,15 +73,7 @@ function Register() {
                     <Input type="password" name="password2" placeholder="Powtórz hasło" onChange={handleForm}/>
                     {formError.password2 && <p style={{color: 'red'}}>{formError.password2}</p>}
                 </FormGroup>
-                {(form.password || form.password2) && <FormGroup className='d-flex flex-row'>
-                  <p className='me-2'>Siła hasła:</p>
-                  <div style={{backgroundColor: 'rgb(179, 0, 0)', width: '7.5%', height: '2vh', border: '0.2px solid black', borderRadius: '5px'}} className='me-1'></div>
-                  <div style={{backgroundColor: strengthColors.low ? 'rgb(179, 0, 0)' : '', width: '7.5%', height: '2vh', border: '0.2px solid black', borderRadius: '5px'}} className='me-1' id='low'></div>
-                  <div style={{backgroundColor: strengthColors.medium ? 'rgb(237, 220, 28)' : '', width: '7.5%', height: '2vh', border: '0.2px solid black', borderRadius: '5px'}} className='me-1' id='medium'></div>
-                  <div style={{backgroundColor: strengthColors.medium2 ? 'rgb(237, 220, 28)' : '', width: '7.5%', height: '2vh', border: '0.2px solid black', borderRadius: '5px'}} className='me-1' id='medium2'></div>
-                  <div style={{backgroundColor: strengthColors.high ? 'rgb(13, 224, 28)' : '', width: '7.5%', height: '2vh', border: '0.2px solid black', borderRadius: '5px'}} className='me-1' id='high'></div>
-                  <div style={{backgroundColor: strengthColors.high2 ? 'rgb(13, 224, 28)' : '', width: '7.5%', height: '2vh', border: '0.2px solid black', borderRadius: '5px'}} className='me-1' id='high2'></div>
-                </FormGroup>}
+                <Password form={form} />
                 <FormGroup className='d-flex justify-content-center'>
                   <Button className="submit-btn bg-primary"><h6>Zarejestruj się</h6></Button>
                 </FormGroup>
