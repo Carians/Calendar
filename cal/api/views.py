@@ -7,6 +7,7 @@ from main.models import Calendar, Event
 from .serializers import CalendarSerializer, EventSerializer
 from .permissions import IsOwnerOrDenyAccess
 from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
 from .serializers import UserSerializer
 
 # Create your views here.
@@ -91,3 +92,22 @@ class RegisterView(generics.CreateAPIView):
     def perform_create(self, serializer):
         if not self.request.data['email']:
             raise serializers.ValidationError('Email is required')
+
+        if not self.request.data['password']:
+            raise serializers.ValidationError('Password is required')
+
+        if not self.request.data['username']:
+            raise serializers.ValidationError('Username is required')
+
+        if not self.request.data['first_name']:
+            raise serializers.ValidationError('First name is required')
+
+        if not self.request.data['last_name']:
+            raise serializers.ValidationError('Last name is required')
+
+        self.request.data['password'] = make_password(self.request.data['password'])
+
+        serializer.save()
+
+
+
