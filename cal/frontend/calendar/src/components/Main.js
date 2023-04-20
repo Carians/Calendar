@@ -43,7 +43,7 @@ export default function Main(){
           .then(res => {return res.json()})
           .then(data => {
             console.log(data)
-            window.sessionStorage.setItem('token', data.token)
+            window.sessionStorage.setItem('sessionid', data.token)
             })
           .catch(err => console.log(err))
     }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import './css/Header.css'
 
 import { Calendar2Date, List } from 'react-bootstrap-icons';
@@ -8,11 +8,17 @@ import { Link } from "react-router-dom";
 
 export default function Header(){
 
-    const [isHovering, setHovering] = useState(false) 
+    const [isHovering, setHovering] = useState(false)
+    const [session, setSession] = useState(window.sessionStorage.getItem('sessionid')) 
 
+    useEffect(()=>{
+        setSession(window.sessionStorage.getItem('sessionid'))
+    }, [window.sessionStorage.getItem('sessionid')])
+
+    // TODO pobieranie danych uzytkownika z api (sesja)
     function showSideMenu(){
         setHovering(true)
-        //document.querySelector('.side-navbar').classList.add('side-navbar-transform')
+        console.log(session)
     }
 
     function hideSideMenu(){
