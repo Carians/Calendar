@@ -9,7 +9,7 @@ import Password from './Password';
 import { getCookie } from '../components/functions/cookie'
 
 function Register() {
-
+  // TODO krótkie hasło check
   const [form, setForm] = useState({username: '', first_name: '', last_name: '', email: '', password: '', password2: ''})
   const [formError, setFormError] = useState({username: null, first_name: null, last_name: null, email: null, password2: null})
 
