@@ -105,9 +105,7 @@ class RegisterView(generics.CreateAPIView):
         if not self.request.data['last_name']:
             raise serializers.ValidationError('Last name is required')
 
-        self.request.data['password'] = make_password(self.request.data['password'])
-
-        serializer.save()
+        serializer.save(password=make_password(self.request.data['password']))
 
 
 
