@@ -92,3 +92,7 @@ class RegisterView(generics.CreateAPIView):
     def perform_create(self, serializer):
         if not self.request.data['email']:
             raise serializers.ValidationError('Email is required')
+        serializer.save()
+
+    def enforce_csrf(self, request):
+        return 
