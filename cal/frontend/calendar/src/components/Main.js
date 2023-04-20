@@ -22,7 +22,6 @@ export default function Main(){
             [name]: value
           }
         })
-        console.log(form)
     }
 
     function handleLogin(){
@@ -42,7 +41,10 @@ export default function Main(){
             })
           })
           .then(res => {return res.json()})
-          .then(data => console.log(data))
+          .then(data => {
+            console.log(data)
+            window.sessionStorage.setItem('token', data.token)
+            })
           .catch(err => console.log(err))
     }
 
