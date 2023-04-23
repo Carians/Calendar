@@ -32,3 +32,5 @@ class Calendar(models.Model):
         if not self.pk:
             self.user = get_current_authenticated_user()
         super().save(force_insert, force_update, using, update_fields)
+# class User(AbstractUser):
+#     token = models.CharField(max_length=255, null=True, blank=True)
