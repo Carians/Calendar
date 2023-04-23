@@ -26,3 +26,12 @@
 .side-navbar-transform{
   transform: translateX(-50vh);
 }
+
+.dropdown-hover:hover{
+  color: #303034;
+  background-color: #DFE0E2;
+}
+
+.linked{
+  text-decoration: none;
+}
