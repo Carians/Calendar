@@ -9,7 +9,7 @@ from .serializers import CalendarSerializer, EventSerializer
 from .permissions import IsOwnerOrDenyAccess
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
-from .serializers import UserSerializer
+from .serializers import UserRegisterSerializer
 
 # Create your views here.
 class ListAvailableApiView(APIView):
@@ -20,6 +20,7 @@ class ListAvailableApiView(APIView):
         return Response({
             'calendars': reverse('calendars', request=request),
             'events': reverse('events', request=request),
+            'user': reverse('user-detail', request=request),
         })
 
 class CalendarListCreateAPIView(generics.ListCreateAPIView):
@@ -88,7 +89,7 @@ class RegisterView(generics.CreateAPIView):
     permission_classes = [permissions.AllowAny]
 
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = UserRegisterSerializer
 
     def perform_create(self, serializer):
         if not self.request.data['email']:
@@ -109,4 +110,10 @@ class RegisterView(generics.CreateAPIView):
         serializer.save(password=make_password(self.request.data['password']))
 
 
+class UserDetailAPIView(generics.RetrieveAPIView):
 
+    queryset = User.objects.all()
+    serializer_class = UserRegisterSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    def get_object(self):
+        return self.request.user

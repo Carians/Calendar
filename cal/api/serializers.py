@@ -14,7 +14,7 @@ class EventSerializer(serializers.ModelSerializer):
         model = Event
         fields = '__all__'
 
-class UserSerializer(serializers.ModelSerializer):
+class UserRegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
@@ -25,4 +25,15 @@ class UserSerializer(serializers.ModelSerializer):
             'first_name',
             'last_name'
         ]
+        # fields = '__all__'
+        extra_kwargs = {
+            'password': {
+                'write_only': True,
+                'required': True,
+                'style': {
+                    'input_type': 'password'
+                }
+            }
+        }
+
 
