@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import './css/Header.css'
+import { getCookie } from "./functions/cookie";
+import { getUserData } from "../Data"
 
 import { Calendar2Date, Calendar2Week, List, PersonCircle, Person, Gear, BoxArrowRight } from 'react-bootstrap-icons';
 import {Col, Row} from 'reactstrap'
@@ -11,12 +13,23 @@ export default function Header(){
 
     const [isHovering, setHovering] = useState(false)
     const [session, setSession] = useState(window.sessionStorage.getItem('sessionid')) 
+    const [userData, setUserData] = useState(null)
+    
+    
+    useEffect(()=>{
+        const fetchData = async () => {
+            const data = await getUserData()
+            setUserData(data)
+        }
+        fetchData()
+    },[session])
+
 
     useEffect(()=>{
         setSession(window.sessionStorage.getItem('sessionid'))
     }, [window.sessionStorage.getItem('sessionid')])
 
-    // TODO pobieranie danych uzytkownika z api (sesja)
+    
     function showSideMenu(){
         setHovering(true)
         console.log(session)
@@ -24,6 +37,10 @@ export default function Header(){
 
     function hideSideMenu(){
         setHovering(false)
+    }
+
+    function logOut(){
+        window.setSession.setItem('sessionid', null)
     }
 
     return(
@@ -51,8 +68,8 @@ export default function Header(){
                                     <div className="d-flex justify-content-evenly flex-row"> 
                                         <PersonCircle size={50}/>
                                         <div className="d-flex justify-content-evenly flex-column"> 
-                                            <h4>Witaj michal!</h4>
-                                            <p className="text-secondary">email@gmail.com</p>
+                                            <h4>Witaj {userData.username}</h4>
+                                            <p className="text-secondary">{userData.email}</p>
                                         </div>
                                     </div>
                                     <div className="mt-4">
@@ -68,7 +85,7 @@ export default function Header(){
                                             <Gear size={30}/>
                                             <p className="ms-3 mt-3 fs-4">Ustawienia</p>
                                         </div>
-                                        <div style={{height: '7vh'}} className="linked dropdown-hover d-flex justify-content-start align-items-center flex-row ps-5"> 
+                                        <div onClick={logOut} style={{height: '7vh'}} className="linked dropdown-hover d-flex justify-content-start align-items-center flex-row ps-5"> 
                                             <BoxArrowRight size={30}/>
                                             <p className="ms-3 mt-3 fs-4">Wyloguj się</p>
                                         </div>
