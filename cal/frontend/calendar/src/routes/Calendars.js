@@ -3,7 +3,9 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Main from '../components/Main';
 
-function Login() {
+// TODO zmiana Main.js i tego linku po zalogowaniu
+
+function Calendars() {
   return (
     <>
       <Header/>
@@ -13,4 +15,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Calendars;
