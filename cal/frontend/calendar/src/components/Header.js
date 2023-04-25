@@ -56,14 +56,14 @@ export default function Header(){
                     {/* Sliding side menu */}
                     {isHovering && 
                         <div className="side-navbar d-flex justify-content-start flex-column" onMouseLeave={hideSideMenu}>
-                            {!isLogged && 
+                            {!session && 
                             <div className="d-flex justify-content-center h-100 flex-column">
                                     <p>Nie jesteś zalogowany</p>
                                     <Link to={'/login'}>Zaloguj się</Link>
                                 </div>
                             }
                             {/* if Logged */}
-                            {isLogged && 
+                            {session && 
                                 <div className="mt-4">
                                     <div className="d-flex justify-content-evenly flex-row"> 
                                         <PersonCircle size={50}/>

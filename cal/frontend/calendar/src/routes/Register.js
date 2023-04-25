@@ -12,6 +12,9 @@ function Register() {
   // TODO krótkie hasło check
   const [form, setForm] = useState({username: '', first_name: '', last_name: '', email: '', password: '', password2: ''})
   const [formError, setFormError] = useState({username: null, first_name: null, last_name: null, email: null, password2: null})
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  const hasErrors = formSubmitted && Object.values(formError).some(error => error !== null);
+
 
 
   // Error checking
@@ -22,7 +25,7 @@ function Register() {
       'first_name': null,
       'last_name': null,
       'email': form.email.length <= 0 || emailRegex.test(form.email) ? null : 'Email jest nieprawidłowy',
-      'password': null,
+      'password':  form.password.length > 2 && form.password.length < 8 ? 'Hasło jest za krótkie' : null,
       'password2': form.password2 !== form.password ? 'Hasła nie są takie same' : null,
   })
   }, [form])
@@ -41,6 +44,8 @@ function Register() {
 
 
   function submitUser(){
+    setFormSubmitted(true)
+
     const url = window.location.origin + '/api/register/'
     const csrf = getCookie('csrftoken')
     
@@ -62,6 +67,7 @@ function Register() {
     .then(res => {return res.json()})
     .then(data => console.log(data))
     .catch(err => console.log(err))
+
     
   }
 
@@ -95,14 +101,16 @@ function Register() {
                 </FormGroup>
                 <FormGroup className="d-flex flex-column">
                     <Input type="password" name="password" placeholder="Hasło" onChange={handleForm}/>
+                    {formError.password && <p style={{color: 'red'}}>{formError.password}</p>}
                 </FormGroup>
                 <FormGroup className="d-flex flex-column">
                     <Input type="password" name="password2" placeholder="Powtórz hasło" onChange={handleForm}/>
                     {formError.password2 && <p style={{color: 'red'}}>{formError.password2}</p>}
                 </FormGroup>
                 <Password form={form} />
-                <FormGroup className='d-flex justify-content-center'>
+                <FormGroup className='d-flex justify-content-center align-items-center flex-column'>
                   <Button onClick={submitUser} className="submit-btn bg-primary"><h6>Zarejestruj się</h6></Button>
+                  {hasErrors && <p style={{color: 'red'}}>Poprawnie uzupełnij formularz!</p>}
                 </FormGroup>
               </Form>
           </CardBody>
