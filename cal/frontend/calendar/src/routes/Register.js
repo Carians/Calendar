@@ -6,14 +6,14 @@ import { Form, FormGroup, Input, Button } from 'reactstrap';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Password from './Password';
-import { getCookie } from '../components/functions/cookie'
+import { registerUser } from '../Data';
+
 
 function Register() {
-  // TODO krótkie hasło check
   const [form, setForm] = useState({username: '', first_name: '', last_name: '', email: '', password: '', password2: ''})
   const [formError, setFormError] = useState({username: null, first_name: null, last_name: null, email: null, password2: null})
   const [formSubmitted, setFormSubmitted] = useState(false);
-  const hasErrors = formSubmitted && Object.values(formError).some(error => error !== null);
+  const hasErrors = Object.values(formError).some(error => error !== null);
 
 
 
@@ -22,8 +22,6 @@ function Register() {
     const emailRegex = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/
     setFormError({
       'username': form.username.length > 0 && form.username.length < 4 ? 'Nazwa użytkownika jest za krótka' : null,
-      'first_name': null,
-      'last_name': null,
       'email': form.email.length <= 0 || emailRegex.test(form.email) ? null : 'Email jest nieprawidłowy',
       'password':  form.password.length > 2 && form.password.length < 8 ? 'Hasło jest za krótkie' : null,
       'password2': form.password2 !== form.password ? 'Hasła nie są takie same' : null,
@@ -46,29 +44,13 @@ function Register() {
   function submitUser(){
     setFormSubmitted(true)
 
-    const url = window.location.origin + '/api/register/'
-    const csrf = getCookie('csrftoken')
-    
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json, application/x-www-form-urlencoded, multipart/form-data',
-        'Content-Type': 'application/json',
-        'X-CSRFToken': csrf
-      },
-      body: JSON.stringify({
-        'username': form.username,
-        'email': form.email,
-        'password': form.password,
-        'first_name': form.first_name,
-        'last_name': form.last_name
-      })
-    })
-    .then(res => {return res.json()})
-    .then(data => console.log(data))
-    .catch(err => console.log(err))
-
-    
+    const fetchData = async () => {
+      const response = await registerUser(form)
+      if(Array.isArray(response.username)){
+        setFormError({'username': response.username})
+      }
+    }
+    fetchData()
   }
 
 
@@ -110,7 +92,8 @@ function Register() {
                 <Password form={form} />
                 <FormGroup className='d-flex justify-content-center align-items-center flex-column'>
                   <Button onClick={submitUser} className="submit-btn bg-primary"><h6>Zarejestruj się</h6></Button>
-                  {hasErrors && <p style={{color: 'red'}}>Poprawnie uzupełnij formularz!</p>}
+                  {(hasErrors && formSubmitted) && <p style={{color: 'red'}}>Poprawnie uzupełnij formularz!</p>}
+                  {(!hasErrors && formSubmitted) && <p style={{color: 'green'}}>Rejestracja przebiegła pomyślnie</p>}
                 </FormGroup>
               </Form>
           </CardBody>

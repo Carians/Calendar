@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import './css/Header.css'
-import { getCookie } from "./functions/cookie";
 import { getUserData } from "../Data"
 
 import { Calendar2Date, Calendar2Week, List, PersonCircle, Person, Gear, BoxArrowRight } from 'react-bootstrap-icons';
@@ -9,7 +8,6 @@ import { Link } from "react-router-dom";
 
 
 export default function Header(){
-    let isLogged = true 
 
     const [isHovering, setHovering] = useState(false)
     const [session, setSession] = useState(window.sessionStorage.getItem('sessionid')) 
@@ -40,7 +38,7 @@ export default function Header(){
     }
 
     function logOut(){
-        window.setSession.setItem('sessionid', null)
+        window.setSession.setItem('sessionid', undefined)
     }
 
     return(
@@ -56,7 +54,7 @@ export default function Header(){
                     {/* Sliding side menu */}
                     {isHovering && 
                         <div className="side-navbar d-flex justify-content-start flex-column" onMouseLeave={hideSideMenu}>
-                            {!session && 
+                            {(!session && session !== undefined) && // TODO naprawić session undefined
                             <div className="d-flex justify-content-center h-100 flex-column">
                                     <p>Nie jesteś zalogowany</p>
                                     <Link to={'/login'}>Zaloguj się</Link>

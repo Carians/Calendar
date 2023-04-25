@@ -5,12 +5,14 @@ import { Card, CardBody, CardTitle, CardSubtitle, CardText } from "reactstrap";
 import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import { Link } from "react-router-dom";
 
-import { getCookie } from "./functions/cookie";
+import { loginUser } from "../Data";
 
 
 export default function Main(){
 
     const [form, setForm] = useState({username: '', password: ''})
+    const [formError, setformError] = useState({username: '', password: '', non_field_errors: ''})
+
 
     function handleForm(event){
         event.preventDefault()
@@ -25,27 +27,17 @@ export default function Main(){
     }
 
     function handleLogin(){
-        const url = window.location.origin + '/api/auth/'
-        const csrf = getCookie('csrftoken')
-
-        fetch(url, {
-            method: 'POST',
-            headers: {
-              'Accept': 'application/json, application/x-www-form-urlencoded, multipart/form-data',
-              'Content-Type': 'application/json',
-              'X-CSRFToken': csrf
-            },
-            body: JSON.stringify({
-              'username': form.username,
-              'password': form.password,
+        
+        const fetchdata = async() =>{
+            const data = await loginUser(form)
+            setformError({
+                'username': data.username,
+                'password': data.password,
+                'non_field_errors': data.non_field_errors,
             })
-          })
-          .then(res => {return res.json()})
-          .then(data => {
-            console.log(data)
-            window.sessionStorage.setItem('sessionid', data.token)
-            })
-          .catch(err => console.log(err))
+            console.log(formError)
+        }
+        fetchdata()
     }
 
     return(
@@ -57,15 +49,20 @@ export default function Main(){
                 <CardBody>
                     <Form onSubmit={handleForm}> 
                         <p>Logowanie</p>
-                        <FormGroup className="d-flex flex-direction-row">
+                        <FormGroup className="d-flex flex-column">
                             <Input type="text" name="username" placeholder="Enter username" onChange={handleForm}/>
+                            {formError.username && <p style={{color: 'red', fontSize: '60%'}}>{formError.username}</p>}
                         </FormGroup>
-                        <FormGroup className="d-flex flex-direction-row">
+                        <FormGroup className="d-flex flex-column">
                             <Input type="password" name="password" placeholder="Enter password" onChange={handleForm}/>
+                            {formError.password && <p style={{color: 'red', fontSize: '60%'}}>{formError.password}</p>}
                         </FormGroup>
-                        <Button className="submit-btn bg-primary" onClick={handleLogin}>
-                            <h6 className="linked">Zaloguj się</h6>
-                        </Button>
+                        <FormGroup>
+                            <Button className="submit-btn bg-primary" onClick={handleLogin}>
+                                <h6 className="linked">Zaloguj się</h6>
+                            </Button>
+                            {formError.non_field_errors && <p style={{color: 'red', fontSize: '60%'}}>{formError.non_field_errors}</p>}
+                        </FormGroup>
                         <div><a style={{fontSize: '50%'}} href="/">Nie pamiętasz hasła?</a></div>
                         <hr></hr>
                         <Button className="submit-btn bg-success">
