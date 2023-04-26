@@ -30,7 +30,6 @@ export default function Header(){
     
     function showSideMenu(){
         setHovering(true)
-        console.log(session)
     }
 
     function hideSideMenu(){
@@ -38,7 +37,7 @@ export default function Header(){
     }
 
     function logOut(){
-        window.setSession.setItem('sessionid', undefined)
+        setSession(null)
     }
 
     return(
@@ -54,7 +53,7 @@ export default function Header(){
                     {/* Sliding side menu */}
                     {isHovering && 
                         <div className="side-navbar d-flex justify-content-start flex-column" onMouseLeave={hideSideMenu}>
-                            {(!session && session !== undefined) && // TODO naprawić session undefined
+                            {!session && 
                             <div className="d-flex justify-content-center h-100 flex-column">
                                     <p>Nie jesteś zalogowany</p>
                                     <Link to={'/login'}>Zaloguj się</Link>

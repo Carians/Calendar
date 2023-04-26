@@ -35,7 +35,6 @@ export default function Main(){
                 'password': data.password,
                 'non_field_errors': data.non_field_errors,
             })
-            console.log(formError)
         }
         fetchdata()
     }

@@ -63,7 +63,9 @@ const loginUser = async(form) => {
       })
       
       const data = await response.json()
-      window.sessionStorage.setItem('sessionid', data.token)
+      if(data.token !== undefined){
+        window.sessionStorage.setItem('sessionid', data.token)
+      }
       return data
 }
 
