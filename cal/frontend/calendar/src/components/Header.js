@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import './css/Header.css'
-import { getUserData } from "../Data"
+import { getUserData, logOutUser } from "../Data"
 
 import { Calendar2Date, Calendar2Week, List, PersonCircle, Person, Gear, BoxArrowRight } from 'react-bootstrap-icons';
 import {Col, Row} from 'reactstrap'
@@ -37,7 +37,12 @@ export default function Header(){
     }
 
     function logOut(){
-        setSession(null)
+        window.sessionStorage.setItem('sessionid', '')
+        window.location.reload(false)
+        const fetchData = async () => {
+            await logOutUser()
+        }
+        fetchData()
     }
 
     return(

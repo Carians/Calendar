@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import './css/Main.css'
 
 import { Card, CardBody, CardTitle, CardSubtitle, CardText } from "reactstrap";
@@ -12,7 +12,12 @@ export default function Main(){
 
     const [form, setForm] = useState({username: '', password: ''})
     const [formError, setformError] = useState({username: '', password: '', non_field_errors: ''})
+    const [hasErrors, setHasErrors] = useState(false)
+    const [formSubmitted, setFormSubmitted] = useState(false); //TODO nie mam juz siły do tego hasErrors
 
+    useEffect(() => {
+        setHasErrors(Object.values(formError).some((error) => error !== null));
+      }, [formError]);
 
     function handleForm(event){
         event.preventDefault()
@@ -27,7 +32,8 @@ export default function Main(){
     }
 
     function handleLogin(){
-        
+        setFormSubmitted(true)
+        console.log(hasErrors, formSubmitted)
         const fetchdata = async() =>{
             const data = await loginUser(form)
             setformError({
@@ -60,7 +66,8 @@ export default function Main(){
                             <Button className="submit-btn bg-primary" onClick={handleLogin}>
                                 <h6 className="linked">Zaloguj się</h6>
                             </Button>
-                            {formError.non_field_errors && <p style={{color: 'red', fontSize: '60%'}}>{formError.non_field_errors}</p>}
+                            {(hasErrors && formSubmitted) && <p style={{color: 'red', fontSize: '60%'}}>Nieprawidłowe hasło lub nazwa użytkownika</p>}
+                            {(!hasErrors && formSubmitted) && <p style={{color: 'green', fontSize: '60%'}}>Zalogowano pomyślnie!</p>} 
                         </FormGroup>
                         <div><a style={{fontSize: '50%'}} href="/">Nie pamiętasz hasła?</a></div>
                         <hr></hr>

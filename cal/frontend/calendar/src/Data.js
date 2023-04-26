@@ -69,4 +69,20 @@ const loginUser = async(form) => {
       return data
 }
 
-export {getUserData, registerUser, loginUser}
+const logOutUser = async() =>{
+    const url = window.location.origin + '/api/logout/'
+    const csrf = getCookie('csrftoken')
+    const token = window.sessionStorage.getItem('sessionid')
+
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + token,
+        'Accept': 'application/json, application/x-www-form-urlencoded, multipart/form-data',
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrf
+      }
+    })
+}
+
+export {getUserData, registerUser, loginUser, logOutUser}

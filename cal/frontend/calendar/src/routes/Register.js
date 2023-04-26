@@ -27,6 +27,7 @@ function Register() {
       'password2': form.password2 !== form.password ? 'Hasła nie są takie same' : null,
   })
   }, [form])
+  
 
   function handleForm(event){
     event.preventDefault()
