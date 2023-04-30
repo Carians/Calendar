@@ -74,7 +74,7 @@ const logOutUser = async() =>{
     const csrf = getCookie('csrftoken')
     const token = window.sessionStorage.getItem('sessionid')
 
-    const response = await fetch(url, {
+    await fetch(url, {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + token,

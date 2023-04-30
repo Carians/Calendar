@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import './css/Main.css'
 
-import { Card, CardBody, CardTitle, CardSubtitle, CardText } from "reactstrap";
-import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import { Card, CardBody } from "reactstrap";
+import { Form, FormGroup, Input, Button } from 'reactstrap';
 import { Link } from "react-router-dom";
 
 import { loginUser } from "../Data";
@@ -11,13 +11,10 @@ import { loginUser } from "../Data";
 export default function Main(){
 
     const [form, setForm] = useState({username: '', password: ''})
-    const [formError, setformError] = useState({username: '', password: '', non_field_errors: ''})
-    const [hasErrors, setHasErrors] = useState(false)
-    const [formSubmitted, setFormSubmitted] = useState(false); //TODO nie mam juz siły do tego hasErrors
+    const [formError, setformError] = useState({username: undefined, password: undefined, non_field_errors: undefined})
+    const hasErrors = Object.values(formError).some((error) => error !== undefined)
+    const [formSubmitted, setFormSubmitted] = useState(false); 
 
-    useEffect(() => {
-        setHasErrors(Object.values(formError).some((error) => error !== null));
-      }, [formError]);
 
     function handleForm(event){
         event.preventDefault()
@@ -33,7 +30,6 @@ export default function Main(){
 
     function handleLogin(){
         setFormSubmitted(true)
-        console.log(hasErrors, formSubmitted)
         const fetchdata = async() =>{
             const data = await loginUser(form)
             setformError({

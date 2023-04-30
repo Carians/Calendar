@@ -38,7 +38,7 @@ export default function Header(){
 
     function logOut(){
         window.sessionStorage.setItem('sessionid', '')
-        window.location.reload(false)
+        window.location.href = '/'
         const fetchData = async () => {
             await logOutUser()
         }
@@ -61,7 +61,7 @@ export default function Header(){
                             {!session && 
                             <div className="d-flex justify-content-center h-100 flex-column">
                                     <p>Nie jesteś zalogowany</p>
-                                    <Link to={'/login'}>Zaloguj się</Link>
+                                    <Link to={'/'}>Zaloguj się</Link>
                                 </div>
                             }
                             {/* if Logged */}
@@ -70,7 +70,7 @@ export default function Header(){
                                     <div className="d-flex justify-content-evenly flex-row"> 
                                         <PersonCircle size={50}/>
                                         <div className="d-flex justify-content-evenly flex-column"> 
-                                            <h4>Witaj {userData.username}</h4>
+                                            <h4>{userData.username}</h4>
                                             <p className="text-secondary">{userData.email}</p>
                                         </div>
                                     </div>
