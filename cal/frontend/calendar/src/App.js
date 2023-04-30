@@ -1,3 +1,5 @@
+import { useContext } from 'react';
+import { UserContext } from './UserContext';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
@@ -7,10 +9,13 @@ import Footer from './components/Footer';
 import Cards from './components/Cards';
 
 function App() {
+
+  const {session, userData} = useContext(UserContext)
+
   return (
     <div className="App">
-      <Header/>
-      <Main/>
+      <Header userData={userData} session={session}/>
+      <Main userData={userData} session={session} />
       <Cards/>
       <Footer/>
     </div>

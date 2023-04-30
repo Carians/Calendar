@@ -20,7 +20,7 @@
 }
 
 .cal-style:hover{
-    transform: scale(1.1);
+    transform: scale(1.05);
     transition: transform 0.3s ease;
     will-change: transform;
     z-index: 2;

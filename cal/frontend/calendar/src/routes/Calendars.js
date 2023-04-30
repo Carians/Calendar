@@ -6,31 +6,17 @@ import { FilePlus } from 'react-bootstrap-icons';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
-import { useState, useEffect } from 'react';
-import { getUserData } from '../Data';
+import { useContext } from 'react';
+import { UserContext } from '../UserContext';
 
 
 function Calendars() {
 
-  const [session, setSession] = useState(window.sessionStorage.getItem('sessionid')) 
-  const [userData, setUserData] = useState('')
-    
-    
-  useEffect(()=>{
-      const fetchData = async () => {
-          const data = await getUserData()
-          setUserData(data)
-      }
-      fetchData()
-  },[session])
-
-  useEffect(()=>{
-    setSession(window.sessionStorage.getItem('sessionid'))
-  }, [window.sessionStorage.getItem('sessionid')])
+  const {session, userData} = useContext(UserContext)
 
   return (
     <>
-      <Header/>
+      <Header session={session} userData={userData}/>
       <div className='main d-flex justify-content-center align-items-center flex-column'>
         <p>Witaj {userData.username}, tutaj znajdują się twoje kalendarze </p>
         <Card className='card-style'>

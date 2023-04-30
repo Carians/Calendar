@@ -1,33 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import './css/Header.css'
-import { getUserData, logOutUser } from "../Data"
+import { logOutUser } from "../Data"
 
 import { Calendar2Date, Calendar2Week, List, PersonCircle, Person, Gear, BoxArrowRight } from 'react-bootstrap-icons';
 import {Col, Row} from 'reactstrap'
 import { Link } from "react-router-dom";
 
 
-export default function Header(){
+export default function Header(props){
 
     const [isHovering, setHovering] = useState(false)
-    const [session, setSession] = useState(window.sessionStorage.getItem('sessionid')) 
-    const [userData, setUserData] = useState(null)
-    
-    
-    useEffect(()=>{
-        const fetchData = async () => {
-            const data = await getUserData()
-            setUserData(data)
-        }
-        fetchData()
-    },[session])
 
 
-    useEffect(()=>{
-        setSession(window.sessionStorage.getItem('sessionid'))
-    }, [window.sessionStorage.getItem('sessionid')])
-
-    
     function showSideMenu(){
         setHovering(true)
     }
@@ -58,20 +42,20 @@ export default function Header(){
                     {/* Sliding side menu */}
                     {isHovering && 
                         <div className="side-navbar d-flex justify-content-start flex-column" onMouseLeave={hideSideMenu}>
-                            {!session && 
+                            {!props.session && 
                             <div className="d-flex justify-content-center h-100 flex-column">
                                     <p>Nie jesteś zalogowany</p>
                                     <Link to={'/'}>Zaloguj się</Link>
                                 </div>
                             }
                             {/* if Logged */}
-                            {session && 
+                            {props.session && 
                                 <div className="mt-4">
                                     <div className="d-flex justify-content-evenly flex-row"> 
                                         <PersonCircle size={50}/>
                                         <div className="d-flex justify-content-evenly flex-column"> 
-                                            <h4>{userData.username}</h4>
-                                            <p className="text-secondary">{userData.email}</p>
+                                            <h4>{props.userData.username}</h4>
+                                            <p className="text-secondary">{props.userData.email}</p>
                                         </div>
                                     </div>
                                     <div className="mt-4">
