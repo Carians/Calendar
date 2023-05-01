@@ -90,7 +90,7 @@ export default function Cards(){
                 }}
                 >
                 <img
-                    src={process.env.PUBLIC_URL + '/static/images/calendar1.jpg'}
+                    src={process.env.PUBLIC_URL + '/images/calendar1.jpg'}
                     alt="Sample"
                 />
                 <CardBody>

@@ -8,6 +8,7 @@ import Footer from '../components/Footer';
 
 import { useContext } from 'react';
 import { UserContext } from '../UserContext';
+import { Link } from "react-router-dom";
 
 
 function Calendars() {
@@ -21,9 +22,9 @@ function Calendars() {
         <p>Witaj {userData.username}, tutaj znajdują się twoje kalendarze </p>
         <Card className='card-style'>
           <CardBody>
-            <div className='cal-style d-flex justify-content-center align-items-center'>
+            <Link to={'/'} className='cal-style d-flex justify-content-center align-items-center'>
               <FilePlus size={50} />
-            </div>
+            </Link>
           </CardBody>
 
         </Card>

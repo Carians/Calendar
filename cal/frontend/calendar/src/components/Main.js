@@ -4,7 +4,8 @@ import './css/Main.css'
 import { Card, CardBody } from "reactstrap";
 import { Form, FormGroup, Input, Button } from 'reactstrap';
 import { Link } from "react-router-dom";
-
+import Creator from "./Creator";
+ 
 import { loginUser } from "../Data";
 
 
@@ -37,6 +38,8 @@ export default function Main(props){
                 'password': data.password,
                 'non_field_errors': data.non_field_errors,
             })
+            // TODO zrobić żeby nie odświeżała sie strona po błędnym logowaniu
+            window.location.href = '/'
         }
         fetchdata()
     }
@@ -73,6 +76,17 @@ export default function Main(props){
                                 <h6><Link to='register' className="linked">Utwórz nowe konto</Link></h6>
                             </Button>
                         </Form>
+                    </CardBody>
+                </Card>
+            }
+
+            {props.session &&
+                <Card style={{
+                    width: '90%',
+                    boxShadow: '0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06)',
+                }}>
+                    <CardBody>
+                        <Creator/>
                     </CardBody>
                 </Card>
             }
