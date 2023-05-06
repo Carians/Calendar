@@ -15,8 +15,9 @@ export default function Creator(){
     const [modal, setModal] = useState(false);
     const [event, setEvent] = useState({title: '', description: '', start: '', end: ''})
     const [errors, setErrors] = useState({title: undefined, description: undefined, date: undefined})
-    // TODO zrobić zapobiganie tworzenia eventu
+
     const hasErrors = Object.values(errors).some((error) => error !== undefined)
+    const [submitError, setsubmitError] = useState('')
     const [events, setEvents] = useState([])
 
     
@@ -37,23 +38,29 @@ export default function Creator(){
         })
         setErrors(prevErrors =>{
             if(key === 'title'){
-                return{...prevErrors, 'title': val.length > 0 && val.length < 5 ? 'Tytuł jest zbyt krótki' : ''}
+                return{...prevErrors, 'title': val.length > 0 && val.length < 5 ? 'Tytuł jest zbyt krótki' : undefined}
             }
             else if(key === 'description'){
-                return{...prevErrors, 'description': val.length > 100 ? 'Opis jest za długi' : ''}
+                return{...prevErrors, 'description': val.length > 100 ? 'Opis jest za długi' : undefined}
             }
             else{
                 const startDate = key === 'start' ? val.getTime() : event.start.getTime()
                 const endDate = key === 'end' ? val.getTime() : event.end.getTime()
 
-                return{...prevErrors, 'date': startDate > endDate ? 'Data rozpoczęcia jest po dacie zakończenia' : ''}
+                return{...prevErrors, 'date': startDate > endDate ? 'Data rozpoczęcia jest po dacie zakończenia' : undefined}
             }
         })
     }
 
     function handleAddEvent(ev){
         ev.preventDefault()
-        setEvents(prevArray => [...prevArray, event])
+        if(!hasErrors && event.title !== '' && event.description !== ''){
+            setEvents(prevArray => [...prevArray, event])
+            setsubmitError('')
+        }
+        else{
+            setsubmitError('Nie można utworzyć takiego wydarzenia, sprawdź czy pola tytuł i opis nie są puste')
+        }
     }
 
     function renderEventContent(eventInfo){
@@ -132,6 +139,7 @@ export default function Creator(){
                         </FormGroup>
                         {errors.date && <p style={{color: 'red', fontSize: '90%'}}>{errors.date}</p>}
                     </Form>
+                    {submitError && <p style={{color: 'red', fontSize: '90%'}}>{submitError}</p>}
                 </Modal.Body>
                 <Modal.Footer>
                 <Button variant="secondary" onClick={handleAddEvent}>
