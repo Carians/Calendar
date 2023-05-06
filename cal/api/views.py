@@ -1,14 +1,13 @@
-from django.core.exceptions import ObjectDoesNotExist
+
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-from rest_framework import generics, permissions, serializers, status
+from rest_framework import generics, permissions, serializers
 from main.models import Calendar, Event
 from .serializers import CalendarSerializer, EventSerializer
 from .permissions import IsOwnerOrDenyAccess
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import make_password
 from .serializers import UserRegisterSerializer
 
@@ -113,11 +112,10 @@ class RegisterView(generics.CreateAPIView):
 
         serializer.save(password=make_password(self.request.data['password']))
 
-
+# TODO: Add autoremove token on password change
+# TODO: Add autoremove token on user delete
+# TODO: Add autoremove token after 30 days of inactivity
 class LogoutView(APIView):
-
-        permission_classes = [permissions.IsAuthenticated]
-
         def get(self, request):
             try:
                 request.user.auth_token.delete()
