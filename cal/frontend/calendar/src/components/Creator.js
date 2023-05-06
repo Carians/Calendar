@@ -14,17 +14,18 @@ export default function Creator(){
 
     const [modal, setModal] = useState(false);
     const [event, setEvent] = useState({title: '', description: '', start: '', end: ''})
+    const [errors, setErrors] = useState({title: undefined, description: undefined, date: undefined})
+    // TODO zrobić zapobiganie tworzenia eventu
+    const hasErrors = Object.values(errors).some((error) => error !== undefined)
     const [events, setEvents] = useState([])
 
     
     function dateClick(info){
         setModal(true)
-        console.log(event)
 
         const date = new Date(info.date)
         date.setDate(info.date.getDate()+1)
         setEvent({title: '', description: '', start: info.date, end: date})
-
     }
 
     function eventChange(val, key){
@@ -34,12 +35,25 @@ export default function Creator(){
                 [key]: val
             }
         })
+        setErrors(prevErrors =>{
+            if(key === 'title'){
+                return{...prevErrors, 'title': val.length > 0 && val.length < 5 ? 'Tytuł jest zbyt krótki' : ''}
+            }
+            else if(key === 'description'){
+                return{...prevErrors, 'description': val.length > 100 ? 'Opis jest za długi' : ''}
+            }
+            else{
+                const startDate = key === 'start' ? val.getTime() : event.start.getTime()
+                const endDate = key === 'end' ? val.getTime() : event.end.getTime()
+
+                return{...prevErrors, 'date': startDate > endDate ? 'Data rozpoczęcia jest po dacie zakończenia' : ''}
+            }
+        })
     }
 
     function handleAddEvent(ev){
-        setEvents(prevArray => [...prevArray, event])
-        console.log(events)
         ev.preventDefault()
+        setEvents(prevArray => [...prevArray, event])
     }
 
     function renderEventContent(eventInfo){
@@ -70,7 +84,7 @@ export default function Creator(){
                     initialView="dayGridMonth"
                     height={800}
                     dateClick={dateClick}
-                    themeSystem="jquery-ui"
+                    themeSystem="bootstrap5"
                     headerToolbar={{
                         start: 'title', 
                         center: '',
@@ -92,10 +106,12 @@ export default function Creator(){
                             <Label className="me-3">Nazwa</Label>
                             <Input type="text" placeholder="Nazwa" onChange={title => eventChange(title.target.value, 'title')}/>
                         </FormGroup>
+                        {errors.title && <p style={{color: 'red', fontSize: '90%'}}>{errors.title}</p>}
                         <FormGroup className="d-flex align-items-center flex-row">
                             <Label className="me-3">Opis</Label>
                             <Input type="textarea" placeholder="Opis" onChange={description => eventChange(description.target.value, 'description')}/>
                         </FormGroup>
+                        {errors.description && <p style={{color: 'red', fontSize: '90%'}}>{errors.description}</p>}
                         <FormGroup className="d-flex align-items-center flex-row">
                             <Label className="me-3">Data rozpoczęcia</Label>
                             <DatePicker
@@ -114,6 +130,7 @@ export default function Creator(){
                                 dateFormat="MMMM d, yyyy h:mm aa"
                             />
                         </FormGroup>
+                        {errors.date && <p style={{color: 'red', fontSize: '90%'}}>{errors.date}</p>}
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
