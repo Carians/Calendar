@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import './css/Main.css'
 
 import { Card, CardBody } from "reactstrap";
@@ -33,16 +33,21 @@ export default function Main(props){
         setFormSubmitted(true)
         const fetchdata = async() =>{
             const data = await loginUser(form)
-            setformError({
+            setformError(prevState => ({
+                ...prevState,
                 'username': data.username,
                 'password': data.password,
                 'non_field_errors': data.non_field_errors,
-            })
-            // TODO zrobić żeby nie odświeżała sie strona po błędnym logowaniu
-            window.location.href = '/'
+            }))
         }
         fetchdata()
     }
+
+    useEffect(() =>{
+        if(!hasErrors && formSubmitted){
+            window.location.href = '/'
+        }
+    }, [formError])
 
     return(
         <div className="main d-flex justify-content-center align-items-center">
