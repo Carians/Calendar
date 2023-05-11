@@ -1,4 +1,8 @@
-.fc {
-    text-decoration: none !important;
-  }
-  
+a{
+  text-decoration: none;
+  color: black;
+}
+
+.fc-daygrid-event{
+  border: 1px solid black;
+}

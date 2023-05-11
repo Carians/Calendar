@@ -13,6 +13,7 @@ import "react-datepicker/dist/react-datepicker.css";
 export default function Creator(){
 
     const [modal, setModal] = useState(false);
+    const [calendarModal, setCalendarModal] = useState(false)
     const [event, setEvent] = useState({title: '', description: '', start: '', end: ''})
     const [errors, setErrors] = useState({title: undefined, description: undefined, date: undefined})
 
@@ -23,6 +24,9 @@ export default function Creator(){
     
     function dateClick(info){
         setModal(true)
+        setEvent({...event, title: '', description: '', start: '', end: ''})
+        setErrors({...errors, title: undefined, description: undefined, date: undefined})
+        setsubmitError('')
 
         const date = new Date(info.date)
         date.setDate(info.date.getDate()+1)
@@ -37,11 +41,26 @@ export default function Creator(){
             }
         })
         setErrors(prevErrors =>{
+            const spaceRegex = /( )\1{1,}/g
+            const charsRegex = /[/.,[\]$#%^&*;:<>"\\()]/g
             if(key === 'title'){
-                return{...prevErrors, 'title': val.length > 0 && val.length < 5 ? 'Tytuł jest zbyt krótki' : undefined}
+                if(val.length > 0 && val.length < 5){
+                    return{...prevErrors, 'title': 'Tytuł jest zbyt krótki'}
+
+                }
+                if(spaceRegex.test(val)){
+                    return{...prevErrors, 'title': 'Usuń niepotrzebne spacje'}
+                }
+                if(charsRegex.test(val)){
+                    return{...prevErrors, 'title': 'Usuń niedozwolone znaki'}
+                }
+                return{...prevErrors, 'title': undefined}
             }
             else if(key === 'description'){
-                return{...prevErrors, 'description': val.length > 100 ? 'Opis jest za długi' : undefined}
+                if(val.length > 100){
+                    return{...prevErrors, 'description': 'Opis jest za długi'}
+                }
+                return{...prevErrors, 'description': undefined}
             }
             else{
                 const startDate = key === 'start' ? val.getTime() : event.start.getTime()
@@ -65,10 +84,10 @@ export default function Creator(){
 
     function renderEventContent(eventInfo){
         return(
-            <div className="border">
+            <div className="pe-3 ps-3">
                 <div className="d-flex justify-content-between align-items-start flex-row">
                     <h4>{eventInfo.event.title}</h4>
-                    <b>{eventInfo.timeText}</b>
+                    <b>{eventInfo.event.start.toLocaleTimeString()} - {eventInfo.event.end.toLocaleTimeString()}</b>
                 </div>
                 <div>
                     <p className="fs-6">{eventInfo.event.extendedProps.description}</p>
@@ -76,31 +95,44 @@ export default function Creator(){
             </div>
         )
     }
+
+    function openCalendar(){
+        setCalendarModal(true)
+        setEvent({...event, title: '', description: '', start: '', end: ''})
+        setErrors({...errors, title: undefined, description: undefined, date: undefined})
+        setsubmitError('')
+        console.log(event)
+    }
+
+    function createCalendar(ev){
+        ev.preventDefault()
+
+        console.log(submitError)
+    }
     
 
     return(
         <>
-            <div className="d-flex justify-content-start align-items-center flex-column ps-5">
-                <Form>
-                    <Input type="text"/>
-                </Form>
-            </div>  
             <div>
                 <FullCalendar
                     plugins={[ dayGridPlugin, interactionPlugin ]}
                     initialView="dayGridMonth"
                     height={800}
                     dateClick={dateClick}
-                    themeSystem="bootstrap5"
                     headerToolbar={{
                         start: 'title', 
                         center: '',
                         end: 'today prev,next' 
                         }}
-                    eventBackgroundColor="#ff0000"
+                    eventBackgroundColor="#ffffff"
+                    eventDisplay="auto"
                     events={events}
                     eventContent={renderEventContent}
-                    />
+                    dayMaxEvents={3}
+                />
+                <div style={{height: '10vh'}} className="d-flex justify-content-end align-items-center pe-4">
+                    <Button onClick={openCalendar} className="upload-btn bg-secondary border border-1"><h5>Utwórz</h5></Button>    
+                </div>
             </div>
 
             <Modal show={modal} onHide={()=>{setModal(false)}}>
@@ -144,6 +176,32 @@ export default function Creator(){
                 <Modal.Footer>
                 <Button variant="secondary" onClick={handleAddEvent}>
                     Dodaj
+                </Button>
+                </Modal.Footer>
+            </Modal>
+
+            <Modal show={calendarModal} onHide={()=>{setCalendarModal(false)}}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Utwórz kalendarz</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form onSubmit={createCalendar} className="d-flex justify-content-center align-items-center flex-column">
+                        <FormGroup className="d-flex align-items-center flex-row">
+                            <Label className="me-3">Nazwa</Label>
+                            <Input type="text" placeholder="Nazwa" onChange={title => eventChange(title.target.value, 'title')}/>
+                        </FormGroup>
+                        {errors.title && <p style={{color: 'red', fontSize: '90%'}}>{errors.title}</p>}
+                        <FormGroup className="d-flex align-items-center flex-row">
+                            <Label className="me-3">Opis</Label>
+                            <Input type="textarea" placeholder="Opis" onChange={description => eventChange(description.target.value, 'description')}/>
+                        </FormGroup>
+                        {errors.description && <p style={{color: 'red', fontSize: '90%'}}>{errors.description}</p>}
+                    </Form>
+                    {submitError && <p style={{color: 'red', fontSize: '90%'}}>{submitError}</p>}
+                </Modal.Body>
+                <Modal.Footer>
+                <Button variant="secondary" onClick={createCalendar}>
+                    Utwórz
                 </Button>
                 </Modal.Footer>
             </Modal>
