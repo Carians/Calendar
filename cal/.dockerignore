@@ -1,0 +1,6 @@
+.idea
+.git
+main/migrations
+.dockerignore
+.gitignore
+```

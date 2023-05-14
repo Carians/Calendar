@@ -1,0 +1,14 @@
+services:
+  frontend:
+    image: carians/calendar-frontend
+    ports:
+      - 80:3000
+    depends_on:
+      - backend
+  backend:
+    image: carians/calendar-backend
+    volumes:
+      - backend-data:/app
+
+volumes:
+    backend-data:
