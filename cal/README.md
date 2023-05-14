@@ -38,6 +38,17 @@ API zostało zaimplementowane przy użyciu Django Rest Framework (DRF). Dokument
 
 http://localhost:8000/api/
 
+# Uruchomienie lokalnie projektu z użyciem Dockera
+
+Aby uruchomić projekt lokalnie, należy sklonować repozytorium ```git clone``` i zainstalować [docker.](https://www.docker.com)
+Przechodzimy do katalogu z projektem i uruchamiamy komendę:
+
+```docker-compose --file docker-compose-demo.yaml up -d```
+
+Po zakończeniu pracy możemy wyłączyć aplikację komendą:
+
+```docker-compose --file docker-compose-demo.yaml down```
+
 # Autorzy
 - [@CarianS (Krzysztof Kasperek) ](https://github.com/Carians)
 - [@Michal-Pilarski](https://github.com/Michal-Pilarski)
