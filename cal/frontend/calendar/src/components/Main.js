@@ -50,58 +50,60 @@ export default function Main(props){
     }, [formError])
 
     return(
-        <div className="main d-flex justify-content-center align-items-center">
-
+        <>
             {!props.session &&
-                <Card style={{
-                    width: '25%',
-                    boxShadow: '0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06)',
-                }}>
-                    <CardBody>
-                        <Form onSubmit={handleForm}> 
-                            <p>Logowanie</p>
-                            <FormGroup className="d-flex flex-column">
-                                <Input type="text" name="username" placeholder="Enter username" onChange={handleForm}/>
-                                {formError.username && <p style={{color: 'red', fontSize: '60%'}}>{formError.username}</p>}
-                            </FormGroup>
-                            <FormGroup className="d-flex flex-column">
-                                <Input type="password" name="password" placeholder="Enter password" onChange={handleForm}/>
-                                {formError.password && <p style={{color: 'red', fontSize: '60%'}}>{formError.password}</p>}
-                            </FormGroup>
-                            <FormGroup>
-                                <Button className="submit-btn bg-primary" onClick={handleLogin}>
-                                    <h6 className="linked">Zaloguj się</h6>
-                                </Button>
-                                {(hasErrors && formSubmitted) && <p style={{color: 'red', fontSize: '60%'}}>Nieprawidłowe hasło lub nazwa użytkownika</p>}
-                                {(!hasErrors && formSubmitted) && <p style={{color: 'green', fontSize: '60%'}}>Zalogowano pomyślnie!</p>} 
-                            </FormGroup>
-                            <div><a style={{fontSize: '50%'}} href="/">Nie pamiętasz hasła?</a></div>
-                            <hr></hr>
-                            <Button className="submit-btn bg-success">
-                                <h6><Link to='register' className="linked">Utwórz nowe konto</Link></h6>
-                            </Button>
-                        </Form>
-                    </CardBody>
-                </Card>
-            }
-
-            {props.session &&
-                <div className="d-flex justify-content-center align-items-center" style={{
-                        width: '90%',
-                        height: '120vh',
-                    }}>
+                <div className="main d-flex justify-content-center align-items-center">
                     <Card style={{
-                        width: '100%',
-                        height: '100vh',
+                        width: '25%',
                         boxShadow: '0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06)',
                     }}>
                         <CardBody>
-                            <Creator/>
+                            <Form onSubmit={handleForm}> 
+                                <p className="fs-3">Logowanie</p>
+                                <FormGroup className="d-flex flex-column">
+                                    <Input type="text" name="username" placeholder="Enter username" onChange={handleForm}/>
+                                    {formError.username && <p style={{color: 'red'}}>{formError.username}</p>}
+                                </FormGroup>
+                                <FormGroup className="d-flex flex-column">
+                                    <Input type="password" name="password" placeholder="Enter password" onChange={handleForm}/>
+                                    {formError.password && <p style={{color: 'red'}}>{formError.password}</p>}
+                                </FormGroup>
+                                <FormGroup>
+                                    <Button className="submit-btn bg-primary" onClick={handleLogin}>
+                                        <h6 className="linked">Zaloguj się</h6>
+                                    </Button>
+                                    {(hasErrors && formSubmitted) && <p style={{color: 'red'}}>Nieprawidłowe hasło lub nazwa użytkownika</p>}
+                                    {(!hasErrors && formSubmitted) && <p style={{color: 'green'}}>Zalogowano pomyślnie!</p>} 
+                                </FormGroup>
+                                <div><a className="a-underline" href="/">Nie pamiętasz hasła?</a></div>
+                                <hr></hr>
+                                <Button className="submit-btn bg-success">
+                                    <h6><Link to='register' className="linked">Utwórz nowe konto</Link></h6>
+                                </Button>
+                            </Form>
                         </CardBody>
                     </Card>
                 </div>
             }
 
-        </div>
+                {props.session &&
+                    <div className="d-flex justify-content-center align-items-center">
+                        <div className="d-flex justify-content-center align-items-center " style={{
+                                width: '90%',
+                                height: '120vh',
+                            }}>
+                            <Card style={{
+                                width: '100%',
+                                height: '100vh',
+                                boxShadow: '0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06)',
+                            }}>
+                                <CardBody>
+                                    <Creator/>
+                                </CardBody>
+                            </Card>
+                        </div>
+                    </div>
+                }
+        </>
     )
 }

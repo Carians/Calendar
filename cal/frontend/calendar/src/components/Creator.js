@@ -9,28 +9,32 @@ import { Modal, Button } from "react-bootstrap";
 import { Form, FormGroup, Input, Label } from "reactstrap";
 import "react-datepicker/dist/react-datepicker.css";
 
+import EventModify from "./EventModify";
 
-export default function Creator(){
+
+export default function Creator(props){
 
     const [modal, setModal] = useState(false);
+    const [modifyModal, setmodifyModal] = useState(false)
     const [calendarModal, setCalendarModal] = useState(false)
-    const [event, setEvent] = useState({title: '', description: '', start: '', end: ''})
+    const [event, setEvent] = useState({title: '', description: '', start: '', end: '', id: 0})
+    const [modifiedEvent, setmodifiedEvent] = useState({title: '', description: '', start: '', end: '', id: 0})
     const [errors, setErrors] = useState({title: undefined, description: undefined, date: undefined})
 
     const hasErrors = Object.values(errors).some((error) => error !== undefined)
     const [submitError, setsubmitError] = useState('')
     const [events, setEvents] = useState([])
+    const [calendar, setCalendar] = useState('')
 
     
     function dateClick(info){
         setModal(true)
-        setEvent({...event, title: '', description: '', start: '', end: ''})
         setErrors({...errors, title: undefined, description: undefined, date: undefined})
         setsubmitError('')
 
         const date = new Date(info.date)
         date.setDate(info.date.getDate()+1)
-        setEvent({title: '', description: '', start: info.date, end: date})
+        setEvent(prevEvent => {return {...prevEvent, title: '', description: '', start: info.date, end: date}})
     }
 
     function eventChange(val, key){
@@ -40,6 +44,7 @@ export default function Creator(){
                 [key]: val
             }
         })
+        
         setErrors(prevErrors =>{
             const spaceRegex = /( )\1{1,}/g
             const charsRegex = /[/.,[\]$#%^&*;:<>"\\()]/g
@@ -62,6 +67,9 @@ export default function Creator(){
                 }
                 return{...prevErrors, 'description': undefined}
             }
+            else if(key === 'id'){
+                return{...prevErrors}
+            }
             else{
                 const startDate = key === 'start' ? val.getTime() : event.start.getTime()
                 const endDate = key === 'end' ? val.getTime() : event.end.getTime()
@@ -74,17 +82,25 @@ export default function Creator(){
     function handleAddEvent(ev){
         ev.preventDefault()
         if(!hasErrors && event.title !== '' && event.description !== ''){
+            setEvent(prevEvent => {return{...prevEvent, id: events.length+1}})
             setEvents(prevArray => [...prevArray, event])
             setsubmitError('')
+            setModal(false)
         }
         else{
             setsubmitError('Nie można utworzyć takiego wydarzenia, sprawdź czy pola tytuł i opis nie są puste')
         }
     }
+    
+    function setEventToModify(eventInfo){
+        setmodifyModal(true)
+        setmodifiedEvent({title: eventInfo.event.title, description: eventInfo.event.extendedProps.description, start: eventInfo.event.start, end: eventInfo.event.end, id: eventInfo.event.id})
+    }
 
+    // TODO rozwala się przy zmianie na więcej niż 1 dniowy event
     function renderEventContent(eventInfo){
         return(
-            <div className="pe-3 ps-3">
+            <div onClick={() => setEventToModify(eventInfo)} className="pe-3 ps-3">
                 <div className="d-flex justify-content-between align-items-start flex-row">
                     <h4>{eventInfo.event.title}</h4>
                     <b>{eventInfo.event.start.toLocaleTimeString()} - {eventInfo.event.end.toLocaleTimeString()}</b>
@@ -98,16 +114,19 @@ export default function Creator(){
 
     function openCalendar(){
         setCalendarModal(true)
-        setEvent({...event, title: '', description: '', start: '', end: ''})
+        //setEvent({...event, title: '', description: '', start: '', end: '', id: ''})
         setErrors({...errors, title: undefined, description: undefined, date: undefined})
         setsubmitError('')
-        console.log(event)
     }
 
     function createCalendar(ev){
         ev.preventDefault()
-
-        console.log(submitError)
+        if(!hasErrors && event.title !== '' && event.description !== ''){
+            setsubmitError('')
+        }
+        else{
+            setsubmitError('Nie można utworzyć takiego wydarzenia, sprawdź czy pola tytuł i opis nie są puste')
+        }
     }
     
 
@@ -179,6 +198,8 @@ export default function Creator(){
                 </Button>
                 </Modal.Footer>
             </Modal>
+
+            <EventModify eventInfo={modifiedEvent} events={events} setEvents={setEvents} modal={modifyModal} setModal={setmodifyModal}/>
 
             <Modal show={calendarModal} onHide={()=>{setCalendarModal(false)}}>
                 <Modal.Header closeButton>
