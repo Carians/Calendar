@@ -10,13 +10,13 @@ import { Form, FormGroup, Input, Label } from "reactstrap";
 import "react-datepicker/dist/react-datepicker.css";
 
 import EventModify from "./EventModify";
+import CreateCalendar from "./createCalendar";
 
 
 export default function Creator(props){
 
     const [modal, setModal] = useState(false);
     const [modifyModal, setmodifyModal] = useState(false)
-    const [calendarModal, setCalendarModal] = useState(false)
     const [event, setEvent] = useState({title: '', description: '', start: '', end: '', id: 0})
     const [modifiedEvent, setmodifiedEvent] = useState({title: '', description: '', start: '', end: '', id: 0})
     const [errors, setErrors] = useState({title: undefined, description: undefined, date: undefined})
@@ -24,7 +24,6 @@ export default function Creator(props){
     const hasErrors = Object.values(errors).some((error) => error !== undefined)
     const [submitError, setsubmitError] = useState('')
     const [events, setEvents] = useState([])
-    const [calendar, setCalendar] = useState('')
 
     
     function dateClick(info){
@@ -100,7 +99,7 @@ export default function Creator(props){
     // TODO rozwala się przy zmianie na więcej niż 1 dniowy event
     function renderEventContent(eventInfo){
         return(
-            <div onClick={() => setEventToModify(eventInfo)} className="pe-3 ps-3">
+            <div onClick={() => setEventToModify(eventInfo)} className="text-dark cursor-pointer pe-3 ps-3">
                 <div className="d-flex justify-content-between align-items-start flex-row">
                     <h4>{eventInfo.event.title}</h4>
                     <b>{eventInfo.event.start.toLocaleTimeString()} - {eventInfo.event.end.toLocaleTimeString()}</b>
@@ -110,23 +109,6 @@ export default function Creator(props){
                 </div>
             </div>
         )
-    }
-
-    function openCalendar(){
-        setCalendarModal(true)
-        //setEvent({...event, title: '', description: '', start: '', end: '', id: ''})
-        setErrors({...errors, title: undefined, description: undefined, date: undefined})
-        setsubmitError('')
-    }
-
-    function createCalendar(ev){
-        ev.preventDefault()
-        if(!hasErrors && event.title !== '' && event.description !== ''){
-            setsubmitError('')
-        }
-        else{
-            setsubmitError('Nie można utworzyć takiego wydarzenia, sprawdź czy pola tytuł i opis nie są puste')
-        }
     }
     
 
@@ -149,9 +131,7 @@ export default function Creator(props){
                     eventContent={renderEventContent}
                     dayMaxEvents={3}
                 />
-                <div style={{height: '10vh'}} className="d-flex justify-content-end align-items-center pe-4">
-                    <Button onClick={openCalendar} className="upload-btn bg-secondary border border-1"><h5>Utwórz</h5></Button>    
-                </div>
+                
             </div>
 
             <Modal show={modal} onHide={()=>{setModal(false)}}>
@@ -201,31 +181,7 @@ export default function Creator(props){
 
             <EventModify eventInfo={modifiedEvent} events={events} setEvents={setEvents} modal={modifyModal} setModal={setmodifyModal}/>
 
-            <Modal show={calendarModal} onHide={()=>{setCalendarModal(false)}}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Utwórz kalendarz</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Form onSubmit={createCalendar} className="d-flex justify-content-center align-items-center flex-column">
-                        <FormGroup className="d-flex align-items-center flex-row">
-                            <Label className="me-3">Nazwa</Label>
-                            <Input type="text" placeholder="Nazwa" onChange={title => eventChange(title.target.value, 'title')}/>
-                        </FormGroup>
-                        {errors.title && <p style={{color: 'red', fontSize: '90%'}}>{errors.title}</p>}
-                        <FormGroup className="d-flex align-items-center flex-row">
-                            <Label className="me-3">Opis</Label>
-                            <Input type="textarea" placeholder="Opis" onChange={description => eventChange(description.target.value, 'description')}/>
-                        </FormGroup>
-                        {errors.description && <p style={{color: 'red', fontSize: '90%'}}>{errors.description}</p>}
-                    </Form>
-                    {submitError && <p style={{color: 'red', fontSize: '90%'}}>{submitError}</p>}
-                </Modal.Body>
-                <Modal.Footer>
-                <Button variant="secondary" onClick={createCalendar}>
-                    Utwórz
-                </Button>
-                </Modal.Footer>
-            </Modal>
+            <CreateCalendar eventInfo={modifiedEvent} events={events} setEvents={setEvents} modal={modifyModal} setModal={setmodifyModal}/>
 
         </>
     )
