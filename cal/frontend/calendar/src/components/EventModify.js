@@ -1,40 +1,28 @@
-import React, { useState } from "react";
-import FullCalendar from '@fullcalendar/react'
-import dayGridPlugin from '@fullcalendar/daygrid'
-import interactionPlugin from "@fullcalendar/interaction"
+import React, { useState, useEffect } from "react";
 import DatePicker from 'react-datepicker'
 
 import './css/Creator.css'
 import { Modal, Button } from "react-bootstrap";
 import { Form, FormGroup, Input, Label } from "reactstrap";
-import "react-datepicker/dist/react-datepicker.css";
-
-import EventModify from "./EventModify";
-import CreateCalendar from "./createCalendar";
 
 
-export default function Creator(props){
+export default function EventModify(props){
 
-    const [modal, setModal] = useState(false);
-    const [modifyModal, setmodifyModal] = useState(false)
+
     const [event, setEvent] = useState({title: '', description: '', start: '', end: '', id: 0})
-    const [modifiedEvent, setmodifiedEvent] = useState({title: '', description: '', start: '', end: '', id: 0})
     const [errors, setErrors] = useState({title: undefined, description: undefined, date: undefined})
-
     const hasErrors = Object.values(errors).some((error) => error !== undefined)
     const [submitError, setsubmitError] = useState('')
-    const [events, setEvents] = useState([])
-
     
-    function dateClick(info){
-        setModal(true)
-        setErrors({...errors, title: undefined, description: undefined, date: undefined})
-        setsubmitError('')
+    // function modifiedEvent(eventInfo){
+    //     setmodifyModal(true)
+    //     setEvent(prevEvent => {return{...prevEvent ,title: eventInfo.event.title, description: eventInfo.event.extendedProps.description, start: eventInfo.event.start, end: eventInfo.event.end, id: eventInfo.event.id}})
+    // }
 
-        const date = new Date(info.date)
-        date.setDate(info.date.getDate()+1)
-        setEvent(prevEvent => {return {...prevEvent, title: '', description: '', start: info.date, end: date}})
-    }
+    useEffect(()=>{
+        setEvent(prevEvent => {return{...prevEvent ,title: props.eventInfo.title, description: props.eventInfo.description, start: props.eventInfo.start, end: props.eventInfo.end, id: props.eventInfo.id}})
+
+    }, [props.modal])
 
     function eventChange(val, key){
         setEvent(prevForm =>{
@@ -78,76 +66,38 @@ export default function Creator(props){
         })
     }
 
-    function handleAddEvent(ev){
+    function addModifiedEvent(ev){
         ev.preventDefault()
+
         if(!hasErrors && event.title !== '' && event.description !== ''){
-            setEvent(prevEvent => {return{...prevEvent, id: events.length+1}})
-            setEvents(prevArray => [...prevArray, event])
+            props.setEvents(prevEvents =>{
+                return prevEvents.map(e =>{
+                    return e.id.toString() === event.id ? event : e
+                })
+            })
             setsubmitError('')
-            setModal(false)
         }
         else{
             setsubmitError('Nie można utworzyć takiego wydarzenia, sprawdź czy pola tytuł i opis nie są puste')
         }
     }
-    
-    function setEventToModify(eventInfo){
-        setmodifyModal(true)
-        setmodifiedEvent({title: eventInfo.event.title, description: eventInfo.event.extendedProps.description, start: eventInfo.event.start, end: eventInfo.event.end, id: eventInfo.event.id})
-    }
-
-
-    function renderEventContent(eventInfo){
-        return(
-            <div onClick={() => setEventToModify(eventInfo)} className="text-dark cursor-pointer pe-3 ps-3">
-                <div className="d-flex justify-content-between align-items-start flex-row">
-                    <h4>{eventInfo.event.title}</h4>
-                    <b>{eventInfo.event.start.toLocaleTimeString()} - {eventInfo.event.end.toLocaleTimeString()}</b>
-                </div>
-                <div>
-                    <p className="fs-6">{eventInfo.event.extendedProps.description}</p>
-                </div>
-            </div>
-        )
-    }
-    
 
     return(
         <>
-            <div>
-                <FullCalendar
-                    plugins={[ dayGridPlugin, interactionPlugin ]}
-                    initialView="dayGridMonth"
-                    height={800}
-                    dateClick={dateClick}
-                    headerToolbar={{
-                        start: 'title', 
-                        center: '',
-                        end: 'today prev,next' 
-                        }}
-                    eventBackgroundColor="#ffffff"
-                    eventDisplay="auto"
-                    events={events}
-                    eventContent={renderEventContent}
-                    dayMaxEvents={3}
-                />
-                
-            </div>
-
-            <Modal show={modal} onHide={()=>{setModal(false)}}>
+            <Modal show={props.modal} onHide={()=>{props.setModal(false)}}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Dodaj wydarzenie</Modal.Title>
+                    <Modal.Title>Wydarzenie</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form onSubmit={handleAddEvent} className="d-flex justify-content-center align-items-center flex-column">
+                    <Form onSubmit={addModifiedEvent} className="d-flex justify-content-center align-items-center flex-column">
                         <FormGroup className="d-flex align-items-center flex-row">
                             <Label className="me-3">Nazwa</Label>
-                            <Input type="text" placeholder="Nazwa" onChange={title => eventChange(title.target.value, 'title')}/>
+                            <Input type="text" placeholder="Nazwa" onChange={title => eventChange(title.target.value, 'title')} value={event.title}/>
                         </FormGroup>
                         {errors.title && <p style={{color: 'red', fontSize: '90%'}}>{errors.title}</p>}
                         <FormGroup className="d-flex align-items-center flex-row">
                             <Label className="me-3">Opis</Label>
-                            <Input type="textarea" placeholder="Opis" onChange={description => eventChange(description.target.value, 'description')}/>
+                            <Input type="textarea" placeholder="Opis" onChange={description => eventChange(description.target.value, 'description')} value={event.description}/>
                         </FormGroup>
                         {errors.description && <p style={{color: 'red', fontSize: '90%'}}>{errors.description}</p>}
                         <FormGroup className="d-flex align-items-center flex-row">
@@ -173,16 +123,9 @@ export default function Creator(props){
                     {submitError && <p style={{color: 'red', fontSize: '90%'}}>{submitError}</p>}
                 </Modal.Body>
                 <Modal.Footer>
-                <Button variant="secondary" onClick={handleAddEvent}>
-                    Dodaj
-                </Button>
+                <Button variant="secondary" onClick={addModifiedEvent}>Zaktualizuj</Button>
                 </Modal.Footer>
             </Modal>
-
-            <EventModify eventInfo={modifiedEvent} events={events} setEvents={setEvents} modal={modifyModal} setModal={setmodifyModal}/>
-
-            <CreateCalendar events={events} setEvents={setEvents}/>
-
         </>
     )
 }
