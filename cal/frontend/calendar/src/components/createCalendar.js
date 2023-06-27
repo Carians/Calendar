@@ -3,19 +3,22 @@ import React, {useState} from "react"
 import { Modal, Button } from "react-bootstrap";
 import { Form, FormGroup, Input, Label } from "reactstrap";
 
-export default function CreateCalendar(){
+import { registerEvent, registerCalendar, getEvents } from "../Data";
+
+export default function CreateCalendar(props){
 
     const [calendarModal, setCalendarModal] = useState(false)
     const [calendar, setCalendar] = useState({title: '', description: ''})
 
-    const [errors, setErrors] = useState({title: undefined, description: undefined, date: undefined})
+    const [events, setEvents] = useState([]) // array of events id's
+
+    const [errors, setErrors] = useState({title: undefined, description: undefined})
     const [submitError, setsubmitError] = useState('')
     const hasErrors = Object.values(errors).some((error) => error !== undefined)
 
     function openCalendar(){
         setCalendarModal(true)
-        //setEvent({...event, title: '', description: '', start: '', end: '', id: ''})
-        setErrors({...errors, title: undefined, description: undefined, date: undefined})
+        setErrors({...errors, title: undefined, description: undefined})
         setsubmitError('')
     }
 
@@ -23,12 +26,28 @@ export default function CreateCalendar(){
         ev.preventDefault()
         if(!hasErrors && calendar.title !== '' && calendar.description !== ''){
             setsubmitError('')
-            console.log(calendar)
+            setCalendarModal(false)
+
+            // api events
+            const fetchdata = async() =>{
+                let evs = []
+                for(const event of props.events){
+                    const data = await registerEvent(event)
+                    evs.push(data.id)
+                }
+
+                const data = await registerCalendar(calendar, evs)
+
+    
+            }
+            fetchdata()
+
         }
         else{
             setsubmitError('Nie można utworzyć takiego wydarzenia, sprawdź czy pola tytuł i opis nie są puste')
         }
     }
+    
 
     function calendarChange(val, key){
         setCalendar(prevForm =>{

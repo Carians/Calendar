@@ -96,7 +96,7 @@ export default function Creator(props){
         setmodifiedEvent({title: eventInfo.event.title, description: eventInfo.event.extendedProps.description, start: eventInfo.event.start, end: eventInfo.event.end, id: eventInfo.event.id})
     }
 
-    // TODO rozwala się przy zmianie na więcej niż 1 dniowy event
+
     function renderEventContent(eventInfo){
         return(
             <div onClick={() => setEventToModify(eventInfo)} className="text-dark cursor-pointer pe-3 ps-3">
@@ -181,7 +181,7 @@ export default function Creator(props){
 
             <EventModify eventInfo={modifiedEvent} events={events} setEvents={setEvents} modal={modifyModal} setModal={setmodifyModal}/>
 
-            <CreateCalendar eventInfo={modifiedEvent} events={events} setEvents={setEvents} modal={modifyModal} setModal={setmodifyModal}/>
+            <CreateCalendar events={events} setEvents={setEvents}/>
 
         </>
     )
