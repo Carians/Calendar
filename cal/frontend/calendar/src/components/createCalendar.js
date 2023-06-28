@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
 
 import { Modal, Button } from "react-bootstrap";
 import { Form, FormGroup, Input, Label } from "reactstrap";
@@ -13,6 +13,8 @@ export default function CreateCalendar(props){
     const [errors, setErrors] = useState({title: undefined, description: undefined})
     const [submitError, setsubmitError] = useState('')
     const hasErrors = Object.values(errors).some((error) => error !== undefined)
+
+    const [isModifying, setIsModifying] = useState(false)
 
     function openCalendar(){
         setCalendarModal(true)
@@ -78,6 +80,12 @@ export default function CreateCalendar(props){
         })
     }
 
+    useEffect(() =>{
+        const calInfo = localStorage.getItem('calInfo')
+        JSON.parse(calInfo)
+        calInfo === null ? setIsModifying(false) : setIsModifying(true)
+    })
+    //TODO BUtton
     return(
         <>
             <div style={{height: '10vh'}} className="d-flex justify-content-end align-items-center pe-4">
@@ -103,9 +111,9 @@ export default function CreateCalendar(props){
                     {submitError && <p style={{color: 'red', fontSize: '90%'}}>{submitError}</p>}
                 </Modal.Body>
                 <Modal.Footer>
-                <Button variant="secondary" onClick={createCalendar}>
+                {!isModifying && <Button variant="secondary" onClick={createCalendar}>
                     Utwórz
-                </Button>
+                </Button>}
                 </Modal.Footer>
             </Modal>
         </>

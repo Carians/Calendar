@@ -26,7 +26,9 @@ function Calendars() {
     fetchdata()
   }, [session])
 
-  console.log(calendars)
+  function setCalendarInfo(cal){
+    typeof cal === "object" ? localStorage.setItem('calInfo', JSON.stringify(cal)) : localStorage.setItem('calInfo', null)
+  }
 
   return (
     <>
@@ -37,14 +39,14 @@ function Calendars() {
           <div className='row row-cols-xl-2'>
 
             <div className='col cal-style m-4 d-flex justify-content-center align-items-center'>
-              <Link to={'/'}>
+              <Link onClick={() => setCalendarInfo(0)} to={'/'}>
                 <FilePlus size={50} />
               </Link>
             </div>
 
             {calendars.map((cal) =>(
               <div className='col cal-style m-4'>
-                <Link to={'/'} className='d-flex flex-column'>
+                <Link onClick={() => setCalendarInfo(cal)} to={'/'} className='d-flex flex-column'>
                   <p><b>Calendar: </b>{cal.name}</p>
                   <div>{cal.description}</div>
                   <p><b>Created: </b>{cal.date_created.toLocaleString()}</p>
