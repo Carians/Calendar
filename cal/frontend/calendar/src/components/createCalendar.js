@@ -3,14 +3,12 @@ import React, {useState} from "react"
 import { Modal, Button } from "react-bootstrap";
 import { Form, FormGroup, Input, Label } from "reactstrap";
 
-import { registerEvent, registerCalendar, getEvents } from "../Data";
+import { registerEvent, registerCalendar } from "../Data";
 
 export default function CreateCalendar(props){
 
     const [calendarModal, setCalendarModal] = useState(false)
     const [calendar, setCalendar] = useState({title: '', description: ''})
-
-    const [events, setEvents] = useState([]) // array of events id's
 
     const [errors, setErrors] = useState({title: undefined, description: undefined})
     const [submitError, setsubmitError] = useState('')
@@ -37,8 +35,6 @@ export default function CreateCalendar(props){
                 }
 
                 const data = await registerCalendar(calendar, evs)
-
-    
             }
             fetchdata()
 

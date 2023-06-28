@@ -4,22 +4,24 @@
 }
 
 .card-style{
-    width: 90%;
-    height: 75%;
+    margin: 0;
+    height: auto;
     box-shadow: '0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06)';
     background-color: #DFE0E2;
 }
 
 .cal-style{
     position: relative;
-    width: 15%;
-    height: 50%;
+    width: 15vw;
+    height: 40vh;
     box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
     background-color: white;
     border-radius: 20px;
 }
 
 .cal-style:hover{
+    color: black;
+    cursor: pointer;
     transform: scale(1.05);
     transition: transform 0.3s ease;
     will-change: transform;

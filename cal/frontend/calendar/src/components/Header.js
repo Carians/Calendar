@@ -45,7 +45,7 @@ export default function Header(props){
                             {!props.session && 
                             <div className="d-flex justify-content-center h-100 flex-column">
                                     <p>Nie jesteś zalogowany</p>
-                                    <Link to={'/'}>Zaloguj się</Link>
+                                    <Link to={'/'} className="text-primary">Zaloguj się</Link>
                                 </div>
                             }
                             {/* if Logged */}

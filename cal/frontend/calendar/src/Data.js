@@ -130,7 +130,6 @@ const getEvents = async () =>{
 }
 
 const registerCalendar = async (calendar, events) =>{
-  console.log(calendar, events)
   const url = window.location.origin + '/api/calendars/'
   const csrf = getCookie('csrftoken')
   const token = window.sessionStorage.getItem('sessionid')
@@ -154,5 +153,24 @@ const registerCalendar = async (calendar, events) =>{
   return data
 }
 
+const getCalendars = async () =>{
+  const url = window.location.origin + '/api/calendars/'
+  const csrf = getCookie('csrftoken')
+  const token = window.sessionStorage.getItem('sessionid')
 
-export {getUserData, registerUser, loginUser, logOutUser, registerEvent, registerCalendar, getEvents}
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Accept': 'application/json, application/x-www-form-urlencoded, multipart/form-data',
+      'Content-Type': 'application/json',
+      'X-CSRFToken': csrf
+    }
+  })
+  
+  const data = await response.json()
+  return data
+}
+
+
+export {getUserData, registerUser, loginUser, logOutUser, registerEvent, registerCalendar, getEvents, getCalendars}
