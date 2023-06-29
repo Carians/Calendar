@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from "@fullcalendar/interaction"
@@ -11,6 +11,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import EventModify from "./EventModify";
 import CreateCalendar from "./createCalendar";
+import { getEvents } from "../Data";
 
 
 export default function Creator(props){
@@ -24,6 +25,10 @@ export default function Creator(props){
     const hasErrors = Object.values(errors).some((error) => error !== undefined)
     const [submitError, setsubmitError] = useState('')
     const [events, setEvents] = useState([])
+
+    //TODO Modifying
+    const [isModifying, setIsModifying] = useState(false)
+    const [calendar, setCalendar] = useState()
 
     
     function dateClick(info){
@@ -110,10 +115,43 @@ export default function Creator(props){
             </div>
         )
     }
+
+    useEffect(() =>{
+        let calInfo = localStorage.getItem('calInfo')
+        calInfo = JSON.parse(calInfo)
+        if(!calInfo){
+            setIsModifying(false)
+        } 
+        else{
+            setIsModifying(true)
+            let calEvents = []
+
+            setCalendar(calInfo.name)
+            const fetchdata = async() =>{
+                const data = await getEvents()
+                calEvents = data.results
+                .filter(ev =>calInfo.events.includes(ev.id))
+                .map(ev =>({
+                    title: ev.name,
+                    description: ev.description,
+                    start: ev.start_time,
+                    end: ev.end_time
+                }))
+            }
+            fetchdata()
+            .then(()=>{
+                setEvents(calEvents)
+            })
+        }
+    
+    }, [])
     
 
     return(
         <>
+            <div>
+                {isModifying && <p>Showing current calendar: {calendar}</p>}
+            </div>
             <div>
                 <FullCalendar
                     plugins={[ dayGridPlugin, interactionPlugin ]}

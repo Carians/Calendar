@@ -45,7 +45,7 @@ export default function Header(props){
                             {!props.session && 
                             <div className="d-flex justify-content-center h-100 flex-column">
                                     <p>Nie jesteś zalogowany</p>
-                                    <Link to={'/'}>Zaloguj się</Link>
+                                    <Link to={'/'} className="text-primary">Zaloguj się</Link>
                                 </div>
                             }
                             {/* if Logged */}
@@ -63,14 +63,14 @@ export default function Header(props){
                                             <Calendar2Week size={30}/>
                                             <p className="ms-3 mt-3 fs-4">Kalendarze</p>
                                         </Link>
-                                        <div style={{height: '7vh'}} className="linked dropdown-hover d-flex justify-content-start align-items-center flex-row ps-5"> 
+                                        <Link to={'/'} style={{height: '7vh'}} className="linked dropdown-hover d-flex justify-content-start align-items-center flex-row ps-5"> 
                                             <Person size={30}/>
                                             <p className="ms-3 mt-3 fs-4">Moje konto</p>
-                                        </div>
-                                        <div style={{height: '7vh'}} className="linked dropdown-hover d-flex justify-content-start align-items-center flex-row ps-5"> 
+                                        </Link>
+                                        <Link to={'/settings'} style={{height: '7vh'}} className="linked dropdown-hover d-flex justify-content-start align-items-center flex-row ps-5"> 
                                             <Gear size={30}/>
                                             <p className="ms-3 mt-3 fs-4">Ustawienia</p>
-                                        </div>
+                                        </Link>
                                         <div onClick={logOut} style={{height: '7vh'}} className="linked dropdown-hover d-flex justify-content-start align-items-center flex-row ps-5"> 
                                             <BoxArrowRight size={30}/>
                                             <p className="ms-3 mt-3 fs-4">Wyloguj się</p>

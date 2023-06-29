@@ -1,20 +1,20 @@
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
 
 import { Modal, Button } from "react-bootstrap";
 import { Form, FormGroup, Input, Label } from "reactstrap";
 
-import { registerEvent, registerCalendar, getEvents } from "../Data";
+import { registerEvent, registerCalendar } from "../Data";
 
 export default function CreateCalendar(props){
 
     const [calendarModal, setCalendarModal] = useState(false)
     const [calendar, setCalendar] = useState({title: '', description: ''})
 
-    const [events, setEvents] = useState([]) // array of events id's
-
     const [errors, setErrors] = useState({title: undefined, description: undefined})
     const [submitError, setsubmitError] = useState('')
     const hasErrors = Object.values(errors).some((error) => error !== undefined)
+
+    const [isModifying, setIsModifying] = useState(false)
 
     function openCalendar(){
         setCalendarModal(true)
@@ -37,8 +37,6 @@ export default function CreateCalendar(props){
                 }
 
                 const data = await registerCalendar(calendar, evs)
-
-    
             }
             fetchdata()
 
@@ -82,10 +80,16 @@ export default function CreateCalendar(props){
         })
     }
 
+    useEffect(() =>{
+        const calInfo = localStorage.getItem('calInfo')
+        JSON.parse(calInfo)
+        calInfo === 'null' ? setIsModifying(false) : setIsModifying(true)
+    })
+
     return(
         <>
             <div style={{height: '10vh'}} className="d-flex justify-content-end align-items-center pe-4">
-                <Button onClick={openCalendar} className="upload-btn bg-secondary border border-1"><h5>Utwórz</h5></Button>    
+            {!isModifying && <Button onClick={openCalendar} className="upload-btn bg-secondary border border-1"><h5>Utwórz</h5></Button>} 
             </div>
             <Modal show={calendarModal} onHide={()=>{setCalendarModal(false)}}>
                 <Modal.Header closeButton>
