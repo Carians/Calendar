@@ -83,13 +83,13 @@ export default function CreateCalendar(props){
     useEffect(() =>{
         const calInfo = localStorage.getItem('calInfo')
         JSON.parse(calInfo)
-        calInfo === null ? setIsModifying(false) : setIsModifying(true)
+        calInfo === 'null' ? setIsModifying(false) : setIsModifying(true)
     })
-    //TODO BUtton
+
     return(
         <>
             <div style={{height: '10vh'}} className="d-flex justify-content-end align-items-center pe-4">
-                <Button onClick={openCalendar} className="upload-btn bg-secondary border border-1"><h5>Utwórz</h5></Button>    
+            {!isModifying && <Button onClick={openCalendar} className="upload-btn bg-secondary border border-1"><h5>Utwórz</h5></Button>} 
             </div>
             <Modal show={calendarModal} onHide={()=>{setCalendarModal(false)}}>
                 <Modal.Header closeButton>
@@ -111,9 +111,9 @@ export default function CreateCalendar(props){
                     {submitError && <p style={{color: 'red', fontSize: '90%'}}>{submitError}</p>}
                 </Modal.Body>
                 <Modal.Footer>
-                {!isModifying && <Button variant="secondary" onClick={createCalendar}>
+                <Button variant="secondary" onClick={createCalendar}>
                     Utwórz
-                </Button>}
+                </Button>
                 </Modal.Footer>
             </Modal>
         </>
