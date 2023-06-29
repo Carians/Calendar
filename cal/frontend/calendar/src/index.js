@@ -6,6 +6,7 @@ import UserProvider from './UserContext';
 import App from './App';
 import Register from './routes/Register';
 import Calendars from './routes/Calendars';
+import Settings from './routes/Settings';
 import ErrorPage from './routes/error_page'
 
 const router = createBrowserRouter([
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
   {
     path: "/calendars",
     element: <Calendars/>,
+  },
+  {
+    path: "/settings",
+    element: <Settings/>,
   },
   {
     path: "/register",

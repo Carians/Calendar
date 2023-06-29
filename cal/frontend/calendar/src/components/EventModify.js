@@ -13,11 +13,9 @@ export default function EventModify(props){
     const [errors, setErrors] = useState({title: undefined, description: undefined, date: undefined})
     const hasErrors = Object.values(errors).some((error) => error !== undefined)
     const [submitError, setsubmitError] = useState('')
+
+    const [isModifying, setIsModifying] = useState(false)
     
-    // function modifiedEvent(eventInfo){
-    //     setmodifyModal(true)
-    //     setEvent(prevEvent => {return{...prevEvent ,title: eventInfo.event.title, description: eventInfo.event.extendedProps.description, start: eventInfo.event.start, end: eventInfo.event.end, id: eventInfo.event.id}})
-    // }
 
     useEffect(()=>{
         setEvent(prevEvent => {return{...prevEvent ,title: props.eventInfo.title, description: props.eventInfo.description, start: props.eventInfo.start, end: props.eventInfo.end, id: props.eventInfo.id}})
@@ -82,6 +80,12 @@ export default function EventModify(props){
         }
     }
 
+    useEffect(() =>{
+        const calInfo = localStorage.getItem('calInfo')
+        JSON.parse(calInfo)
+        calInfo === 'null' ? setIsModifying(false) : setIsModifying(true)
+    })
+
     return(
         <>
             <Modal show={props.modal} onHide={()=>{props.setModal(false)}}>
@@ -123,7 +127,7 @@ export default function EventModify(props){
                     {submitError && <p style={{color: 'red', fontSize: '90%'}}>{submitError}</p>}
                 </Modal.Body>
                 <Modal.Footer>
-                <Button variant="secondary" onClick={addModifiedEvent}>Zaktualizuj</Button>
+                {!isModifying && <Button variant="secondary" onClick={addModifiedEvent}>Zaktualizuj</Button>}
                 </Modal.Footer>
             </Modal>
         </>

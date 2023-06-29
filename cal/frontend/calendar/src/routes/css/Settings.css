@@ -1,0 +1,28 @@
+.main{
+    width: 90%;
+    height: 50vh;
+    box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+}
+
+.menu-tile{
+    margin: 0;
+    padding: 0;
+    width: 15%;
+    height: auto;
+    border-right: 1px solid black;
+}
+
+.settings-tile{
+    width: 50%;
+    border-radius: 10px;
+}
+
+.settings-tile:hover{
+    cursor: pointer;
+    background-color: #DFE0E2;
+}
+
+.tile{
+    width: 60%;
+    height: auto;
+}
