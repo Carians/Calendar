@@ -21,7 +21,7 @@ function Settings(){
         <>
             <Header session={session} userData={userData}/>
             <div className='d-flex justify-content-center mt-5'>
-                <div className='main'>
+                <div className='settings-main'>
                     <h2 className='d-flex justify-content-center'>Settings</h2>
                     <hr></hr>
                     <div className='d-flex flex-row'>
