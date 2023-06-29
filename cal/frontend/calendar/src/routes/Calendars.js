@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './css/Calendars.css'
 import { Card, CardBody } from "reactstrap";
-import { FilePlus } from 'react-bootstrap-icons';
+import { FilePlus, CalendarDay, CalendarMonth, CalendarWeek } from 'react-bootstrap-icons';
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -14,6 +14,9 @@ import { getCalendars } from '../Data';
 
 
 function Calendars() {
+
+  const calendarIcons = [<CalendarDay size={50} className='mb-2'/>, <CalendarMonth size={50} className='mb-2'/>, <CalendarWeek size={50} className='mb-2'/>]
+  console.log(calendarIcons)
 
   const {session, userData} = useContext(UserContext)
   const [calendars, setCalendars] = useState([])
@@ -31,6 +34,7 @@ function Calendars() {
   }
 
   function formatDate(date){
+    //TODO zła data dla mojej lokalizacji, zobaczyć backend
     date = date.slice(0, date.indexOf('.'))
     date = date.slice(0, date.lastIndexOf(':'))
     date = date.replace('T', ' ')
@@ -45,21 +49,23 @@ function Calendars() {
         <div className='container card-style'>
           <div className='row row-cols-xl-2'>
 
-            <div className='col cal-style m-4 d-flex justify-content-center align-items-center'>
-              <Link onClick={() => setCalendarInfo(0)} to={'/'}>
+            <Link onClick={() => setCalendarInfo(0)} to={'/'} className='col cal-style m-4 d-flex justify-content-center align-items-center'>
                 <FilePlus size={50} />
-              </Link>
-            </div>
+            </Link>
 
             {calendars.map((cal) =>(
-              <div className='col cal-style m-4'>
-                <Link onClick={() => setCalendarInfo(cal)} to={'/'} className='d-flex flex-column text-dark'>
-                  <p><b>Calendar: </b>{cal.name}</p>
-                  <div>{cal.description}</div>
+              <Link onClick={() => setCalendarInfo(cal)} to={'/'} className='col cal-style m-4 d-flex justify-content-center align-items-center'>
+                <div className='d-flex flex-column text-dark'>
+                  {calendarIcons[Math.floor(Math.random()*calendarIcons.length)]}
+                  <p><b>Name: </b>{cal.name}</p>
+                  <div className='d-flex flex-column'>
+                    <b>Description</b>
+                    <p>{cal.description}</p>
+                  </div>
                   <p><b>Created: </b>{formatDate(cal.date_created)}</p>
                   <p><b>Modified: </b>{formatDate(cal.date_modified)}</p>
-                </Link>
-              </div>
+                </div>
+              </Link>
             ))}
           </div>
 
