@@ -52,6 +52,29 @@ function Settings(){
             setCurrentSetting(
                 <div className='tile'>
                     <h4 className='d-flex justify-content-start align-items-center ms-4'>{setting}</h4>
+                    <div className='d-flex justify-content-center align-items-center flex-row gap-4'>
+                        <h5>Default: </h5>
+                        <div className='theme-tile-dark'>
+                            <div className='item-1'>
+                                <div className='item-2'></div>
+                                <div className='item-3'></div>
+                            </div>
+                        </div>
+                        <h5>Light: </h5>
+                        <div className='theme-tile-light'>
+                            <div className='item-1'>
+                                <div className='item-2'></div>
+                                <div style={{backgroundColor: '#DFE0E2'}} className='item-3'></div>
+                            </div>
+                        </div>
+                        <h5>Dark: </h5>
+                        <div className='theme-tile-dark'>
+                            <div style={{backgroundColor: '#3f51b5'}} className='item-1'>
+                                <div className='item-2'></div>
+                                <div className='item-3'></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             )
         }
