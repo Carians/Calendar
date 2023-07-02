@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-9(p)o115m4ltp7ve=!^nva8a5n+zyo_565(bd7+5(78k=lpgot
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['calendar.michalpilarski17.smallhost.pl']
 
 
 # Application definition
