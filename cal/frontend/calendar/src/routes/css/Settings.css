@@ -8,7 +8,7 @@
     margin: 0;
     padding: 0;
     width: 15%;
-    height: auto;
+    height: 40vh;
     border-right: 1px solid black;
 }
 
@@ -25,4 +25,8 @@
 .tile{
     width: 60%;
     height: auto;
+}
+
+.break-line{
+    white-space: nowrap
 }
