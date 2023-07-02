@@ -8,13 +8,88 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 import { PersonCircle, Columns, Translate } from 'react-bootstrap-icons';
+import {Form, FormGroup, Input, Label} from 'reactstrap';
 
 function Settings(){
 
     const {session, userData} = useContext(UserContext)
-    const [settings, setSettings] = useState(['Account', 'Theme', 'Language'])
-    const [current, setCurrent] = useState('')
-    const [settingIcons, setSettingIcons] = useState([<PersonCircle className='me-2' size={30} />, <Columns className='me-2' size={30} />, <Translate className='me-2' size={30} />])
+    const [currentSetting, setCurrentSetting] = useState('')
+
+    // form
+    const [form, setForm] = useState({username: '', first_name: '', last_name: '', email: '', password: '', password2: ''})
+    const [formError, setFormError] = useState({username: null, first_name: null, last_name: null, email: null, password2: null})
+    const [formSubmitted, setFormSubmitted] = useState(false);
+    const hasErrors = Object.values(formError).some(error => error !== null);
+
+
+    function settingClicked(setting){
+        if(setting === 'Account'){
+            setCurrentSetting(
+                <div className='tile'>
+                    <h4 className='d-flex justify-content-start align-items-center ms-4'>{setting}</h4>
+                    <Form className='w-100'>
+                        <h5 className='d-flex justify-content-center'>Zmiana hasła</h5>
+                        <FormGroup className='d-flex justify-content-center align-items-center flex-row gap-3'>
+                            <Label className='break-line ms-4'><b>Stare hasło: </b></Label>
+                            <Input  type="text" name="oldPassword" onChange={handleChangePassword}/>
+                        </FormGroup>
+                        <FormGroup className='d-flex justify-content-center align-items-center flex-row gap-3'>
+                            <Label className='break-line ms-4'><b>Nowe hasło: </b></Label>
+                            <Input  type="text" name="oldPassword" onChange={handleChangePassword}/>
+                        </FormGroup>
+                        <FormGroup className='d-flex justify-content-center align-items-center flex-row gap-3'>
+                            <Label className='break-line ms-4'><b>Powtórz nowe hasło: </b></Label>
+                            <Input  type="text" name="oldPassword" onChange={handleChangePassword}/>
+                        </FormGroup>
+                        <div className='d-flex justify-content-center'>
+                            <button className='btn btn-primary'>Zapisz</button>
+                        </div>
+                    </Form>
+                </div>
+            )
+        }
+        else if(setting === 'Theme'){
+            setCurrentSetting(
+                <div className='tile'>
+                    <h4 className='d-flex justify-content-start align-items-center ms-4'>{setting}</h4>
+                    <div className='d-flex justify-content-center align-items-center flex-row gap-4'>
+                        <h5>Default: </h5>
+                        <div className='theme-tile-dark'>
+                            <div className='item-1'>
+                                <div className='item-2'></div>
+                                <div className='item-3'></div>
+                            </div>
+                        </div>
+                        <h5>Light: </h5>
+                        <div className='theme-tile-light'>
+                            <div className='item-1'>
+                                <div className='item-2'></div>
+                                <div style={{backgroundColor: '#DFE0E2'}} className='item-3'></div>
+                            </div>
+                        </div>
+                        <h5>Dark: </h5>
+                        <div className='theme-tile-dark'>
+                            <div style={{backgroundColor: '#3f51b5'}} className='item-1'>
+                                <div className='item-2'></div>
+                                <div className='item-3'></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )
+        }
+        else if(setting === 'Language'){
+            setCurrentSetting(
+                <div className='tile'>
+                    <h4 className='d-flex justify-content-start align-items-center ms-4'>{setting}</h4>
+                </div>
+            )
+        }
+    }
+
+    function handleChangePassword(){
+
+    }
 
 
     return(
@@ -26,14 +101,12 @@ function Settings(){
                     <hr></hr>
                     <div className='d-flex flex-row'>
                         <div className='menu-tile ms-5'>
-                        {settings.map((item, index)=>
-                            <div onClick={() => setCurrent(item)} className='settings-tile d-flex align-items-center flex-row'>{settingIcons[index]}<p className='fs-5'>{item}</p></div>
-                        )}
+                            <div onClick={() => settingClicked('Account')} className='settings-tile d-flex align-items-center flex-row'><PersonCircle className='me-2' size={30}/><p className='fs-5'>Account</p></div>
+                            <div onClick={() => settingClicked('Theme')} className='settings-tile d-flex align-items-center flex-row'><Columns className='me-2' size={30}/><p className='fs-5'>Theme</p></div>
+                            <div onClick={() => settingClicked('Language')} className='settings-tile d-flex align-items-center flex-row'><Translate className='me-2' size={30}/><p className='fs-5'>Language</p></div>
                             
                         </div>
-                        <div className='tile d-flex justify-content-center align-items-center flex-column'>
-                            <h2>{current}</h2>
-                        </div>
+                        {currentSetting}
                     </div>
                 </div>
             </div>

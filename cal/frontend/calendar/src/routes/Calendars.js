@@ -45,7 +45,7 @@ function Calendars() {
     <>
       <Header session={session} userData={userData}/>
       <div className='main d-flex justify-content-center align-items-center flex-column'>
-        <p>Witaj {userData.username}, tutaj znajdują się twoje kalendarze </p>
+        <p className='m-4'>Witaj {userData.username}, tutaj znajdują się twoje kalendarze </p>
         <div className='container card-style'>
           <div className='row row-cols-xl-2'>
 
