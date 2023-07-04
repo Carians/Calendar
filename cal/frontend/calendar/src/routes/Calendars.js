@@ -8,6 +8,7 @@ import Footer from '../components/Footer';
 
 import { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../UserContext';
+import { ThemeContext } from '../ThemeContext';
 import { Link } from "react-router-dom";
 
 import { getCalendars } from '../Data';
@@ -16,9 +17,12 @@ import { getCalendars } from '../Data';
 function Calendars() {
 
   const calendarIcons = [<CalendarDay size={50} className='mb-2'/>, <CalendarMonth size={50} className='mb-2'/>, <CalendarWeek size={50} className='mb-2'/>]
-  console.log(calendarIcons)
 
+  // context
   const {session, userData} = useContext(UserContext)
+  const {theme} = useContext(ThemeContext)
+
+  //state
   const [calendars, setCalendars] = useState([])
 
   useEffect(()=>{
@@ -43,8 +47,8 @@ function Calendars() {
 
   return (
     <>
-      <Header session={session} userData={userData}/>
-      <div className='main d-flex justify-content-center align-items-center flex-column'>
+      <Header session={session} userData={userData} theme={theme}/>
+      <div className='cal-main d-flex justify-content-center align-items-center flex-column'>
         <p className='m-4'>Witaj {userData.username}, tutaj znajdują się twoje kalendarze </p>
         <div className='container card-style'>
           <div className='row row-cols-xl-2'>
