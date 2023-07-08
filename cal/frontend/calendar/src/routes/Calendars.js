@@ -48,7 +48,7 @@ function Calendars() {
   return (
     <>
       <Header session={session} userData={userData} theme={theme}/>
-      <div className='cal-main d-flex justify-content-center align-items-center flex-column'>
+      <div style={{backgroundColor: theme.background}} className='cal-main d-flex justify-content-center align-items-center flex-column'>
         <p className='m-4'>Witaj {userData.username}, tutaj znajdują się twoje kalendarze </p>
         <div className='container card-style'>
           <div className='row row-cols-xl-2'>
@@ -75,7 +75,7 @@ function Calendars() {
 
         </div>
       </div>
-      <Footer/>
+      <Footer theme={theme}/>
     </>
   );
 }

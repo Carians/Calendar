@@ -7,9 +7,14 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Password from './Password';
 import { registerUser } from '../Data';
+import { ThemeContext } from '../ThemeContext';
+import { useContext } from 'react';
 
 
 function Register() {
+
+  const {theme} = useContext(ThemeContext)
+  
   const [form, setForm] = useState({username: '', first_name: '', last_name: '', email: '', password: '', password2: ''})
   const [formError, setFormError] = useState({username: null, first_name: null, last_name: null, email: null, password2: null})
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -56,8 +61,8 @@ function Register() {
 
 
   return (
-    <>
-      <Header/>
+    <div style={{width: '100%', height: '100vh', backgroundColor: theme.background}}>
+      <Header theme={theme}/>
       <main style={{height: '80vh'}} className='d-flex justify-content-center align-items-center'>
         <Card style={{
           width: '25%',
@@ -100,8 +105,8 @@ function Register() {
           </CardBody>
         </Card>
       </main>
-      <Footer/>
-    </>
+      <Footer theme={theme}/>
+    </div>
   );
 }
 

@@ -127,7 +127,7 @@ export default function EventModify(props){
                     {submitError && <p style={{color: 'red', fontSize: '90%'}}>{submitError}</p>}
                 </Modal.Body>
                 <Modal.Footer>
-                {!isModifying && <Button variant="secondary" onClick={addModifiedEvent}>Zaktualizuj</Button>}
+                {isModifying && <Button variant="secondary" onClick={addModifiedEvent}>Zaktualizuj</Button>}
                 </Modal.Footer>
             </Modal>
         </>

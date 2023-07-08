@@ -15,8 +15,8 @@ import {Form, FormGroup, Input, Label} from 'reactstrap';
 function Settings(){
 
     const {session, userData} = useContext(UserContext)
+    //TODO po odświeżeniu wraca do default theme
     const {theme, setTheme} = useContext(ThemeContext)
-    console.log(theme)
 
     const [currentSetting, setCurrentSetting] = useState('')
 
@@ -133,7 +133,7 @@ function Settings(){
 
 
     return(
-        <>
+        <div style={{backgroundColor: theme.background}} className='settings-container'>
             <Header session={session} userData={userData} theme={theme}/>
             <div className='d-flex justify-content-center mt-5'>
                 <div className='settings-main'>
@@ -150,8 +150,8 @@ function Settings(){
                     </div>
                 </div>
             </div>
-            <Footer/>
-        </>
+            <Footer theme={theme}/>
+        </div>
     )
 }
 

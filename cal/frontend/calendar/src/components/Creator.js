@@ -30,6 +30,37 @@ export default function Creator(props){
     const [isModifying, setIsModifying] = useState(false)
     const [calendar, setCalendar] = useState()
 
+    useEffect(() =>{
+        let calInfo = localStorage.getItem('calInfo')
+        calInfo = JSON.parse(calInfo)
+        if(!calInfo){
+            setIsModifying(false)
+        } 
+        else{
+            setIsModifying(true)
+            let calEvents = []
+
+            setCalendar(calInfo.name)
+            const fetchdata = async() =>{
+                const data = await getEvents()
+                calEvents = data.results
+                .filter(ev =>calInfo.events.includes(ev.id))
+                .map(ev =>({
+                    title: ev.name,
+                    description: ev.description,
+                    start: ev.start_time,
+                    end: ev.end_time,
+                    id: ev.id
+                }))
+            }
+            fetchdata()
+            .then(()=>{
+                setEvents(calEvents)
+            })
+        }
+    
+    }, [])
+
     
     function dateClick(info){
         setModal(true)
@@ -116,35 +147,6 @@ export default function Creator(props){
         )
     }
 
-    useEffect(() =>{
-        let calInfo = localStorage.getItem('calInfo')
-        calInfo = JSON.parse(calInfo)
-        if(!calInfo){
-            setIsModifying(false)
-        } 
-        else{
-            setIsModifying(true)
-            let calEvents = []
-
-            setCalendar(calInfo.name)
-            const fetchdata = async() =>{
-                const data = await getEvents()
-                calEvents = data.results
-                .filter(ev =>calInfo.events.includes(ev.id))
-                .map(ev =>({
-                    title: ev.name,
-                    description: ev.description,
-                    start: ev.start_time,
-                    end: ev.end_time
-                }))
-            }
-            fetchdata()
-            .then(()=>{
-                setEvents(calEvents)
-            })
-        }
-    
-    }, [])
     
 
     return(
@@ -219,7 +221,7 @@ export default function Creator(props){
 
             <EventModify eventInfo={modifiedEvent} events={events} setEvents={setEvents} modal={modifyModal} setModal={setmodifyModal}/>
 
-            <CreateCalendar events={events} setEvents={setEvents}/>
+            <CreateCalendar events={events} setEvents={setEvents} isModifying={isModifying} setIsModifying={setIsModifying}/>
 
         </>
     )

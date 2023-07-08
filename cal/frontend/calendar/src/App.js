@@ -20,7 +20,7 @@ function App() {
       <Header userData={userData} session={session} theme={theme}/>
       <Main userData={userData} session={session} theme={theme} />
       <Cards/>
-      <Footer/>
+      <Footer theme={theme}/>
     </div>
   );
 }

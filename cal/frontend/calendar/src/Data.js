@@ -172,5 +172,37 @@ const getCalendars = async () =>{
   return data
 }
 
+const deleteCalendar = async (id) =>{
+  const url = window.location.origin + `/api/calendars/${id}/delete`
+  const csrf = getCookie('csrftoken')
+  const token = window.sessionStorage.getItem('sessionid')
 
-export {getUserData, registerUser, loginUser, logOutUser, registerEvent, registerCalendar, getEvents, getCalendars}
+  await fetch(url, {
+    method: 'DELETE',
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Accept': 'application/json, application/x-www-form-urlencoded, multipart/form-data',
+      'Content-Type': 'application/json',
+      'X-CSRFToken': csrf
+    }
+  })
+}
+
+const deleteEvent = async (id) =>{
+  const url = window.location.origin + `/api/events/${id}/delete`
+  const csrf = getCookie('csrftoken')
+  const token = window.sessionStorage.getItem('sessionid')
+
+  await fetch(url,{
+      method: 'DELETE',
+      headers: {
+          'Authorization': 'Bearer ' + token,
+          'Accept': 'application/json, application/x-www-form-urlencoded, multipart/form-data',
+          'Content-Type': 'application/json',
+          'X-CSRFToken': csrf
+          },
+  })
+}
+
+
+export {getUserData, registerUser, loginUser, logOutUser, registerEvent, registerCalendar, getEvents, getCalendars, deleteCalendar, deleteEvent}
