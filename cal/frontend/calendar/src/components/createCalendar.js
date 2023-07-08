@@ -107,8 +107,8 @@ export default function CreateCalendar(props){
                 await deleteCalendar(calInfo.id)
             }
             deletedata()
+            .then(()=> window.location.href = '/calendars')
         })
-        .then(()=> window.location.href = '/calendars')
     }
     
 
@@ -160,10 +160,17 @@ export default function CreateCalendar(props){
 
     return(
         <>
-            <div style={{height: '10vh'}} className="d-flex justify-content-end align-items-center pe-4">
-            {!props.isModifying && <Button onClick={openCalendar} className="upload-btn bg-secondary border border-1"><h5>Utwórz</h5></Button>} 
-            {props.isModifying && <Button onClick={updateCalendar} className="upload-btn bg-secondary border border-1"><h5>Aktualizuj</h5></Button>} 
-            </div>
+            {!props.isModifying &&
+                <div style={{height: '10vh'}} className="d-flex justify-content-end align-items-center pe-4">
+                    <Button onClick={openCalendar} className="upload-btn bg-secondary border border-1"><h5>Utwórz</h5></Button>
+                </div>
+             } 
+            {props.isModifying &&
+                <div style={{height: '10vh'}} className="d-flex justify-content-between align-items-center pe-4">
+                    <Button onClick={removeCalendar} className="upload-btn bg-danger border border-1"><h5>Usuń</h5></Button>
+                    <Button onClick={updateCalendar} className="upload-btn bg-secondary border border-1"><h5>Aktualizuj</h5></Button>
+                </div>
+            } 
             <Modal show={calendarModal} onHide={()=>{setCalendarModal(false)}}>
                 <Modal.Header closeButton>
                     <Modal.Title>Utwórz kalendarz</Modal.Title>
