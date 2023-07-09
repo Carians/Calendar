@@ -13,14 +13,13 @@ export default function EventModify(props){
     const [errors, setErrors] = useState({title: undefined, description: undefined, date: undefined})
     const hasErrors = Object.values(errors).some((error) => error !== undefined)
     const [submitError, setsubmitError] = useState('')
-
-    const [isModifying, setIsModifying] = useState(false)
     
 
     useEffect(()=>{
         setEvent(prevEvent => {return{...prevEvent ,title: props.eventInfo.title, description: props.eventInfo.description, start: props.eventInfo.start, end: props.eventInfo.end, id: props.eventInfo.id}})
 
     }, [props.modal])
+
 
     function eventChange(val, key){
         setEvent(prevForm =>{
@@ -80,11 +79,17 @@ export default function EventModify(props){
         }
     }
 
-    useEffect(() =>{
-        const calInfo = localStorage.getItem('calInfo')
-        JSON.parse(calInfo)
-        calInfo === 'null' ? setIsModifying(false) : setIsModifying(true)
-    })
+    function deleteEvent(){
+        props.setEvents(prevEvents =>{
+            return prevEvents.filter(e => {
+                if(e.id.toString() !== event.id){
+                    return e
+                }
+            })
+        })
+        props.setModal(false)
+    }
+
 
     return(
         <>
@@ -127,7 +132,10 @@ export default function EventModify(props){
                     {submitError && <p style={{color: 'red', fontSize: '90%'}}>{submitError}</p>}
                 </Modal.Body>
                 <Modal.Footer>
-                {isModifying && <Button variant="secondary" onClick={addModifiedEvent}>Zaktualizuj</Button>}
+                    <div className="d-flex justify-content-between w-100">
+                        <Button variant="danger" onClick={deleteEvent}>Usuń</Button>
+                        <Button variant="secondary" onClick={addModifiedEvent}>Zaktualizuj</Button>
+                    </div>
                 </Modal.Footer>
             </Modal>
         </>
