@@ -13,6 +13,7 @@ export default function CreateCalendar(props){
     const [errors, setErrors] = useState({title: undefined, description: undefined})
     const [submitError, setsubmitError] = useState('')
     const hasErrors = Object.values(errors).some((error) => error !== undefined)
+    const [modifyText, setModifyText] = useState('')
 
 
     function openCalendar(){
@@ -144,7 +145,6 @@ export default function CreateCalendar(props){
             }
             deletedata()
             .then(() =>{
-                console.log(cal)
                 const createdata = async() =>{
                     let evs = []
                     for(const event of props.events){
@@ -152,6 +152,10 @@ export default function CreateCalendar(props){
                         evs.push(data.id)
                     }
                     await registerCalendar(cal, evs)
+                    setModifyText('Pomyślnie zaktualizowano kalendarz!')
+                    setTimeout(()=>{
+                        setModifyText('')
+                    }, 60000)
                 }
                 createdata()
             })
@@ -168,6 +172,7 @@ export default function CreateCalendar(props){
             {props.isModifying &&
                 <div style={{height: '10vh'}} className="d-flex justify-content-between align-items-center pe-4">
                     <Button onClick={removeCalendar} className="upload-btn bg-danger border border-1"><h5>Usuń</h5></Button>
+                    <p style={{color: 'green', fontSize: '90%'}}>{modifyText}</p>
                     <Button onClick={updateCalendar} className="upload-btn bg-secondary border border-1"><h5>Aktualizuj</h5></Button>
                 </div>
             } 

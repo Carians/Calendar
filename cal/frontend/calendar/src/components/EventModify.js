@@ -13,11 +13,13 @@ export default function EventModify(props){
     const [errors, setErrors] = useState({title: undefined, description: undefined, date: undefined})
     const hasErrors = Object.values(errors).some((error) => error !== undefined)
     const [submitError, setsubmitError] = useState('')
+    const [modifyText, setModifyText] = useState('')
     
 
     useEffect(()=>{
         setEvent(prevEvent => {return{...prevEvent ,title: props.eventInfo.title, description: props.eventInfo.description, start: props.eventInfo.start, end: props.eventInfo.end, id: props.eventInfo.id}})
-
+        setErrors(prev => {return{...prev, title: undefined, description: undefined, date: undefined}})
+        setsubmitError('')
     }, [props.modal])
 
 
@@ -73,13 +75,18 @@ export default function EventModify(props){
                 })
             })
             setsubmitError('')
+            setModifyText('Pomyślnie zaktualizowano')
+            setTimeout(()=>{
+                setModifyText('')
+            }, 60000)
         }
         else{
             setsubmitError('Nie można utworzyć takiego wydarzenia, sprawdź czy pola tytuł i opis nie są puste')
+            setModifyText('')
         }
     }
 
-    function deleteEvent(){
+    function removeEvent(){
         props.setEvents(prevEvents =>{
             return prevEvents.filter(e => {
                 if(e.id.toString() !== event.id){
@@ -129,11 +136,14 @@ export default function EventModify(props){
                         </FormGroup>
                         {errors.date && <p style={{color: 'red', fontSize: '90%'}}>{errors.date}</p>}
                     </Form>
-                    {submitError && <p style={{color: 'red', fontSize: '90%'}}>{submitError}</p>}
+                    <div className="d-flex justify-content-center">
+                        {submitError && <p style={{color: 'red', fontSize: '90%'}}>{submitError}</p>}
+                        <p style={{color: 'green', fontSize: '90%'}}>{modifyText}</p>
+                    </div>
                 </Modal.Body>
                 <Modal.Footer>
                     <div className="d-flex justify-content-between w-100">
-                        <Button variant="danger" onClick={deleteEvent}>Usuń</Button>
+                        <Button variant="danger" onClick={removeEvent}>Usuń</Button>
                         <Button variant="secondary" onClick={addModifiedEvent}>Zaktualizuj</Button>
                     </div>
                 </Modal.Footer>
