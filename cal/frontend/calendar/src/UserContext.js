@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { getUserData } from './Data';
+import { getUserDataAPI } from './Data';
 
 export const UserContext = createContext(null);
 
@@ -10,7 +10,7 @@ const UserProvider = ({ children }) => {
     
     useEffect(()=>{
         const fetchData = async () => {
-            const data = await getUserData()
+            const data = await getUserDataAPI()
             setUserData(data)
         }
         fetchData()

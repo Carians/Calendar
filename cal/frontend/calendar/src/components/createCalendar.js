@@ -3,7 +3,7 @@ import React, {useEffect, useState} from "react"
 import { Modal, Button } from "react-bootstrap";
 import { Form, FormGroup, Input, Label } from "reactstrap";
 
-import { registerEvent, registerCalendar, deleteCalendar, getEvents, deleteEvent } from "../Data";
+import { registerEventAPI, registerCalendarAPI, deleteCalendarAPI, getEventsAPI, getCalendarsAPI, deleteEventAPI, updateEventAPI, updateCalendarAPI } from "../Data";
 
 export default function CreateCalendar(props){
 
@@ -32,11 +32,11 @@ export default function CreateCalendar(props){
             const fetchdata = async() =>{
                 let evs = []
                 for(const event of props.events){
-                    const data = await registerEvent(event)
+                    const data = await registerEventAPI(event)
                     evs.push(data.id)
                 }
 
-                await registerCalendar(calendar, evs)
+                await registerCalendarAPI(calendar, evs)
             }
             fetchdata()
             .then(()=> window.location.href = '/calendars')
@@ -87,8 +87,8 @@ export default function CreateCalendar(props){
         calInfo = JSON.parse(calInfo)
 
         let calEvents = []
-        const fetchdata = async() =>{
-            const data = await getEvents()
+        const fetchdata = async() =>{ 
+            const data = await getEventsAPI()
             calEvents = data.results
             .filter(ev => calInfo.events.includes(ev.id))
             .map(ev =>({
@@ -103,9 +103,9 @@ export default function CreateCalendar(props){
         .then(()=>{
             const deletedata = async() =>{
                 for(const event of calEvents){
-                    await deleteEvent(event.id)
+                    await deleteEventAPI(event.id)
                 }
-                await deleteCalendar(calInfo.id)
+                await deleteCalendarAPI(calInfo.id)
             }
             deletedata()
             .then(()=> window.location.href = '/calendars')
@@ -117,14 +117,11 @@ export default function CreateCalendar(props){
 
         let calInfo = localStorage.getItem('calInfo')
         calInfo = JSON.parse(calInfo)
-        const cal = {
-            title: calInfo.name,
-            description: calInfo.description
-        }
+        console.log(calInfo)
 
         let calEvents = []
         const fetchdata = async() =>{
-            const data = await getEvents()
+            const data = await getEventsAPI()
             calEvents = data.results
             .filter(ev => calInfo.events.includes(ev.id))
             .map(ev =>({
@@ -137,27 +134,34 @@ export default function CreateCalendar(props){
         }
         fetchdata()
         .then(()=>{
-            const deletedata = async() =>{
-                for(const event of calEvents){
-                    await deleteEvent(event.id)
-                }
-                await deleteCalendar(calInfo.id)
-            }
-            deletedata()
-            .then(() =>{
-                const createdata = async() =>{
-                    let evs = []
-                    for(const event of props.events){
-                        const data = await registerEvent(event)
-                        evs.push(data.id)
+            const updatedata = async() =>{
+
+                const ids = calEvents.map((item, i) =>{
+                    return props.events[i] !== undefined ? item.id : props.events[i].id
+                })
+
+                for(let i=0; i<props.events.length; i++){
+                    if(calEvents[i]){
+                        const data = await updateEventAPI(props.events[i])
+                        calEvents[i] = data.id
                     }
-                    await registerCalendar(cal, evs)
-                    setModifyText('Pomyślnie zaktualizowano kalendarz!')
-                    setTimeout(()=>{
-                        setModifyText('')
-                    }, 60000)
+                    else{
+                        const data = await registerEventAPI(props.events[i])
+                        calEvents.push(data.id)
+                    }
                 }
-                createdata()
+                await updateCalendarAPI(calInfo, calEvents)
+                calInfo.events = calEvents
+                
+            }
+            updatedata()
+            .then(() =>{
+                localStorage.setItem('calInfo', JSON.stringify(calInfo))
+
+                setModifyText('Pomyślnie zaktualizowano kalendarz!')
+                setTimeout(()=>{
+                    setModifyText('')
+                }, 60000)
             })
         })
     }

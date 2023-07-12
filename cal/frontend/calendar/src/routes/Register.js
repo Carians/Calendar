@@ -6,7 +6,7 @@ import { Form, FormGroup, Input, Button } from 'reactstrap';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Password from './Password';
-import { registerUser } from '../Data';
+import { registerUserAPI } from '../Data';
 import { ThemeContext } from '../ThemeContext';
 import { useContext } from 'react';
 
@@ -51,7 +51,7 @@ function Register() {
     setFormSubmitted(true)
 
     const fetchData = async () => {
-      const response = await registerUser(form)
+      const response = await registerUserAPI(form)
       if(Array.isArray(response.username)){
         setFormError({'username': response.username})
       }

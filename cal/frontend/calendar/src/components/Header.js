@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import './css/Header.css'
-import { logOutUser } from "../Data"
+import { logOutUserAPI } from "../Data"
 
 import { Calendar2Date, Calendar2Week, List, PersonCircle, Person, Gear, BoxArrowRight } from 'react-bootstrap-icons';
 import {Col, Row} from 'reactstrap'
@@ -24,7 +24,7 @@ export default function Header(props){
         window.sessionStorage.setItem('sessionid', '')
         window.location.href = '/'
         const fetchData = async () => {
-            await logOutUser()
+            await logOutUserAPI()
         }
         fetchData()
     }

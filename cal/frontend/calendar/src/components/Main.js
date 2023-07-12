@@ -6,7 +6,7 @@ import { Form, FormGroup, Input, Button } from 'reactstrap';
 import { Link } from "react-router-dom";
 import Creator from "./Creator";
  
-import { loginUser } from "../Data";
+import { loginUserAPI } from "../Data";
 
 
 export default function Main(props){
@@ -32,7 +32,7 @@ export default function Main(props){
     function handleLogin(){
         setFormSubmitted(true)
         const fetchdata = async() =>{
-            const data = await loginUser(form)
+            const data = await loginUserAPI(form)
             setformError(prevState => ({
                 ...prevState,
                 'username': data.username,

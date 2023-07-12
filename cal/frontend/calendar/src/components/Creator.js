@@ -11,7 +11,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import EventModify from "./EventModify";
 import CreateCalendar from "./createCalendar";
-import { getEvents } from "../Data";
+import { getEventAPI, getEventsAPI, getCalendarAPI } from "../Data";
 
 
 export default function Creator(props){
@@ -26,7 +26,7 @@ export default function Creator(props){
     const [submitError, setsubmitError] = useState('')
     const [events, setEvents] = useState([])
 
-    //TODO Modifying
+    const [effectFlag, setEffectFlag] = useState(true)
     const [isModifying, setIsModifying] = useState(false)
     const [calendar, setCalendar] = useState()
 
@@ -42,7 +42,8 @@ export default function Creator(props){
 
             setCalendar(calInfo.name)
             const fetchdata = async() =>{
-                const data = await getEvents()
+
+                const data = await getEventsAPI()
                 calEvents = data.results
                 .filter(ev =>calInfo.events.includes(ev.id))
                 .map(ev =>({
@@ -52,10 +53,12 @@ export default function Creator(props){
                     end: ev.end_time,
                     id: ev.id
                 }))
+
             }
             fetchdata()
             .then(()=>{
                 setEvents(calEvents)
+                //console.log(events)
             })
         }
     
@@ -221,7 +224,7 @@ export default function Creator(props){
 
             <EventModify eventInfo={modifiedEvent} events={events} setEvents={setEvents} modal={modifyModal} setModal={setmodifyModal}/>
 
-            <CreateCalendar events={events} setEvents={setEvents} isModifying={isModifying} setIsModifying={setIsModifying}/>
+            <CreateCalendar events={events} setEvents={setEvents} isModifying={isModifying} setIsModifying={setIsModifying} setEffectFlag={setEffectFlag}/>
 
         </>
     )

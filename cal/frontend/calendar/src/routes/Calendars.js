@@ -11,7 +11,7 @@ import { UserContext } from '../UserContext';
 import { ThemeContext } from '../ThemeContext';
 import { Link } from "react-router-dom";
 
-import { getCalendars } from '../Data';
+import { getCalendarsAPI } from '../Data';
 
 
 function Calendars() {
@@ -27,7 +27,7 @@ function Calendars() {
 
   useEffect(()=>{
     const fetchdata = async() =>{
-      const data = await getCalendars()
+      const data = await getCalendarsAPI()
       setCalendars(data.results)
     }
     fetchdata()
