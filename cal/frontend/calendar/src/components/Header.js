@@ -21,6 +21,7 @@ export default function Header(props){
     }
 
     function logOut(){
+        window.localStorage.setItem('calInfo', null)
         window.sessionStorage.setItem('sessionid', '')
         window.location.href = '/'
         const fetchData = async () => {
@@ -29,7 +30,6 @@ export default function Header(props){
         fetchData()
     }
 
-    // console.log(props)
 
     return(
         <header>

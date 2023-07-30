@@ -48,15 +48,18 @@ function Register() {
 
 
   function submitUser(){
-    setFormSubmitted(true)
+    if(!hasErrors){
+      setFormSubmitted(true)
 
-    const fetchData = async () => {
-      const response = await registerUserAPI(form)
-      if(Array.isArray(response.username)){
-        setFormError({'username': response.username})
+      const fetchData = async () => {
+        const response = await registerUserAPI(form)
+        if(Array.isArray(response.username)){
+          setFormError({'username': response.username})
+        }
       }
+      fetchData()
+      .then(window.location.href = '/')
     }
-    fetchData()
   }
 
 
