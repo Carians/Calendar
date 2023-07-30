@@ -138,10 +138,11 @@ export default function Creator(props){
 
     function renderEventContent(eventInfo){
         return(
-            <div onClick={() => setEventToModify(eventInfo)} className="text-dark cursor-pointer pe-3 ps-3">
-                <div className="d-flex justify-content-between align-items-start flex-row">
-                    <h4>{eventInfo.event.title}</h4>
+            <div onClick={() => setEventToModify(eventInfo)} className="text-dark cursor-pointer pe-3 ps-3 overflow-hidden">
+                <div className="d-flex justify-content-between align-items-start flex-column">
                     <b>{eventInfo.event.start.toLocaleTimeString()} - {eventInfo.event.end.toLocaleTimeString()}</b>
+                    <b className="fs-5">{eventInfo.event.title}</b>
+                    <p>{eventInfo.allDay}</p>
                 </div>
                 <div>
                     <p className="fs-6">{eventInfo.event.extendedProps.description}</p>
@@ -166,7 +167,8 @@ export default function Creator(props){
                     headerToolbar={{
                         start: 'title', 
                         center: '',
-                        end: 'today prev,next' 
+                        end: 'today prev,next',
+                        allDay: false 
                         }}
                     eventBackgroundColor="#ffffff"
                     eventDisplay="auto"

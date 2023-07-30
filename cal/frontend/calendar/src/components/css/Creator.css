@@ -3,6 +3,11 @@ a{
   color: black;
 }
 
+
 .fc-daygrid-event{
   border: 1px solid black;
+}
+
+.fc-event-main:hover{
+  background-color: #DFE0E2;
 }
