@@ -50,7 +50,7 @@ function Calendars() {
       <Header session={session} userData={userData} theme={theme}/>
       <div style={{backgroundColor: theme.background, height: '80vh'}} className='cal-main d-flex justify-content-center align-items-center flex-column'>
         <p className='m-4'>Witaj {userData.username}, tutaj znajdują się twoje kalendarze </p>
-        <div className='container card-style'>
+        <div className='container card-style shadow'>
           <div className='row row-cols-xl-2'>
 
             <Link onClick={() => setCalendarInfo(0)} to={'/'} className='col cal-style m-4 d-flex justify-content-center align-items-center'>

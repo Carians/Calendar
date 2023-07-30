@@ -5,7 +5,7 @@ import './css/Cards.css'
 import { Link } from "react-router-dom";
 
 import { useEffect } from "react";
-import { Card, CardBody, CardTitle, CardSubtitle, CardText, Button } from "reactstrap";
+import { Card, CardBody, CardTitle, CardText, Button } from "reactstrap";
 import { CloudArrowUpFill } from 'react-bootstrap-icons';
 
 
@@ -15,16 +15,10 @@ export default function Cards(){
     }, [])
 
     return(
-        <div className="cards d-flex justify-content-evenly align-items-center">
+        <div className="cards d-flex justify-content-evenly align-items-center flex-sm-row flex-column">
             <Card
                 data-aos="fade-left"
-                className="border-0"
-                style={{
-                    width: '20%',
-                    height: '70%',
-                    backgroundColor: '#F6F6F6',
-                }}
-                >
+                className="responsive-card border-0">
                 <div style={{width: '100%', height: '10%', backgroundColor: '#303034'}}></div>
                 <img
                     style={{
@@ -48,11 +42,7 @@ export default function Cards(){
 
             <Card
                 data-aos="fade-down"
-                style={{
-                    width: '15%',
-                    height: '70%',
-                    backgroundColor: '#F6F6F6',
-                }}>
+                className="responsive-card border-0">
                 <CardBody
                     style={{
                         display: 'flex',
@@ -63,8 +53,8 @@ export default function Cards(){
                     <CardTitle tag="h5">
                         <p>Zaimportuj kalendarz</p>
                     </CardTitle>
-                    <CardText>
-                    Some quick example text to build on the card title and make up the bulk of the card‘s content.
+                    <CardText className="h-50">
+                    Zaimportuj kalendarz w autorskim formacie .cal stworzonym w C++
                     </CardText>
                     <Button
                         className="upload-btn"
@@ -83,12 +73,7 @@ export default function Cards(){
             
             <Card
                 data-aos="fade-right"
-                style={{
-                    width: '20%',
-                    height: '70%',
-                    backgroundColor: '#F6F6F6',
-                }}
-                >
+                className="responsive-card border-0">
                 <img
                     src={process.env.PUBLIC_URL + '/images/calendar1.jpg'}
                     alt="Sample"

@@ -33,12 +33,12 @@ export default function Header(props){
 
     return(
         <header>
-            <Row style={{backgroundColor: props.theme.header, color: props.theme.font}} className="header border border-dark">
-                <Col className="d-flex justify-content-center align-items-center">
+            <div style={{backgroundColor: props.theme.header, color: props.theme.font}} className="d-flex justify-content-between align-items-center header border border-dark">
+                <div className="d-flex flex-row ms-5">
                     <div className="me-3 mb-2"><Calendar2Date size={45}/></div>
                     <h1>Calendar</h1>
-                </Col>
-                <Col className="d-flex justify-content-end align-items-center pe-5">
+                </div>
+                <div className="me-5">
                     <List size={52} onMouseOver={showSideMenu} className='listIcon'/>
 
                     {/* Sliding side menu */}
@@ -81,8 +81,8 @@ export default function Header(props){
                                 </div>
                             }
                         </div>}
-                </Col>
-            </Row>
+                </div>
+            </div>
 
         </header>
     )
