@@ -4,7 +4,7 @@
 }
 
 
-@media (max-width: 1200px) {
+@media (max-width: 768px) {
     .cards{
         width: 100%;
         height: 200vh;
@@ -14,6 +14,20 @@
     .responsive-card{
         width: 80%;
         height: 50vh;
+        background-color: #F6F6F6;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1200px) {
+    .cards{
+        width: 100%;
+        height: 80vh;
+        background-color: #303034;
+    }
+
+    .responsive-card{
+        width: 30%;
+        height: 40%;
         background-color: #F6F6F6;
     }
 }

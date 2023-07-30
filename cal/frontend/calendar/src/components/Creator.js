@@ -137,7 +137,7 @@ export default function Creator(props){
     function renderEventContent(eventInfo){
         return(
             <div onClick={() => setEventToModify(eventInfo)} className="text-dark cursor-pointer pe-3 ps-3 overflow-hidden">
-                <div className="d-flex justify-content-between align-items-start flex-column">
+                <div className="event d-flex justify-content-between align-items-start flex-column">
                     <b>{eventInfo.event.start.toLocaleTimeString()} - {eventInfo.event.end.toLocaleTimeString()}</b>
                     <b className="fs-5">{eventInfo.event.title}</b>
                     <p>{eventInfo.allDay}</p>

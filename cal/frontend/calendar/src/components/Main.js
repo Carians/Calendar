@@ -88,15 +88,8 @@ export default function Main(props){
 
             {props.session &&
                 <div className="d-flex justify-content-center align-items-center">
-                    <div className="d-flex justify-content-center align-items-center " style={{
-                            width: '90%',
-                            height: '120vh',
-                        }}>
-                        <Card style={{
-                            width: '100%',
-                            height: '100vh',
-                            boxShadow: '0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06)',
-                        }}>
+                    <div className="calendar d-flex justify-content-center align-items-center ">
+                        <Card className="bg-calendar">
                             <CardBody>
                                 <Creator/>
                             </CardBody>
