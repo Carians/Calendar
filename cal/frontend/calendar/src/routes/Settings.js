@@ -3,6 +3,7 @@ import './css/Settings.css'
 
 import { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../UserContext';
+import { ThemeContext } from '../ThemeContext';
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -10,16 +11,55 @@ import Footer from '../components/Footer';
 import { PersonCircle, Columns, Translate } from 'react-bootstrap-icons';
 import {Form, FormGroup, Input, Label} from 'reactstrap';
 
+
 function Settings(){
 
     const {session, userData} = useContext(UserContext)
+    //TODO po odświeżeniu wraca do default theme
+    const {theme, setTheme} = useContext(ThemeContext)
+
     const [currentSetting, setCurrentSetting] = useState('')
 
     // form
     const [form, setForm] = useState({username: '', first_name: '', last_name: '', email: '', password: '', password2: ''})
     const [formError, setFormError] = useState({username: null, first_name: null, last_name: null, email: null, password2: null})
-    const [formSubmitted, setFormSubmitted] = useState(false);
-    const hasErrors = Object.values(formError).some(error => error !== null);
+    const [formSubmitted, setFormSubmitted] = useState(false)
+    const hasErrors = Object.values(formError).some(error => error !== null)
+
+
+    useEffect(()=>{
+        localStorage.setItem('theme', JSON.stringify(theme))
+    }, [theme])
+
+    function themeChange(mode){
+        if(mode === 'dark'){
+            setTheme(prev => ({
+                ...prev,
+                font: 'white',
+                header: '#303034',
+                background: '#3f51b5',
+                button: 'btn btn-primary',
+            }))
+        }
+        else if(mode === 'light'){
+            setTheme(prev => ({
+                ...prev,
+                font: 'black',
+                header: '#DFE0E2',
+                background: '#F6F6F6',
+                button: 'btn btn-primary',
+            }))
+        }
+        else{
+            setTheme(prev => ({
+                ...prev,
+                font: 'white',
+                header: '#303034',
+                background: '#F6F6F6',
+                button: 'btn btn-primary',
+            }))
+        }
+    }
 
 
     function settingClicked(setting){
@@ -54,21 +94,21 @@ function Settings(){
                     <h4 className='d-flex justify-content-start align-items-center ms-4'>{setting}</h4>
                     <div className='d-flex justify-content-center align-items-center flex-row gap-4'>
                         <h5>Default: </h5>
-                        <div className='theme-tile-dark'>
+                        <div onClick={() => themeChange('default')} className='theme-tile-dark'>
                             <div className='item-1'>
                                 <div className='item-2'></div>
                                 <div className='item-3'></div>
                             </div>
                         </div>
                         <h5>Light: </h5>
-                        <div className='theme-tile-light'>
+                        <div onClick={() => themeChange('light')} className='theme-tile-light'>
                             <div className='item-1'>
                                 <div className='item-2'></div>
                                 <div style={{backgroundColor: '#DFE0E2'}} className='item-3'></div>
                             </div>
                         </div>
                         <h5>Dark: </h5>
-                        <div className='theme-tile-dark'>
+                        <div onClick={() => themeChange('dark')} className='theme-tile-dark'>
                             <div style={{backgroundColor: '#3f51b5'}} className='item-1'>
                                 <div className='item-2'></div>
                                 <div className='item-3'></div>
@@ -93,8 +133,8 @@ function Settings(){
 
 
     return(
-        <>
-            <Header session={session} userData={userData}/>
+        <div style={{backgroundColor: theme.background}} className='settings-container'>
+            <Header session={session} userData={userData} theme={theme}/>
             <div className='d-flex justify-content-center mt-5'>
                 <div className='settings-main'>
                     <h2 className='d-flex justify-content-center'>Settings</h2>
@@ -110,8 +150,8 @@ function Settings(){
                     </div>
                 </div>
             </div>
-            <Footer/>
-        </>
+            <Footer theme={theme}/>
+        </div>
     )
 }
 

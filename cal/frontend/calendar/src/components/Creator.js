@@ -11,7 +11,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import EventModify from "./EventModify";
 import CreateCalendar from "./createCalendar";
-import { getEvents } from "../Data";
+import { getEventsAPI } from "../Data";
 
 
 export default function Creator(props){
@@ -26,9 +26,41 @@ export default function Creator(props){
     const [submitError, setsubmitError] = useState('')
     const [events, setEvents] = useState([])
 
-    //TODO Modifying
     const [isModifying, setIsModifying] = useState(false)
     const [calendar, setCalendar] = useState()
+
+    useEffect(() =>{
+        let calInfo = localStorage.getItem('calInfo')
+        calInfo = JSON.parse(calInfo)
+        if(!calInfo){
+            setIsModifying(false)
+        } 
+        else{
+            setIsModifying(true)
+            let calEvents = []
+
+            setCalendar(calInfo.name)
+            const fetchdata = async() =>{
+
+                const data = await getEventsAPI()
+                calEvents = data.results
+                .filter(ev =>calInfo.events.includes(ev.id))
+                .map(ev =>({
+                    title: ev.name,
+                    description: ev.description,
+                    start: ev.start_time,
+                    end: ev.end_time,
+                    id: ev.id
+                }))
+
+            }
+            fetchdata()
+            .then(()=>{
+                setEvents(calEvents)
+            })
+        }
+    
+    }, [])
 
     
     function dateClick(info){
@@ -104,10 +136,11 @@ export default function Creator(props){
 
     function renderEventContent(eventInfo){
         return(
-            <div onClick={() => setEventToModify(eventInfo)} className="text-dark cursor-pointer pe-3 ps-3">
-                <div className="d-flex justify-content-between align-items-start flex-row">
-                    <h4>{eventInfo.event.title}</h4>
+            <div onClick={() => setEventToModify(eventInfo)} className="text-dark cursor-pointer pe-3 ps-3 overflow-hidden">
+                <div className="event d-flex justify-content-between align-items-start flex-column">
                     <b>{eventInfo.event.start.toLocaleTimeString()} - {eventInfo.event.end.toLocaleTimeString()}</b>
+                    <b className="fs-5">{eventInfo.event.title}</b>
+                    <p>{eventInfo.allDay}</p>
                 </div>
                 <div>
                     <p className="fs-6">{eventInfo.event.extendedProps.description}</p>
@@ -116,35 +149,6 @@ export default function Creator(props){
         )
     }
 
-    useEffect(() =>{
-        let calInfo = localStorage.getItem('calInfo')
-        calInfo = JSON.parse(calInfo)
-        if(!calInfo){
-            setIsModifying(false)
-        } 
-        else{
-            setIsModifying(true)
-            let calEvents = []
-
-            setCalendar(calInfo.name)
-            const fetchdata = async() =>{
-                const data = await getEvents()
-                calEvents = data.results
-                .filter(ev =>calInfo.events.includes(ev.id))
-                .map(ev =>({
-                    title: ev.name,
-                    description: ev.description,
-                    start: ev.start_time,
-                    end: ev.end_time
-                }))
-            }
-            fetchdata()
-            .then(()=>{
-                setEvents(calEvents)
-            })
-        }
-    
-    }, [])
     
 
     return(
@@ -161,7 +165,7 @@ export default function Creator(props){
                     headerToolbar={{
                         start: 'title', 
                         center: '',
-                        end: 'today prev,next' 
+                        end: 'today prev,next',
                         }}
                     eventBackgroundColor="#ffffff"
                     eventDisplay="auto"
@@ -219,7 +223,7 @@ export default function Creator(props){
 
             <EventModify eventInfo={modifiedEvent} events={events} setEvents={setEvents} modal={modifyModal} setModal={setmodifyModal}/>
 
-            <CreateCalendar events={events} setEvents={setEvents}/>
+            <CreateCalendar events={events} setEvents={setEvents} isModifying={isModifying} setIsModifying={setIsModifying}/>
 
         </>
     )

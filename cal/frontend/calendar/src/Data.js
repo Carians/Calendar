@@ -1,6 +1,6 @@
 import { getCookie } from "./components/functions/cookie"
 
-const getUserData = async () =>{
+const getUserDataAPI = async () =>{
 
     const url = window.location.origin + '/api/user/'
     const csrf = getCookie('csrftoken')
@@ -20,7 +20,7 @@ const getUserData = async () =>{
     return data;
 }
 
-const registerUser = async (form) =>{
+const registerUserAPI = async (form) =>{
     const url = window.location.origin + '/api/register/'
     const csrf = getCookie('csrftoken')
 
@@ -45,7 +45,7 @@ const registerUser = async (form) =>{
     return data
 }
 
-const loginUser = async(form) => {
+const loginUserAPI = async(form) => {
     const url = window.location.origin + '/api/auth/'
     const csrf = getCookie('csrftoken')
 
@@ -69,7 +69,7 @@ const loginUser = async(form) => {
       return data
 }
 
-const logOutUser = async() =>{
+const logOutUserAPI = async() =>{
     const url = window.location.origin + '/api/logout/'
     const csrf = getCookie('csrftoken')
     const token = window.sessionStorage.getItem('sessionid')
@@ -85,7 +85,7 @@ const logOutUser = async() =>{
     })
 }
 
-const registerEvent = async (form) =>{
+const registerEventAPI = async (form) =>{
   const url = window.location.origin + '/api/events/'
   const csrf = getCookie('csrftoken')
   const token = window.sessionStorage.getItem('sessionid')
@@ -110,7 +110,7 @@ const registerEvent = async (form) =>{
   return data
 }
 
-const getEvents = async () =>{
+const getEventsAPI = async () =>{
   const url = window.location.origin + '/api/events/'
   const csrf = getCookie('csrftoken')
   const token = window.sessionStorage.getItem('sessionid')
@@ -129,7 +129,26 @@ const getEvents = async () =>{
   return data;
 }
 
-const registerCalendar = async (calendar, events) =>{
+const getEventAPI = async (id) =>{
+  const url = window.location.origin + `/api/events/${id}`
+  const csrf = getCookie('csrftoken')
+  const token = window.sessionStorage.getItem('sessionid')
+
+  const response = await fetch(url,{
+      method: 'GET',
+      headers: {
+          'Authorization': 'Bearer ' + token,
+          'Accept': 'application/json, application/x-www-form-urlencoded, multipart/form-data',
+          'Content-Type': 'application/json',
+          'X-CSRFToken': csrf
+          },
+  })
+
+  const data = await response.json();
+  return data;
+}
+
+const registerCalendarAPI = async (calendar, events) =>{
   const url = window.location.origin + '/api/calendars/'
   const csrf = getCookie('csrftoken')
   const token = window.sessionStorage.getItem('sessionid')
@@ -153,7 +172,7 @@ const registerCalendar = async (calendar, events) =>{
   return data
 }
 
-const getCalendars = async () =>{
+const getCalendarsAPI = async () =>{
   const url = window.location.origin + '/api/calendars/'
   const csrf = getCookie('csrftoken')
   const token = window.sessionStorage.getItem('sessionid')
@@ -172,5 +191,106 @@ const getCalendars = async () =>{
   return data
 }
 
+const getCalendarAPI = async (id) =>{
+  const url = window.location.origin + `/api/calendars/${id}`
+  const csrf = getCookie('csrftoken')
+  const token = window.sessionStorage.getItem('sessionid')
 
-export {getUserData, registerUser, loginUser, logOutUser, registerEvent, registerCalendar, getEvents, getCalendars}
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Accept': 'application/json, application/x-www-form-urlencoded, multipart/form-data',
+      'Content-Type': 'application/json',
+      'X-CSRFToken': csrf
+    }
+  })
+  
+  const data = await response.json()
+  return data
+}
+
+const deleteCalendarAPI = async (id) =>{
+  const url = window.location.origin + `/api/calendars/${id}/delete`
+  const csrf = getCookie('csrftoken')
+  const token = window.sessionStorage.getItem('sessionid')
+
+  await fetch(url, {
+    method: 'DELETE',
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Accept': 'application/json, application/x-www-form-urlencoded, multipart/form-data',
+      'Content-Type': 'application/json',
+      'X-CSRFToken': csrf
+    }
+  })
+}
+
+const deleteEventAPI = async (id) =>{
+  const url = window.location.origin + `/api/events/${id}/delete`
+  const csrf = getCookie('csrftoken')
+  const token = window.sessionStorage.getItem('sessionid')
+
+  await fetch(url,{
+      method: 'DELETE',
+      headers: {
+          'Authorization': 'Bearer ' + token,
+          'Accept': 'application/json, application/x-www-form-urlencoded, multipart/form-data',
+          'Content-Type': 'application/json',
+          'X-CSRFToken': csrf
+          },
+  })
+}
+
+const updateEventAPI = async (form) =>{
+  const url = window.location.origin + `/api/events/${form.id}/update`
+  const csrf = getCookie('csrftoken')
+  const token = window.sessionStorage.getItem('sessionid')
+
+  const response = await fetch(url, {
+    method: 'PUT',
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Accept': 'application/json, application/x-www-form-urlencoded, multipart/form-data',
+      'Content-Type': 'application/json',
+      'X-CSRFToken': csrf
+    },
+    body: JSON.stringify({
+      'name': form.title,
+      'description': form.description,
+      'start_time': form.start,
+      'end_time': form.end,
+    })
+  })
+  
+  const data = await response.json()
+  return data
+}
+
+const updateCalendarAPI = async (calendar, events) =>{
+  const url = window.location.origin + `/api/calendars/${calendar.id}/update`
+  const csrf = getCookie('csrftoken')
+  const token = window.sessionStorage.getItem('sessionid')
+
+  const response = await fetch(url, {
+    method: 'PUT',
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Accept': 'application/json, application/x-www-form-urlencoded, multipart/form-data',
+      'Content-Type': 'application/json',
+      'X-CSRFToken': csrf
+    },
+    body: JSON.stringify({
+      'name': calendar.name,
+      'description': calendar.description,
+      'events': events,
+    })
+  })
+  
+  const data = await response.json()
+  return data
+}
+
+
+export {getUserDataAPI, registerUserAPI, loginUserAPI, logOutUserAPI, registerEventAPI, registerCalendarAPI, getEventsAPI, getEventAPI, getCalendarsAPI, getCalendarAPI, deleteCalendarAPI, deleteEventAPI, 
+  updateEventAPI, updateCalendarAPI}

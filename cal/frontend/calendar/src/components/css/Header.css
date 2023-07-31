@@ -29,9 +29,14 @@
   transform: translateX(-50vh);
 }
 
-.dropdown-hover:hover{
+.dropdown-hover-dark:hover{
   color: #303034;
   background-color: #DFE0E2;
+}
+
+.dropdown-hover-light:hover{
+  color: #DFE0E2;
+  background-color: #575757;
 }
 
 .linked{

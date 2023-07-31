@@ -3,6 +3,18 @@ a{
   color: black;
 }
 
+
 .fc-daygrid-event{
   border: 1px solid black;
+}
+
+.fc-event-main:hover{
+  background-color: #DFE0E2;
+}
+
+@media (max-width: 1200px) {
+  .event{
+    width: 10%;
+    height: 5vh;
+  }
 }

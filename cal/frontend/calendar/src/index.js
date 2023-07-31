@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {createBrowserRouter, RouterProvider} from 'react-router-dom'
 import UserProvider from './UserContext';
+import ThemeProvider from './ThemeContext';
 
 import App from './App';
 import Register from './routes/Register';
@@ -32,9 +33,11 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <UserProvider>
-      <RouterProvider router={router} />
-    </UserProvider>
+      <UserProvider>
+        <ThemeProvider>
+          <RouterProvider router={router} />
+        </ThemeProvider>
+      </UserProvider>
   </React.StrictMode>
 );
 

@@ -6,7 +6,7 @@ import { Form, FormGroup, Input, Button } from 'reactstrap';
 import { Link } from "react-router-dom";
 import Creator from "./Creator";
  
-import { loginUser } from "../Data";
+import { loginUserAPI } from "../Data";
 
 
 export default function Main(props){
@@ -32,7 +32,7 @@ export default function Main(props){
     function handleLogin(){
         setFormSubmitted(true)
         const fetchdata = async() =>{
-            const data = await loginUser(form)
+            const data = await loginUserAPI(form)
             setformError(prevState => ({
                 ...prevState,
                 'username': data.username,
@@ -86,24 +86,17 @@ export default function Main(props){
                 </div>
             }
 
-                {props.session &&
-                    <div className="d-flex justify-content-center align-items-center">
-                        <div className="d-flex justify-content-center align-items-center " style={{
-                                width: '90%',
-                                height: '120vh',
-                            }}>
-                            <Card style={{
-                                width: '100%',
-                                height: '100vh',
-                                boxShadow: '0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06)',
-                            }}>
-                                <CardBody>
-                                    <Creator/>
-                                </CardBody>
-                            </Card>
-                        </div>
+            {props.session &&
+                <div className="d-flex justify-content-center align-items-center">
+                    <div className="calendar d-flex justify-content-center align-items-center ">
+                        <Card className="bg-calendar">
+                            <CardBody>
+                                <Creator/>
+                            </CardBody>
+                        </Card>
                     </div>
-                }
+                </div>
+            }
         </>
     )
 }
