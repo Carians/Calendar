@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { UserContext } from './UserContext';
+import { ThemeContext } from './ThemeContext';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
@@ -11,13 +12,15 @@ import Cards from './components/Cards';
 function App() {
 
   const {session, userData} = useContext(UserContext)
+  const {theme} = useContext(ThemeContext)
+
 
   return (
-    <div className="App">
-      <Header userData={userData} session={session}/>
-      <Main userData={userData} session={session} />
+    <div style={{backgroundColor: theme.background}} className="App">
+      <Header userData={userData} session={session} theme={theme}/>
+      <Main userData={userData} session={session} theme={theme} />
       <Cards/>
-      <Footer/>
+      <Footer theme={theme}/>
     </div>
   );
 }

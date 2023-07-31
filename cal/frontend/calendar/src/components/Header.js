@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import './css/Header.css'
-import { logOutUser } from "../Data"
+import { logOutUserAPI } from "../Data"
 
 import { Calendar2Date, Calendar2Week, List, PersonCircle, Person, Gear, BoxArrowRight } from 'react-bootstrap-icons';
 import {Col, Row} from 'reactstrap'
@@ -21,27 +21,29 @@ export default function Header(props){
     }
 
     function logOut(){
+        window.localStorage.setItem('calInfo', null)
         window.sessionStorage.setItem('sessionid', '')
         window.location.href = '/'
         const fetchData = async () => {
-            await logOutUser()
+            await logOutUserAPI()
         }
         fetchData()
     }
 
+
     return(
         <header>
-            <Row className="header border border-dark">
-                <Col className="d-flex justify-content-center align-items-center">
+            <div style={{backgroundColor: props.theme.header, color: props.theme.font}} className="d-flex justify-content-between align-items-center header border border-dark">
+                <div className="d-flex flex-row ms-5">
                     <div className="me-3 mb-2"><Calendar2Date size={45}/></div>
                     <h1>Calendar</h1>
-                </Col>
-                <Col className="d-flex justify-content-end align-items-center pe-5">
+                </div>
+                <div className="me-5">
                     <List size={52} onMouseOver={showSideMenu} className='listIcon'/>
 
                     {/* Sliding side menu */}
                     {isHovering && 
-                        <div className="side-navbar d-flex justify-content-start flex-column" onMouseLeave={hideSideMenu}>
+                        <div style={{backgroundColor: props.theme.header, color: props.theme.font}} className="side-navbar d-flex justify-content-start flex-column" onMouseLeave={hideSideMenu}>
                             {!props.session && 
                             <div className="d-flex justify-content-center h-100 flex-column">
                                     <p>Nie jesteś zalogowany</p>
@@ -59,19 +61,19 @@ export default function Header(props){
                                         </div>
                                     </div>
                                     <div className="mt-4">
-                                        <Link to={'/calendars'} style={{height: '7vh'}} className="linked dropdown-hover d-flex justify-content-start align-items-center flex-row ps-5"> 
+                                        <Link to={'/calendars'} style={{height: '7vh'}} className={`linked ${props.theme.header === '#303034' ? 'dropdown-hover-dark' : 'dropdown-hover-light'} d-flex justify-content-start align-items-center flex-row ps-5`}> 
                                             <Calendar2Week size={30}/>
                                             <p className="ms-3 mt-3 fs-4">Kalendarze</p>
                                         </Link>
-                                        <Link to={'/'} style={{height: '7vh'}} className="linked dropdown-hover d-flex justify-content-start align-items-center flex-row ps-5"> 
+                                        <Link to={'/'} style={{height: '7vh'}} className={`linked ${props.theme.header === '#303034' ? 'dropdown-hover-dark' : 'dropdown-hover-light'} d-flex justify-content-start align-items-center flex-row ps-5`}> 
                                             <Person size={30}/>
                                             <p className="ms-3 mt-3 fs-4">Moje konto</p>
                                         </Link>
-                                        <Link to={'/settings'} style={{height: '7vh'}} className="linked dropdown-hover d-flex justify-content-start align-items-center flex-row ps-5"> 
+                                        <Link to={'/settings'} style={{height: '7vh'}} className={`linked ${props.theme.header === '#303034' ? 'dropdown-hover-dark' : 'dropdown-hover-light'} d-flex justify-content-start align-items-center flex-row ps-5`}> 
                                             <Gear size={30}/>
                                             <p className="ms-3 mt-3 fs-4">Ustawienia</p>
                                         </Link>
-                                        <div onClick={logOut} style={{height: '7vh'}} className="linked dropdown-hover d-flex justify-content-start align-items-center flex-row ps-5"> 
+                                        <div onClick={logOut} style={{height: '7vh'}} className={`linked ${props.theme.header === '#303034' ? 'dropdown-hover-dark' : 'dropdown-hover-light'} d-flex justify-content-start align-items-center flex-row ps-5`}> 
                                             <BoxArrowRight size={30}/>
                                             <p className="ms-3 mt-3 fs-4">Wyloguj się</p>
                                         </div>
@@ -79,8 +81,8 @@ export default function Header(props){
                                 </div>
                             }
                         </div>}
-                </Col>
-            </Row>
+                </div>
+            </div>
 
         </header>
     )

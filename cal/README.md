@@ -14,6 +14,9 @@ Django Rest Framework (DRF)
 Git
 React
 ```
+### Demo
+[calendar.michalpilarski17.smallhost.pl](https://calendar.michalpilarski17.smallhost.pl/)
+
 ### Instrukcja instalacji
 Aby zainstalować projekt, należy sklonować repozytorium i zainstalować wymagane zależności.
 
