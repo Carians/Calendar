@@ -200,7 +200,7 @@ export default function CreateCalendar(props){
                     {submitError && <p style={{color: 'red', fontSize: '90%'}}>{submitError}</p>}
                 </Modal.Body>
                 <Modal.Footer>
-                <Button variant="secondary" onClick={createCalendar}>
+                <Button className="cal-btn" variant="secondary" onClick={createCalendar}>
                     Utwórz
                 </Button>
                 </Modal.Footer>

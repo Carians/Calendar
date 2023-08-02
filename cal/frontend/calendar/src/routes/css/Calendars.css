@@ -1,10 +1,12 @@
 .cal-main{
     width: 100%;
-    height: auto;
+    height: 400vh;
+
 }
 
 .card-style{
     margin: 0;
+    width: 80%;
     height: auto;
     box-shadow: '0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06)';
     background-color: #DFE0E2;

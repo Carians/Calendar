@@ -53,10 +53,7 @@ export default function Main(props){
         <>
             {!props.session &&
                 <div className="main d-flex justify-content-center align-items-center">
-                    <Card style={{
-                        width: '25%',
-                        boxShadow: '0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06)',
-                    }}>
+                    <Card className="login-card">
                         <CardBody>
                             <Form onSubmit={handleForm}> 
                                 <p className="fs-3">Logowanie</p>

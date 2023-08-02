@@ -17,6 +17,7 @@ import { getCalendarsAPI } from '../Data';
 function Calendars() {
 
   const calendarIcons = [<CalendarDay size={50} className='mb-2'/>, <CalendarMonth size={50} className='mb-2'/>, <CalendarWeek size={50} className='mb-2'/>]
+  const [calHeight, setCalHeight] = useState('100vh')
 
   // context
   const {session, userData} = useContext(UserContext)
@@ -25,6 +26,7 @@ function Calendars() {
   //state
   const [calendars, setCalendars] = useState([])
 
+  
   useEffect(()=>{
     const fetchdata = async() =>{
       const data = await getCalendarsAPI()
@@ -32,6 +34,7 @@ function Calendars() {
     }
     fetchdata()
   }, [session])
+
 
   function setCalendarInfo(cal){
     typeof cal === "object" ? localStorage.setItem('calInfo', JSON.stringify(cal)) : localStorage.setItem('calInfo', null)
@@ -48,10 +51,10 @@ function Calendars() {
   return (
     <>
       <Header session={session} userData={userData} theme={theme}/>
-      <div style={{backgroundColor: theme.background, height: '80vh'}} className='cal-main d-flex justify-content-center align-items-center flex-column'>
+      <div style={{backgroundColor: theme.background}} className='cal-main d-flex justify-content-start align-items-center flex-column'>
         <p className='m-4'>Witaj {userData.username}, tutaj znajdują się twoje kalendarze </p>
-        <div className='container card-style shadow'>
-          <div className='row row-cols-xl-2'>
+        <div className='card-style shadow'>
+          <div className='row row-cols-3'>
 
             <Link onClick={() => setCalendarInfo(0)} to={'/'} className='col cal-style m-4 d-flex justify-content-center align-items-center'>
                 <FilePlus size={50} />
@@ -74,8 +77,8 @@ function Calendars() {
           </div>
 
         </div>
+        <Footer theme={theme}/>
       </div>
-      <Footer theme={theme}/>
     </>
   );
 }

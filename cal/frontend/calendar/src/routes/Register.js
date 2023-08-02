@@ -64,13 +64,10 @@ function Register() {
 
 
   return (
-    <div style={{width: '100%', height: '100vh', backgroundColor: theme.background}}>
+    <div style={{width: '100%', backgroundColor: theme.background}}>
       <Header theme={theme}/>
-      <main style={{height: '80vh'}} className='d-flex justify-content-center align-items-center'>
-        <Card style={{
-          width: '25%',
-          boxShadow: '0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06)',
-          }}>
+      <main className='register d-flex justify-content-center align-items-center'>
+        <Card className='register-card'>
             <CardBody>
               <Form onSubmit={handleForm}> 
                 <h1 className='text-center'>Rejestracja</h1>
