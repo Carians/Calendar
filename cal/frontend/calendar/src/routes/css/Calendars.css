@@ -11,14 +11,6 @@
     background-color: #DFE0E2;
 }
 
-.cal-style{
-    position: relative;
-    width: 15vw;
-    height: 40vh;
-    box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
-    background-color: white;
-    border-radius: 20px;
-}
 
 .cal-style:hover{
     color: black;
@@ -26,4 +18,49 @@
     transform: scale(1.05);
     transition: transform 0.3s ease;
     z-index: 2;
+}
+
+
+@media (max-width: 768px) {
+    .cal-style{
+        position: relative;
+        width: 30vw;
+        height: 35vh;
+        box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+        background-color: white;
+        border-radius: 20px;
+        font-size: 10px;
+    }
+    .icon-size{
+        font-size: 25px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1200px) {
+    .cal-style{
+        position: relative;
+        width: 20vw;
+        height: 30vh;
+        box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+        background-color: white;
+        border-radius: 20px;
+        font-size: 15px;
+    }
+    .icon-size{
+        font-size: 30px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .cal-style{
+        position: relative;
+        width: 15vw;
+        height: 40vh;
+        box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+        background-color: white;
+        border-radius: 20px;
+    }
+    .icon-size{
+        font-size: 50px;
+    }
 }

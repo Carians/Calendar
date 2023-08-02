@@ -16,7 +16,7 @@ import { getCalendarsAPI } from '../Data';
 
 function Calendars() {
 
-  const calendarIcons = [<CalendarDay size={50} className='mb-2'/>, <CalendarMonth size={50} className='mb-2'/>, <CalendarWeek size={50} className='mb-2'/>]
+  const calendarIcons = [<CalendarDay className='icon-size mb-2'/>, <CalendarMonth className='icon-size mb-2'/>, <CalendarWeek className='icon-size mb-2'/>]
   const [calHeight, setCalHeight] = useState('100vh')
 
   // context
@@ -57,7 +57,7 @@ function Calendars() {
           <div className='row row-cols-3'>
 
             <Link onClick={() => setCalendarInfo(0)} to={'/'} className='col cal-style m-4 d-flex justify-content-center align-items-center'>
-                <FilePlus size={50} />
+                <FilePlus className='icon-size' />
             </Link>
 
             {calendars.map((cal) =>(
