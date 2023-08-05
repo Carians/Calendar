@@ -20,7 +20,7 @@ function Settings(){
 
     const [currentSetting, setCurrentSetting] = useState('')
 
-    // form
+    //TODO form
     const [form, setForm] = useState({username: '', first_name: '', last_name: '', email: '', password: '', password2: ''})
     const [formError, setFormError] = useState({username: null, first_name: null, last_name: null, email: null, password2: null})
     const [formSubmitted, setFormSubmitted] = useState(false)
@@ -29,6 +29,7 @@ function Settings(){
 
     useEffect(()=>{
         localStorage.setItem('theme', JSON.stringify(theme))
+        settingClicked('Account')
     }, [theme])
 
     function themeChange(mode){
@@ -94,21 +95,21 @@ function Settings(){
                     <h4 className='d-flex justify-content-start align-items-center ms-4'>{setting}</h4>
                     <div className='d-flex justify-content-center align-items-center flex-row gap-4'>
                         <h5>Default: </h5>
-                        <div onClick={() => themeChange('default')} className='theme-tile-dark'>
+                        <div onClick={() => themeChange('default')} className='theme theme-tile-dark'>
                             <div className='item-1'>
                                 <div className='item-2'></div>
                                 <div className='item-3'></div>
                             </div>
                         </div>
                         <h5>Light: </h5>
-                        <div onClick={() => themeChange('light')} className='theme-tile-light'>
+                        <div onClick={() => themeChange('light')} className='theme theme-tile-light'>
                             <div className='item-1'>
                                 <div className='item-2'></div>
                                 <div style={{backgroundColor: '#DFE0E2'}} className='item-3'></div>
                             </div>
                         </div>
                         <h5>Dark: </h5>
-                        <div onClick={() => themeChange('dark')} className='theme-tile-dark'>
+                        <div onClick={() => themeChange('dark')} className='theme theme-tile-dark'>
                             <div style={{backgroundColor: '#3f51b5'}} className='item-1'>
                                 <div className='item-2'></div>
                                 <div className='item-3'></div>
@@ -140,10 +141,10 @@ function Settings(){
                     <h2 className='d-flex justify-content-center'>Settings</h2>
                     <hr></hr>
                     <div className='d-flex flex-row'>
-                        <div className='menu-tile ms-5'>
-                            <div onClick={() => settingClicked('Account')} className='settings-tile d-flex align-items-center flex-row'><PersonCircle className='me-2' size={30}/><p className='fs-5'>Account</p></div>
-                            <div onClick={() => settingClicked('Theme')} className='settings-tile d-flex align-items-center flex-row'><Columns className='me-2' size={30}/><p className='fs-5'>Theme</p></div>
-                            <div onClick={() => settingClicked('Language')} className='settings-tile d-flex align-items-center flex-row'><Translate className='me-2' size={30}/><p className='fs-5'>Language</p></div>
+                        <div className='menu-tile'>
+                            <div onClick={() => settingClicked('Account')} className='settings-tile d-flex align-items-center flex-row'><PersonCircle className='settings-icon me-2'/><p className='settings-p'>Account</p></div>
+                            <div onClick={() => settingClicked('Theme')} className='settings-tile d-flex align-items-center flex-row'><Columns className='settings-icon me-2'/><p className='settings-p'>Theme</p></div>
+                            <div onClick={() => settingClicked('Language')} className='settings-tile d-flex align-items-center flex-row'><Translate className='settings-icon me-2'/><p className='settings-p'>Language</p></div>
                             
                         </div>
                         {currentSetting}

@@ -10,28 +10,12 @@
     box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
 }
 
-.menu-tile{
-    margin: 0;
-    padding: 0;
-    width: 15%;
-    height: 40vh;
-    border-right: 1px solid black;
-}
-
-.settings-tile{
-    width: 50%;
-    border-radius: 10px;
-}
 
 .settings-tile:hover{
     cursor: pointer;
     background-color: #DFE0E2;
 }
 
-.tile{
-    width: 60%;
-    height: auto;
-}
 
 .break-line{
     white-space: nowrap
@@ -41,8 +25,6 @@
     display: flex;
     align-items: flex-end;
     background-color: #303034;
-    width: 20%;
-    height: 20vh;
     border-radius: 15px;
     box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
 }
@@ -51,8 +33,6 @@
     display: flex;
     align-items: flex-end;
     background-color: #DFE0E2;
-    width: 20%;
-    height: 20vh;
     border-radius: 15px;
     box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
 }
@@ -92,4 +72,88 @@
 
 .theme-tile-light:hover{
     box-shadow: 0 20px 30px rgba(0,0,0,.15), 0 9px 8px rgba(0,0,0,.07);
+}
+
+@media (max-width: 768px) {
+    .tile{
+        width: 80%;
+        height: auto;
+        font-size: 10px;
+    }
+    .menu-tile{
+        margin: 0;
+        padding: 0;
+        width: 40%;
+        height: 40vh;
+        margin-left: 10px;
+        border-right: 1px solid black;
+    }
+    .settings-tile{
+        width: 200%;
+        border-radius: 10px;
+    }
+    .settings-icon{
+        font-size: 20px;
+    }
+    .settings-p{
+        font-size: 20px;
+    }
+    .theme{
+        width: 40%;
+        height: 40vh;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1200px) {
+    .tile{
+        width: 60%;
+        height: auto;
+    }
+    .menu-tile{
+        margin: 0;
+        padding: 0;
+        width: 25%;
+        height: 40vh;
+        margin-left: 20px;
+        border-right: 1px solid black;
+    }
+    .settings-tile{
+        width: 80%;
+        border-radius: 10px;
+    }
+    .settings-icon{
+        font-size: 30px;
+    }
+    .settings-p{
+        font-size: 30px;
+    }
+    .theme{
+        width: 50%;
+        height: 50vh;
+    }
+}
+
+@media (min-width: 1200px) {
+    .tile{
+        width: 60%;
+        height: auto;
+    }
+    .menu-tile{
+        margin: 0;
+        padding: 0;
+        width: 15%;
+        height: 40vh;
+        margin-left: 30px;
+        border-right: 1px solid black;
+    }
+    .settings-icon{
+        font-size: 25px;
+    }
+    .settings-p{
+        font-size: 25px;
+    }
+    .theme{
+        width: 20%;
+        height: 20vh;
+    }
 }
