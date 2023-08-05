@@ -1,8 +1,15 @@
 #!/bin/bash
 
+# Rozpakowanie repozytorium 
+cd
+mv domains/calendar.michalpilarski17.smallhost.pl/public_python/Calendar/cal/* domains/calendar.michalpilarski17.smallhost.pl/public_python/
+cd /domains/calendar.michalpilarski17.smallhost.pl/public_python
+rm -r Calendar/*
+
 # Npm init, react build
-cd /domains/calendar.michalpilarski17.smallhost.pl/public_python/Calendar/cal/frontend/calendar
-npm init
+cd /frontend/calendar
+echo -e "\n\n\n\n\n\n\n\n\n" | npm init
+npm install
 npm run build
 
 # Pobranie bibliotek dla django
