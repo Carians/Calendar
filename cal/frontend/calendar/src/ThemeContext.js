@@ -11,9 +11,10 @@ const ThemeProvider = ({ children }) =>{
             button: 'btn btn-primary'
     }])
 
-    useEffect(()=>{
-        setTheme(JSON.parse(window.localStorage.getItem('theme')))
-    }, [window.localStorage.getItem('theme')])
+    //TODO Cannot read properties of null (reading 'background')
+    // useEffect(()=>{
+    //     setTheme(JSON.parse(window.localStorage.getItem('theme')))
+    // }, [window.localStorage.getItem('theme')])
 
 
     return(
