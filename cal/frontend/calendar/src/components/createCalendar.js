@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react"
+import { useHistory  } from "react-router-dom";
 
 import { Modal, Button } from "react-bootstrap";
 import { Form, FormGroup, Input, Label } from "reactstrap";
@@ -6,6 +7,8 @@ import { Form, FormGroup, Input, Label } from "reactstrap";
 import { registerEventAPI, registerCalendarAPI, deleteCalendarAPI, getEventsAPI, getCalendarsAPI, deleteEventAPI, updateEventAPI, updateCalendarAPI } from "../Data";
 
 export default function CreateCalendar(props){
+
+    const history = useHistory()
 
     const [calendarModal, setCalendarModal] = useState(false)
     const [calendar, setCalendar] = useState({title: '', description: ''})
@@ -39,7 +42,7 @@ export default function CreateCalendar(props){
                 await registerCalendarAPI(calendar, evs)
             }
             fetchdata()
-            .then(()=> window.location.href = '/calendars')
+            .then(()=> history.push('/calendars'))
 
         }
         else{
@@ -108,7 +111,7 @@ export default function CreateCalendar(props){
                 await deleteCalendarAPI(calInfo.id)
             }
             deletedata()
-            .then(()=> window.location.href = '/calendars')
+            .then(()=> history.push('/calendars'))
         })
     }
     
