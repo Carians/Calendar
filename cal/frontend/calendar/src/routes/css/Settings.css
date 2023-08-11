@@ -88,9 +88,9 @@
         margin-left: 10px;
         border-right: 1px solid black;
     }
-    .settings-tile{
-        width: 200%;
-        border-radius: 10px;
+    .tiles-flex{
+        display: flex;
+        flex-direction: row;
     }
     .settings-icon{
         font-size: 20px;
@@ -98,9 +98,19 @@
     .settings-p{
         font-size: 20px;
     }
+    .settings-main{
+        height: 80vh;
+    }
     .theme{
-        width: 40%;
-        height: 40vh;
+        width: 150px;
+        height: 100px;
+    }
+    .tile-settings{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 30px;
     }
 }
 
@@ -117,9 +127,9 @@
         margin-left: 20px;
         border-right: 1px solid black;
     }
-    .settings-tile{
-        width: 80%;
-        border-radius: 10px;
+    .tiles-flex{
+        display: flex;
+        flex-direction: row;
     }
     .settings-icon{
         font-size: 30px;
@@ -127,9 +137,19 @@
     .settings-p{
         font-size: 30px;
     }
+    .settings-main{
+        height: 100vh;
+    }
     .theme{
-        width: 50%;
-        height: 50vh;
+        width: 70%;
+        height: 20vh;
+    }
+    .tile-settings{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 30px;
     }
 }
 
@@ -146,6 +166,10 @@
         margin-left: 30px;
         border-right: 1px solid black;
     }
+    .tiles-flex{
+        display: flex;
+        flex-direction: row;
+    }
     .settings-icon{
         font-size: 25px;
     }
@@ -155,5 +179,11 @@
     .theme{
         width: 20%;
         height: 20vh;
+    }
+    .tile-settings{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 30px;
     }
 }

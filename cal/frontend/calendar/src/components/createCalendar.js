@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react"
-import { useHistory  } from "react-router-dom";
+import { useNavigate  } from "react-router-dom";
 
 import { Modal, Button } from "react-bootstrap";
 import { Form, FormGroup, Input, Label } from "reactstrap";
@@ -8,7 +8,7 @@ import { registerEventAPI, registerCalendarAPI, deleteCalendarAPI, getEventsAPI,
 
 export default function CreateCalendar(props){
 
-    const history = useHistory()
+    const navigate = useNavigate()
 
     const [calendarModal, setCalendarModal] = useState(false)
     const [calendar, setCalendar] = useState({title: '', description: ''})
@@ -42,7 +42,7 @@ export default function CreateCalendar(props){
                 await registerCalendarAPI(calendar, evs)
             }
             fetchdata()
-            .then(()=> history.push('/calendars'))
+            .then(()=> navigate('/calendars'))
 
         }
         else{
@@ -111,7 +111,7 @@ export default function CreateCalendar(props){
                 await deleteCalendarAPI(calInfo.id)
             }
             deletedata()
-            .then(()=> history.push('/calendars'))
+            .then(()=> navigate('/calendars'))
         })
     }
     
