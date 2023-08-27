@@ -93,7 +93,7 @@ function Settings(){
             setCurrentSetting(
                 <div className='tile'>
                     <h4 className='d-flex justify-content-start align-items-center ms-4'>{setting}</h4>
-                    <div className='d-flex justify-content-center align-items-center flex-row gap-4'>
+                    <div className='tile-settings'>
                         <h5>Default: </h5>
                         <div onClick={() => themeChange('default')} className='theme theme-tile-dark'>
                             <div className='item-1'>
@@ -140,11 +140,11 @@ function Settings(){
                 <div className='settings-main'>
                     <h2 className='d-flex justify-content-center'>Settings</h2>
                     <hr></hr>
-                    <div className='d-flex flex-row'>
+                    <div className='tiles-flex'>
                         <div className='menu-tile'>
-                            <div onClick={() => settingClicked('Account')} className='settings-tile d-flex align-items-center flex-row'><PersonCircle className='settings-icon me-2'/><p className='settings-p'>Account</p></div>
-                            <div onClick={() => settingClicked('Theme')} className='settings-tile d-flex align-items-center flex-row'><Columns className='settings-icon me-2'/><p className='settings-p'>Theme</p></div>
-                            <div onClick={() => settingClicked('Language')} className='settings-tile d-flex align-items-center flex-row'><Translate className='settings-icon me-2'/><p className='settings-p'>Language</p></div>
+                            <div onClick={() => settingClicked('Account')} className='settings-tile d-flex align-items-center flex-row'><PersonCircle className='settings-icon me-2 mb-2'/><p className='settings-p'>Account</p></div>
+                            <div onClick={() => settingClicked('Theme')} className='settings-tile d-flex align-items-center flex-row'><Columns className='settings-icon me-2 mb-3'/><p className='settings-p'>Theme</p></div>
+                            <div onClick={() => settingClicked('Language')} className='settings-tile d-flex align-items-center flex-row'><Translate className='settings-icon me-2 mb-3'/><p className='settings-p'>Language</p></div>
                             
                         </div>
                         {currentSetting}
