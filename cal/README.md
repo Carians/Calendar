@@ -15,7 +15,7 @@ Git
 React
 ```
 ### Demo
-[calendar.michalpilarski17.smallhost.pl](https://calendar.michalpilarski17.smallhost.pl/)
+[calendar.michalpilarski17.smallhost.pl](https://calendar.michalpilarski16.smallhost.pl/)
 
 ### Instrukcja instalacji
 Aby zainstalować projekt, należy sklonować repozytorium i zainstalować wymagane zależności.
