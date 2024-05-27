@@ -63,7 +63,7 @@ export default function Cards(){
                             width: '30%',
                             marginTop: '5%',
                         }}>
-                        <Link to='login' className="linked">
+                        <Link to='login' className="linked p-1">
                             <CloudArrowUpFill size={30} />
                         </Link>
                     </Button>

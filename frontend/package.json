@@ -1,6 +1,6 @@
 {
   "name": "frontend",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "dependencies": {
     "@fullcalendar/core": "^6.1.9",
@@ -29,7 +29,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build --watch",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -54,5 +54,6 @@
   "devDependencies": {
     "@types/aos": "^3.0.7",
     "@types/react-datepicker": "^4.19.3"
-  }
+  },
+  "proxy": "http://localhost:8000"
 }

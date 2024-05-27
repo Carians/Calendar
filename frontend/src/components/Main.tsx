@@ -67,7 +67,7 @@ export default function Main(props: MainPropsType){
                                 </FormGroup>
                                 <FormGroup>
                                     <Button className="submit-btn bg-primary" onClick={handleLogin}>
-                                        <h6 className="linked">Zaloguj się</h6>
+                                        <h6 className="linked p-1">Zaloguj się</h6>
                                     </Button>
                                     {(hasErrors && formSubmitted) && <p style={{color: 'red'}}>Nieprawidłowe hasło lub nazwa użytkownika</p>}
                                     {(!hasErrors && formSubmitted) && <p style={{color: 'green'}}>Zalogowano pomyślnie!</p>} 
@@ -75,7 +75,7 @@ export default function Main(props: MainPropsType){
                                 <div><a className="a-underline" href="/">Nie pamiętasz hasła?</a></div>
                                 <hr></hr>
                                 <Button className="submit-btn bg-success">
-                                    <h6><Link to='register' className="linked">Utwórz nowe konto</Link></h6>
+                                    <h6><Link to='register' className="linked p-1">Utwórz nowe konto</Link></h6>
                                 </Button>
                             </Form>
                         </CardBody>
