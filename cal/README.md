@@ -30,12 +30,18 @@ Aby zainstalować projekt, należy sklonować repozytorium i zainstalować wymag
 Następnie należy uruchomić serwer Django i serwer React.
 
 # Uruchomienie serwera Django
+```python manage.py makemigrations```
+
+```python manage.py migrate```
+
 ```python manage.py runserver```
 
 # Uruchomienie serwera React
+```npm install```
+
 ```npm start```
 
-Dokumentacja API
+# Dokumentacja API
 API zostało zaimplementowane przy użyciu Django Rest Framework (DRF). Dokumentacja API jest dostępna pod adresem:
 
 
