@@ -39,6 +39,8 @@ Następnie należy uruchomić serwer Django i serwer React.
 # Uruchomienie serwera React
 ```npm install```
 
+```npm run build```
+
 ```npm start```
 
 # Dokumentacja API
