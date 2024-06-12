@@ -35,7 +35,8 @@ export default function Creator(){
 
     useEffect(() =>{
         let calInfo = JSON.parse(localStorage.getItem('calInfo') ?? 'null')
-        calInfo = JSON.parse(calInfo)
+        console.log(localStorage.getItem('calInfo') ?? 'null')
+        //calInfo = JSON.parse(calInfo)
         if(!calInfo){
             setIsModifying(false)
         } 
@@ -58,6 +59,7 @@ export default function Creator(){
                 }))
 
             }
+            
             fetchdata()
             .then(()=>{
                 setEvents(calEvents)
@@ -181,7 +183,8 @@ export default function Creator(){
                         }}
                     eventBackgroundColor="#ffffff"
                     eventDisplay="auto"
-                    events={transformedEvents}
+                    // @ts-ignore
+                    events={events}
                     eventContent={renderEventContent}
                     dayMaxEvents={3}
                 />
