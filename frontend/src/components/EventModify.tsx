@@ -6,13 +6,15 @@ import { Modal, Button } from "react-bootstrap";
 import { Form, FormGroup, Input, Label } from "reactstrap";
 
 import { EventType } from "../types/eventType";
+import { ErrorsType } from "../types/errorType";
 import { ModifyPropsType } from "../types/propsTypes";
+import { computeShrinkWidth } from "@fullcalendar/core/internal";
 
 
 export default function EventModify(props: ModifyPropsType){
 
     const [event, setEvent] = useState<EventType>({title: '', description: '', start: new Date(), end: new Date(), id: 0})
-    const [errors, setErrors] = useState({title: undefined, description: undefined, date: undefined})
+    const [errors, setErrors] = useState<ErrorsType>({title: undefined, description: undefined, date: undefined})
     const hasErrors = Object.values(errors).some((error) => error !== undefined)
     const [submitError, setsubmitError] = useState('')
     const [modifyText, setModifyText] = useState('')
@@ -44,6 +46,7 @@ export default function EventModify(props: ModifyPropsType){
             setsubmitError('Nie można utworzyć takiego wydarzenia, sprawdź czy pola tytuł i opis nie są puste')
             setModifyText('')
         }
+        console.log(props.events)
     }
 
     function removeEvent(){
@@ -55,6 +58,49 @@ export default function EventModify(props: ModifyPropsType){
             })
         })
         props.setModal(false)
+        console.log(props.events)
+    }
+
+    function eventChange(val: any, key: string){
+        setEvent(prevForm =>{
+            console.log(event.description)
+            return{
+                ...prevForm,
+                [key]: val
+            }
+        })
+        
+        setErrors(prevErrors =>{
+            const spaceRegex = /( )\1{1,}/g
+            const charsRegex = /[/.,[\]$#%^&*;:<>"\\()]/g
+            if(key === 'title'){
+                if(val.length > 0 && val.length < 5){
+                    return{...prevErrors, 'title': 'Tytuł jest zbyt krótki'}
+                }
+                if(spaceRegex.test(val)){
+                    return{...prevErrors, 'title': 'Usuń niepotrzebne spacje'}
+                }
+                if(charsRegex.test(val)){
+                    return{...prevErrors, 'title': 'Usuń niedozwolone znaki'}
+                }
+                return{...prevErrors, 'title': undefined}
+            }
+            else if(key === 'description'){
+                if(val.length > 100){
+                    return{...prevErrors, 'description': 'Opis jest za długi'}
+                }
+                return{...prevErrors, 'description': undefined}
+            }
+            else if(key === 'id'){
+                return{...prevErrors}
+            }
+            else{
+                const startDate = key === 'start' ? val.getTime() : event.start.getTime()
+                const endDate = key === 'end' ? val.getTime() : event.end.getTime()
+
+                return{...prevErrors, 'date': startDate > endDate ? 'Data rozpoczęcia jest po dacie zakończenia' : undefined}
+            }
+        })
     }
 
 
@@ -68,19 +114,19 @@ export default function EventModify(props: ModifyPropsType){
                     <Form className="d-flex justify-content-center align-items-center flex-column">
                         <FormGroup className="d-flex align-items-center flex-row">
                             <Label className="me-3">Nazwa</Label>
-                            <Input type="text" placeholder="Nazwa" onChange={title => props.eventChange(title.target.value, 'title')} value={event.title}/>
+                            <Input type="text" placeholder="Nazwa" onChange={title => eventChange(title.target.value, 'title')} value={event.title}/>
                         </FormGroup>
                         {errors.title && <p style={{color: 'red', fontSize: '90%'}}>{errors.title}</p>}
                         <FormGroup className="d-flex align-items-center flex-row">
                             <Label className="me-3">Opis</Label>
-                            <Input type="textarea" placeholder="Opis" onChange={description => props.eventChange(description.target.value, 'description')} value={event.description}/>
+                            <Input type="textarea" placeholder="Opis" onChange={description => eventChange(description.target.value, 'description')} value={event.description}/>
                         </FormGroup>
                         {errors.description && <p style={{color: 'red', fontSize: '90%'}}>{errors.description}</p>}
                         <FormGroup className="d-flex align-items-center flex-row">
                             <Label className="me-3">Data rozpoczęcia</Label>
                             <DatePicker
                                 selected={event.start}
-                                onChange={date => props.eventChange(date, 'start')}
+                                onChange={date => eventChange(date, 'start')}
                                 showTimeSelect
                                 dateFormat="MMMM d, yyyy h:mm aa"
                             />
@@ -89,7 +135,7 @@ export default function EventModify(props: ModifyPropsType){
                             <Label className="me-3">Data zakończenia</Label>
                             <DatePicker
                                 selected={event.end}
-                                onChange={date => props.eventChange(date, 'end')}
+                                onChange={date => eventChange(date, 'end')}
                                 showTimeSelect
                                 dateFormat="MMMM d, yyyy h:mm aa"
                             />

@@ -123,7 +123,6 @@ export default function CreateCalendar(props: CalendarPropsType){
     function updateCalendar(){
 
         let calInfo = JSON.parse(localStorage.getItem('calInfo') ?? 'null')
-        //calInfo = JSON.parse(calInfo)
 
         let calEvents: EventType[] = []
         const fetchdata = async() =>{ 

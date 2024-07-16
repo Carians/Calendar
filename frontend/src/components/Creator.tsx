@@ -15,6 +15,7 @@ import { getEventsAPI } from "../Data";
 import { EventInput } from "@fullcalendar/core";
 
 import { EventType, EventTypeAPI } from "../types/eventType";
+import { ErrorsType } from "../types/errorType";
 
 
 export default function Creator(){
@@ -23,7 +24,7 @@ export default function Creator(){
     const [modifyModal, setmodifyModal] = useState<boolean>(false)
     const [event, setEvent] = useState<EventType>({title: '', description: '', start: new Date(), end: new Date(), id: 0})
     const [modifiedEvent, setmodifiedEvent] = useState<EventType>({title: '', description: '', start: new Date(), end: new Date(), id: 0})
-    const [errors, setErrors] = useState({title: undefined, description: undefined, date: undefined})
+    const [errors, setErrors] = useState<ErrorsType>({title: undefined, description: undefined, date: undefined})
 
     const hasErrors = Object.values(errors).some((error) => error !== undefined)
     const [submitError, setsubmitError] = useState('')
@@ -35,8 +36,6 @@ export default function Creator(){
 
     useEffect(() =>{
         let calInfo = JSON.parse(localStorage.getItem('calInfo') ?? 'null')
-        console.log(localStorage.getItem('calInfo') ?? 'null')
-        //calInfo = JSON.parse(calInfo)
         if(!calInfo){
             setIsModifying(false)
         } 
@@ -65,13 +64,12 @@ export default function Creator(){
                 setEvents(calEvents)
             })
         }
-    
     }, [])
 
     
     function dateClick(info: any){
         setModal(true)
-        setErrors({...errors, title: undefined, description: undefined, date: undefined})
+        setErrors({...errors, title: '', description: undefined, date: undefined})
         setsubmitError('')
 
         const date = new Date(info.date)
@@ -79,22 +77,21 @@ export default function Creator(){
         setEvent(prevEvent => {return {...prevEvent, title: '', description: '', start: info.date, end: date}})
     }
 
-    function eventChange(val: any, key: any){
+    function eventChange(val: any, key: string){
         setEvent(prevForm =>{
+            console.log(event.description)
             return{
                 ...prevForm,
                 [key]: val
             }
         })
         
-        // @ts-ignore
         setErrors(prevErrors =>{
             const spaceRegex = /( )\1{1,}/g
             const charsRegex = /[/.,[\]$#%^&*;:<>"\\()]/g
             if(key === 'title'){
                 if(val.length > 0 && val.length < 5){
                     return{...prevErrors, 'title': 'Tytuł jest zbyt krótki'}
-
                 }
                 if(spaceRegex.test(val)){
                     return{...prevErrors, 'title': 'Usuń niepotrzebne spacje'}
