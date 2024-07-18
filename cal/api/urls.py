@@ -19,4 +19,5 @@ urlpatterns = [
     path('events/<int:pk>/delete', views.EventDeleteAPIView.as_view(), name='events-delete'),
 
     path('user/', views.UserDetailAPIView.as_view(), name='user-detail'),
+    path('user/change-password', views.UserChangePasswordView.as_view(), name='change-password')
 ]

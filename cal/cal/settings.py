@@ -135,7 +135,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "frontend/calendar/build/static"),
+    # os.path.join(BASE_DIR, "frontend/calendar/build/static"),
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 

@@ -1,15 +1,16 @@
-
+from django.contrib.auth import logout
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-from rest_framework import generics, permissions, serializers
-from main.models import Calendar, Event
-from .serializers import CalendarSerializer, EventSerializer
-from .permissions import IsOwnerOrDenyAccess
+from rest_framework import generics, permissions, serializers, status
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from .serializers import UserRegisterSerializer
+from main.models import Calendar, Event
+from .serializers import CalendarSerializer, EventSerializer, ChangePasswordSerializer
+from .permissions import IsOwnerOrDenyAccess
 
 # Create your views here.
 class ListAvailableApiView(APIView):
@@ -28,19 +29,41 @@ class ListAvailableApiView(APIView):
 
 class CalendarListCreateAPIView(generics.ListCreateAPIView):
 
+    serializer_class = CalendarSerializer
+    permission_classes = [
+        IsOwnerOrDenyAccess,
+        permissions.IsAuthenticated
+    ]
     def get_queryset(self):
-        return Calendar.objects.filter(user=self.request.user)
+        return Calendar.objects.filter(user=self.request.user).order_by('date_created')
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
-    serializer_class = CalendarSerializer
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context['request'] = self.request
+        return context
 
 class CalendarDetailAPIView(generics.RetrieveAPIView):
 
     queryset = Calendar.objects.all()
     serializer_class = CalendarSerializer
-    permission_classes = [IsOwnerOrDenyAccess]
+    permission_classes = [
+        IsOwnerOrDenyAccess,
+        permissions.IsAuthenticated
+                          ]
+
+    def get_queryset(self):
+        return Calendar.objects.filter(user=self.request.user).order_by('date_created')
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context['request'] = self.request
+        return context
 
 class CalendarUpdateAPIView(generics.UpdateAPIView):
 
@@ -60,13 +83,18 @@ class EventListCreateAPIView(generics.ListCreateAPIView):
         return Event.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
+        if self.request.data['start_time'] > self.request.data['end_time']:
+            raise serializers.ValidationError('Start time must be before end time')
         serializer.save(user=self.request.user)
 
     queryset = Event.objects.all()
     serializer_class = EventSerializer
-    permission_classes = [IsOwnerOrDenyAccess]
+    permission_classes = [IsOwnerOrDenyAccess, permissions.IsAuthenticated]
 
 class EventDetailAPIView(generics.RetrieveAPIView):
+
+    def get_queryset(self):
+        return Event.objects.filter(user=self.request.user)
 
     queryset = Event.objects.all()
     serializer_class = EventSerializer
@@ -134,3 +162,28 @@ class UserDetailAPIView(generics.RetrieveAPIView):
     permission_classes = [permissions.IsAuthenticated]
     def get_object(self):
         return self.request.user
+
+class UserChangePasswordView(generics.GenericAPIView):
+
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = ChangePasswordSerializer
+
+    def post(self, request):
+        serializer = ChangePasswordSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        user = request.user
+
+        current_password = serializer.validated_data.get('current_password')
+        new_password = serializer.validated_data.get('new_password')
+
+        if not user.check_password(current_password):
+            return Response({'error': 'Incorrect password'}, status=status.HTTP_400_BAD_REQUEST)
+
+        user.set_password(new_password)
+        user.save()
+
+        token = Token.objects.get(user=user)
+        token.delete()
+
+        return Response({'success': 'Password changed successfully'}, status=status.HTTP_200_OK)
