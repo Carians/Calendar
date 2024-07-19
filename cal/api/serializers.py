@@ -10,9 +10,18 @@ class EventSerializer(BaseModelSerializer):
     class Meta(BaseModelSerializer.Meta):
         model = Event
 
+    def validate_calendar(self, value):
+        user = self.context['request'].user
+        if value.user != user:
+            raise serializers.ValidationError('You do not have permission to assign this calendar')
+        return value
+
 class CalendarSerializer(BaseModelSerializer):
     class Meta(BaseModelSerializer.Meta):
         model = Calendar
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 class UserRegisterSerializer(serializers.ModelSerializer):
     class Meta:
@@ -29,6 +38,25 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 class ChangePasswordSerializer(serializers.Serializer):
     current_password = serializers.CharField(required=True, write_only=True, style={'input_type': 'password'})
     new_password = serializers.CharField(required=True, write_only=True, style={'input_type': 'password'})
+
+    extra_kwargs = {
+        'current_password': {
+            'write_only': True,
+            'required': True,
+            'style': {'input_type': 'password'}
+        },
+        'new_password': {
+            'write_only': True,
+            'required': True,
+            'style': {'input_type': 'password'}
+        }
+    }
+
+    def validate_current_password(self, value):
+        user = self.context['request'].user
+        if not user.check_password(value):
+            raise serializers.ValidationError('Current password is incorrect')
+        return value
 
     def validate_new_password(self, value):
         if len(value) < 8:

@@ -22,6 +22,7 @@ class ListAvailableApiView(APIView):
             'calendars': reverse('calendars', request=request),
             'events': reverse('events', request=request),
             'user': reverse('user-detail', request=request),
+            'change_password': reverse('change-password', request=request),
             'register': reverse('register', request=request),
             'logout': reverse('logout', request=request),
             'auth': reverse('auth', request=request),
@@ -85,9 +86,13 @@ class EventListCreateAPIView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         if self.request.data['start_time'] > self.request.data['end_time']:
             raise serializers.ValidationError('Start time must be before end time')
+        calendar = serializer.validated_data.get('calendar')
+        # print(calendar.user, self.request.user)
+        if calendar.user != self.request.user:
+            raise serializers.ValidationError('You do not have permission to assign this calendar')
         serializer.save(user=self.request.user)
 
-    queryset = Event.objects.all()
+    # queryset = Event.objects.all()
     serializer_class = EventSerializer
     permission_classes = [IsOwnerOrDenyAccess, permissions.IsAuthenticated]
 
@@ -98,7 +103,7 @@ class EventDetailAPIView(generics.RetrieveAPIView):
 
     queryset = Event.objects.all()
     serializer_class = EventSerializer
-    ermission_classes = [IsOwnerOrDenyAccess]
+    permission_classes = [IsOwnerOrDenyAccess]
 
 class EventUpdateAPIView(generics.UpdateAPIView):
 
@@ -178,7 +183,7 @@ class UserChangePasswordView(generics.GenericAPIView):
         new_password = serializer.validated_data.get('new_password')
 
         if not user.check_password(current_password):
-            return Response({'error': 'Incorrect password'}, status=status.HTTP_400_BAD_REQUEST)
+            raise serializers.ValidationError('Current password is incorrect')
 
         user.set_password(new_password)
         user.save()
