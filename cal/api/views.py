@@ -81,6 +81,9 @@ class CalendarDeleteAPIView(generics.DestroyAPIView):
 class EventListCreateAPIView(generics.ListCreateAPIView):
 
     def get_queryset(self):
+        calendar = self.request.query_params.get('calendar')
+        if calendar:
+            return Event.objects.filter(user=self.request.user, calendar=calendar)
         return Event.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
